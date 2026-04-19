@@ -57,9 +57,9 @@ export default function AlertRulesManager({ monitorId, rules }: { monitorId: str
         <div>
             <div className="space-y-3 mb-4">
                 {rules.map(rule => (
-                    <div key={rule.id} className="flex items-center justify-between p-3 bg-indigo-50 border border-indigo-100 rounded-none">
+                    <div key={rule.id} className="flex items-center justify-between p-3 bg-brand-surface border border-brand-muted/30 rounded-none">
                         <div className="flex-1 min-w-0">
-                            <p className="text-sm font-medium text-indigo-900">{rule.type}</p>
+                            <p className="text-sm font-medium text-white">{rule.type}</p>
                             <p className="text-xs text-brand-accent truncate">{rule.target}</p>
                         </div>
                         <button

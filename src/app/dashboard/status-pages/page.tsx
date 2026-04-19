@@ -46,7 +46,7 @@ export default async function StatusPagesList() {
                                 </a>
                             </td>
                             <td className="p-4 text-right text-sm">
-                                <a href={`/status/${page.slug}`} target="_blank" rel="noreferrer" className="text-brand-accent hover:text-indigo-900 font-medium">
+                                <a href={`/status/${page.slug}`} target="_blank" rel="noreferrer" className="text-brand-accent hover:text-white font-medium">
                                     View Page
                                 </a>
                             </td>

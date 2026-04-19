@@ -39,7 +39,7 @@ export default async function DashboardLayout({
             <span>Settings</span>
           </Link>
           {session.user?.role === "ADMIN" && (
-             <Link href="/admin" className="flex items-center space-x-2 text-white hover:bg-indigo-50 p-2 rounded-none mt-4 border border-indigo-100">
+             <Link href="/admin" className="flex items-center space-x-2 text-white hover:bg-brand-surface p-2 rounded-none mt-4 border border-brand-muted/30">
                 <Shield size={20} />
                 <span>Admin Panel</span>
              </Link>

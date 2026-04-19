@@ -42,7 +42,7 @@ export default function LoginPage() {
                 id="email"
                 type="email"
                 required
-                className="block w-full rounded-none border border-brand-muted/30 px-3 py-2 placeholder-gray-500 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className="block w-full rounded-none border border-brand-muted/30 px-3 py-2 placeholder-gray-500 focus:border-brand-accent focus:outline-none focus:ring-brand-accent sm:text-sm"
                 placeholder="Email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -54,7 +54,7 @@ export default function LoginPage() {
                 id="password"
                 type="password"
                 required
-                className="block w-full rounded-none border border-brand-muted/30 px-3 py-2 placeholder-gray-500 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className="block w-full rounded-none border border-brand-muted/30 px-3 py-2 placeholder-gray-500 focus:border-brand-accent focus:outline-none focus:ring-brand-accent sm:text-sm"
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -64,14 +64,14 @@ export default function LoginPage() {
           <div>
             <button
               type="submit"
-              className="group relative flex w-full justify-center rounded-none border border-transparent bg-brand-accent px-4 py-2 text-sm font-medium text-white hover:bg-brand-surface focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              className="group relative flex w-full justify-center rounded-none border border-transparent bg-brand-accent px-4 py-2 text-sm font-medium text-white hover:bg-brand-surface focus:outline-none focus:ring-2 focus:ring-brand-accent focus:ring-offset-2"
             >
               Sign in
             </button>
           </div>
         </form>
         <div className="text-center mt-4">
-            <Link href="/signup" className="text-sm text-brand-accent hover:text-indigo-500">
+            <Link href="/signup" className="text-sm text-brand-accent hover:text-brand-accent">
                 Don&apos;t have an account? Sign up
             </Link>
         </div>

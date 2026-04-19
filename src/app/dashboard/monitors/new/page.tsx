@@ -60,7 +60,7 @@ export default function NewMonitorPage() {
                         <input
                             required
                             type="text"
-                            className="w-full border border-gray-300 rounded-none p-2 focus:ring-indigo-500 focus:border-indigo-500"
+                            className="w-full border border-gray-300 rounded-none p-2 focus:ring-brand-accent focus:border-brand-accent"
                             placeholder="My Website"
                             value={formData.name}
                             onChange={(e) => setFormData({...formData, name: e.target.value})}
@@ -72,7 +72,7 @@ export default function NewMonitorPage() {
                         <input
                             required
                             type="url"
-                            className="w-full border border-gray-300 rounded-none p-2 focus:ring-indigo-500 focus:border-indigo-500"
+                            className="w-full border border-gray-300 rounded-none p-2 focus:ring-brand-accent focus:border-brand-accent"
                             placeholder="https://example.com"
                             value={formData.url}
                             onChange={(e) => setFormData({...formData, url: e.target.value})}
@@ -83,7 +83,7 @@ export default function NewMonitorPage() {
                         <div>
                             <label className="block text-sm font-medium text-brand-text mb-1">Monitor Type</label>
                             <select
-                                className="w-full border border-gray-300 rounded-none p-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                className="w-full border border-gray-300 rounded-none p-2 focus:ring-brand-accent focus:border-brand-accent"
                                 value={formData.type}
                                 onChange={(e) => setFormData({...formData, type: e.target.value})}
                             >
@@ -95,7 +95,7 @@ export default function NewMonitorPage() {
                         <div>
                             <label className="block text-sm font-medium text-brand-text mb-1">Check Interval (seconds)</label>
                             <select
-                                className="w-full border border-gray-300 rounded-none p-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                className="w-full border border-gray-300 rounded-none p-2 focus:ring-brand-accent focus:border-brand-accent"
                                 value={formData.interval}
                                 onChange={(e) => setFormData({...formData, interval: parseInt(e.target.value)})}
                             >
@@ -112,7 +112,7 @@ export default function NewMonitorPage() {
                             <label className="block text-sm font-medium text-brand-text mb-1">Expected Status Code</label>
                             <input
                                 type="number"
-                                className="w-full border border-gray-300 rounded-none p-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                className="w-full border border-gray-300 rounded-none p-2 focus:ring-brand-accent focus:border-brand-accent"
                                 placeholder="200"
                                 value={formData.expectedStatus}
                                 onChange={(e) => setFormData({...formData, expectedStatus: parseInt(e.target.value)})}
@@ -122,7 +122,7 @@ export default function NewMonitorPage() {
                             <label className="block text-sm font-medium text-brand-text mb-1">Expected Keyword (Optional)</label>
                             <input
                                 type="text"
-                                className="w-full border border-gray-300 rounded-none p-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                className="w-full border border-gray-300 rounded-none p-2 focus:ring-brand-accent focus:border-brand-accent"
                                 placeholder="e.g. Welcome"
                                 value={formData.expectedKeyword}
                                 onChange={(e) => setFormData({...formData, expectedKeyword: e.target.value})}

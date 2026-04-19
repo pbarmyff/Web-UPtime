@@ -66,7 +66,7 @@ export default function StatusPageClientForm({ monitors }: { monitors: { id: str
                         <input
                             required
                             type="text"
-                            className="w-full border border-gray-300 rounded-none p-2 focus:ring-indigo-500 focus:border-indigo-500"
+                            className="w-full border border-gray-300 rounded-none p-2 focus:ring-brand-accent focus:border-brand-accent"
                             placeholder="My Company Status"
                             value={formData.name}
                             onChange={(e) => setFormData({...formData, name: e.target.value})}
@@ -84,7 +84,7 @@ export default function StatusPageClientForm({ monitors }: { monitors: { id: str
                                 type="text"
                                 pattern="[a-z0-9-]+"
                                 title="Only lowercase letters, numbers, and hyphens"
-                                className="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                className="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md border border-gray-300 focus:ring-brand-accent focus:border-brand-accent sm:text-sm"
                                 placeholder="my-company"
                                 value={formData.slug}
                                 onChange={(e) => setFormData({...formData, slug: e.target.value})}
@@ -96,7 +96,7 @@ export default function StatusPageClientForm({ monitors }: { monitors: { id: str
                         <label className="block text-sm font-medium text-brand-text mb-1">Description (Optional)</label>
                         <textarea
                             rows={3}
-                            className="w-full border border-gray-300 rounded-none p-2 focus:ring-indigo-500 focus:border-indigo-500"
+                            className="w-full border border-gray-300 rounded-none p-2 focus:ring-brand-accent focus:border-brand-accent"
                             placeholder="Current status of our services"
                             value={formData.description}
                             onChange={(e) => setFormData({...formData, description: e.target.value})}
@@ -111,7 +111,7 @@ export default function StatusPageClientForm({ monitors }: { monitors: { id: str
                                     <input
                                         type="checkbox"
                                         id={monitor.id}
-                                        className="h-4 w-4 text-brand-accent focus:ring-indigo-500 border-gray-300 rounded"
+                                        className="h-4 w-4 text-brand-accent focus:ring-brand-accent border-gray-300 rounded"
                                         checked={formData.monitors.includes(monitor.id)}
                                         onChange={(e) => handleCheckboxChange(monitor.id, e.target.checked)}
                                     />

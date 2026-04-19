@@ -1,19 +1,27 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, useScroll, useTransform, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Activity, ShieldCheck, Zap, BellRing, Link as LinkIcon, BarChart3, Database, Menu, X } from "lucide-react";
 
 export default function Home() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const shouldReduceMotion = useReducedMotion();
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // Parallax effects
   const { scrollY } = useScroll();
-  const heroY = useTransform(scrollY, [0, 500], [0, shouldReduceMotion ? 0 : -100]);
-  const heroOpacity = useTransform(scrollY, [0, 300], [1, shouldReduceMotion ? 1 : 0]);
-  const blobY = useTransform(scrollY, [0, 800], [0, shouldReduceMotion ? 0 : 200]);
+  const heroY = useTransform(scrollY, [0, 500], [0, (shouldReduceMotion || isMobile) ? 0 : -100]);
+  const heroOpacity = useTransform(scrollY, [0, 300], [1, (shouldReduceMotion || isMobile) ? 1 : 0]);
+  const blobY = useTransform(scrollY, [0, 800], [0, (shouldReduceMotion || isMobile) ? 0 : 200]);
 
   // Entrance animations variants
   const staggerContainer = {

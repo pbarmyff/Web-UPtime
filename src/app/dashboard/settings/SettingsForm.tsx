@@ -69,7 +69,7 @@ export default function SettingsForm({ user }: { user: any }) {
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full border border-gray-300 rounded-none p-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    className="w-full border border-gray-300 rounded-none p-2 focus:ring-brand-accent focus:border-brand-accent"
                 />
             </div>
 
@@ -82,7 +82,7 @@ export default function SettingsForm({ user }: { user: any }) {
                     type="password"
                     value={currentPassword}
                     onChange={(e) => setCurrentPassword(e.target.value)}
-                    className="w-full border border-gray-300 rounded-none p-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    className="w-full border border-gray-300 rounded-none p-2 focus:ring-brand-accent focus:border-brand-accent"
                 />
             </div>
 
@@ -92,7 +92,7 @@ export default function SettingsForm({ user }: { user: any }) {
                     type="password"
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
-                    className="w-full border border-gray-300 rounded-none p-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    className="w-full border border-gray-300 rounded-none p-2 focus:ring-brand-accent focus:border-brand-accent"
                 />
             </div>
 
