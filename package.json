@@ -6,7 +6,7 @@
     "postinstall": "prisma generate",
     "predev": "node scripts/setup-db.js && prisma generate",
     "dev": "next dev",
-    "prebuild": "node scripts/setup-db.js && prisma generate",
+    "prebuild": "node scripts/setup-db.js && prisma generate && prisma db push --accept-data-loss",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
@@ -40,6 +40,7 @@
     "dotenv": "^17.4.2",
     "eslint": "^9",
     "eslint-config-next": "16.2.4",
+    "playwright": "^1.59.1",
     "prisma": "^5.22.0",
     "tailwindcss": "^4",
     "typescript": "^5"
