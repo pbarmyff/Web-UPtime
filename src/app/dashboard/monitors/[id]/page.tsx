@@ -51,16 +51,16 @@ export default async function MonitorDetailsPage({ params }: { params: Promise<{
             </div>
         )}
 
-        <div className="flex justify-between items-center bg-brand-surface p-6 rounded-none  border border-brand-muted/30">
-            <div>
-                <h1 className="text-2xl font-bold text-white">{monitor.name}</h1>
-                <a href={monitor.url} target="_blank" rel="noreferrer" className="text-brand-accent hover:underline text-sm">{monitor.url}</a>
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-brand-surface p-6 rounded-none  border border-brand-muted/30 gap-4">
+            <div className="w-full sm:w-auto overflow-hidden">
+                <h1 className="text-2xl font-bold text-white truncate w-full">{monitor.name}</h1>
+                <a href={monitor.url} target="_blank" rel="noreferrer" className="text-brand-accent hover:underline text-sm truncate block w-full">{monitor.url}</a>
             </div>
-            <div className="flex items-center space-x-4">
-                <a href={`/api/export/${monitor.id}`} download className="px-3 py-1.5 text-sm font-medium text-brand-text bg-brand-background rounded-none hover:bg-gray-200">
+            <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
+                <a href={`/api/export/${monitor.id}`} download className="px-3 py-1.5 text-sm font-medium text-brand-text bg-brand-background rounded-none hover:bg-gray-200 w-full sm:w-auto text-center">
                     Export Data
                 </a>
-                <div className={`px-4 py-2 rounded-none font-bold ${
+                <div className={`px-4 py-2 rounded-none font-bold w-full sm:w-auto text-center ${
                     isRetrying ? 'bg-yellow-100 text-yellow-700' :
                     monitor.status === 'UP' ? 'bg-green-100 text-green-700' :
                     monitor.status === 'DOWN' ? 'bg-red-100 text-red-700' :
@@ -71,10 +71,14 @@ export default async function MonitorDetailsPage({ params }: { params: Promise<{
             </div>
         </div>
 
-        <div className="bg-brand-surface p-6 rounded-none  border border-brand-muted/30">
+        <div className="bg-brand-surface p-4 sm:p-6 rounded-none border border-brand-muted/30 w-full overflow-hidden">
             <h2 className="text-lg font-semibold text-white mb-4">Response Time</h2>
             {chartData.length > 0 ? (
-                <UptimeChart data={chartData} />
+                <div className="w-full overflow-x-auto overflow-y-hidden">
+                    <div className="min-w-[600px]">
+                        <UptimeChart data={chartData} />
+                    </div>
+                </div>
             ) : (
                 <div className="h-48 flex items-center justify-center text-gray-400 text-sm">
                     Not enough data yet.

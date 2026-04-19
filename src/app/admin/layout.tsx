@@ -4,6 +4,8 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import { Users, Activity, ShieldAlert, ArrowLeft } from "lucide-react";
 
+import AdminMobileNav from "./AdminMobileNav";
+
 export default async function AdminLayout({
   children,
 }: {
@@ -16,8 +18,9 @@ export default async function AdminLayout({
   }
 
   return (
-    <div className="flex h-screen bg-brand-background text-gray-100">
-      <aside className="w-64 bg-brand-surface shadow-md flex flex-col">
+    <div className="flex h-screen bg-brand-background text-gray-100 overflow-hidden">
+      <AdminMobileNav userEmail={session.user?.email} />
+      <aside className="hidden md:flex w-64 bg-brand-surface shadow-md flex-col flex-shrink-0">
         <div className="p-4 border-b border-brand-muted/30">
           <h1 className="text-xl font-bold text-white flex items-center"><ShieldAlert className="mr-2" /> Admin Panel</h1>
         </div>
@@ -41,14 +44,14 @@ export default async function AdminLayout({
         </nav>
       </aside>
 
-      <main className="flex-1 overflow-y-auto">
-        <header className="bg-brand-surface  p-4 flex justify-between items-center border-b border-brand-muted/30">
+      <main className="flex-1 overflow-y-auto flex flex-col w-full min-w-0">
+        <header className="hidden md:flex bg-brand-surface p-4 justify-between items-center border-b border-brand-muted/30">
           <h2 className="text-xl font-semibold text-white">System Administration</h2>
            <div className="flex items-center space-x-4">
-              <span className="text-sm text-brand-muted">{session.user?.email} (Admin)</span>
+              <span className="text-sm text-brand-muted truncate max-w-[200px]">{session.user?.email} (Admin)</span>
            </div>
         </header>
-        <div className="p-8">
+        <div className="p-4 md:p-8 w-full max-w-full overflow-x-hidden">
           {children}
         </div>
       </main>

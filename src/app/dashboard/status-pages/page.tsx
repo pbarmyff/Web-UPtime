@@ -22,13 +22,13 @@ export default async function StatusPagesList() {
         </Link>
       </div>
 
-      <div className="bg-brand-surface rounded-none  border border-brand-muted/30 overflow-hidden">
+      <div className="bg-brand-surface rounded-none  border border-brand-muted/30 overflow-x-auto block w-full">
         {pages.length === 0 ? (
             <div className="p-8 text-center text-brand-muted">
                 No status pages yet. Create one to share your uptime publicly.
             </div>
         ) : (
-            <table className="w-full text-left">
+            <table className="w-full min-w-[600px] text-left">
                 <thead className="bg-brand-background border-b border-brand-muted/30 text-sm text-brand-muted">
                     <tr>
                         <th className="p-4 font-medium">Name</th>

@@ -29,7 +29,7 @@ export default function RootLayout({
       lang="en"
       className={`${inter.variable} ${syne.variable} h-full antialiased bg-[#070D1F] text-[#EDF2FF] selection:bg-[#4FFFB0] selection:text-[#070D1F] scroll-smooth`}
     >
-      <body className="min-h-full flex flex-col font-sans">
+      <body className="min-h-full flex flex-col font-sans overflow-x-hidden w-full">
         <CustomCursor />
         {children}
       </body>

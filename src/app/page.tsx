@@ -138,7 +138,7 @@ export default function Home() {
               variants={staggerContainer}
               initial="hidden"
               animate="show"
-              className="text-[clamp(2.5rem,6vw,5.5rem)] font-display font-extrabold text-white leading-[1.05] tracking-tight mb-6"
+              className="text-[clamp(2.5rem,6vw,5.5rem)] font-display font-extrabold text-white leading-[1.05] tracking-tight mb-6 text-balance"
             >
               <div className="text-[#5A6A8A] font-medium text-xl mb-4 tracking-widest uppercase">Never miss a beat</div>
               {headlineWords.map((word, idx) => (
@@ -265,8 +265,8 @@ export default function Home() {
           >
             <div>
               <span className="text-[#4FFFB0] font-mono text-xl mb-4 block">01 / Features</span>
-              <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-display font-bold text-white leading-tight">
-                Everything you need <br/>to stay online.
+              <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-display font-bold text-white leading-tight text-balance">
+                Everything you need <br className="hidden md:block" />to stay online.
               </h2>
             </div>
             <p className="hidden md:block max-w-sm text-[#5A6A8A] text-lg text-right">

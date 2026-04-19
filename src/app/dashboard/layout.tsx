@@ -4,6 +4,8 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import { Activity, Settings, LayoutDashboard, Shield } from "lucide-react";
 
+import MobileNav from "./MobileNav";
+
 export default async function DashboardLayout({
   children,
 }: {
@@ -16,9 +18,10 @@ export default async function DashboardLayout({
   }
 
   return (
-    <div className="flex h-screen bg-brand-background">
-      <aside className="w-64 bg-brand-surface shadow-md flex flex-col">
-        <div className="p-4 border-b">
+    <div className="flex h-screen bg-brand-background overflow-hidden">
+      <MobileNav userRole={session.user?.role} userName={session.user?.name} userEmail={session.user?.email} />
+      <aside className="hidden md:flex w-64 bg-brand-surface shadow-md flex-col flex-shrink-0">
+        <div className="p-4 border-b border-white/5">
           <h1 className="text-xl font-bold text-white">UptimeMonitor</h1>
         </div>
         <nav className="p-4 space-y-2 flex-1">
@@ -47,14 +50,14 @@ export default async function DashboardLayout({
         </nav>
       </aside>
 
-      <main className="flex-1 overflow-y-auto">
-        <header className="bg-brand-surface  p-4 flex justify-between items-center">
+      <main className="flex-1 overflow-y-auto flex flex-col w-full min-w-0">
+        <header className="hidden md:flex bg-brand-surface p-4 justify-between items-center border-b border-white/5">
           <h2 className="text-xl font-semibold text-white">Welcome, {session.user?.name}</h2>
            <div className="flex items-center space-x-4">
-              <span className="text-sm text-brand-muted">{session.user?.email}</span>
+              <span className="text-sm text-brand-muted truncate max-w-[200px]">{session.user?.email}</span>
            </div>
         </header>
-        <div className="p-8">
+        <div className="p-4 md:p-8 w-full max-w-full overflow-x-hidden">
           {children}
         </div>
       </main>

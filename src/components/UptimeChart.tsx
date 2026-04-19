@@ -16,8 +16,8 @@ export default function UptimeChart({ data }: { data: ChartDataPoint[] }) {
           data={data}
           margin={{
             top: 5,
-            right: 10,
-            left: -20,
+            right: 5,
+            left: -15,
             bottom: 0,
           }}
         >

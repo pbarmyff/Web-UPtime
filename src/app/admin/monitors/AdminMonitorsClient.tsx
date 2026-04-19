@@ -44,8 +44,8 @@ export default function AdminMonitorsClient({ initialMonitors }: { initialMonito
     };
 
     return (
-        <div className="bg-brand-surface rounded-none  border border-brand-muted/30 overflow-hidden">
-            <table className="w-full text-left">
+        <div className="bg-brand-surface rounded-none  border border-brand-muted/30 overflow-x-auto block w-full">
+            <table className="w-full min-w-[600px] text-left">
                 <thead className="bg-brand-background border-b border-brand-muted/30 text-sm text-brand-muted">
                     <tr>
                         <th className="p-4 font-medium">Monitor</th>

@@ -54,7 +54,7 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="flex min-h-screen bg-brand-background text-white selection:bg-brand-accent/30 font-sans">
+    <div className="flex flex-col lg:flex-row min-h-screen bg-brand-background text-white selection:bg-brand-accent/30 font-sans">
       {/* Left side - Decorative/Marketing */}
       <div className="hidden lg:flex lg:w-1/2 flex-col justify-between p-12 bg-gradient-to-br from-brand-surface via-brand-background to-brand-surface/50 border-r border-white/5 relative overflow-hidden">
         {/* Abstract background shapes */}
@@ -75,7 +75,7 @@ export default function SignupPage() {
             transition={{ duration: 0.5 }}
             className="space-y-6 max-w-lg"
           >
-            <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl text-transparent bg-clip-text bg-gradient-to-r from-white to-white/70">
+            <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl text-transparent bg-clip-text bg-gradient-to-r from-white to-white/70 text-balance">
               Start monitoring in seconds.
             </h1>
             <p className="text-lg text-brand-muted leading-relaxed">
@@ -101,8 +101,8 @@ export default function SignupPage() {
       </div>
 
       {/* Right side - Form */}
-      <div className="flex w-full lg:w-1/2 items-center justify-center p-8 sm:p-12 lg:p-24 relative">
-        <Link href="/" className="lg:hidden absolute top-8 left-8 flex items-center gap-2">
+      <div className="flex w-full lg:w-1/2 items-center justify-center p-6 sm:p-12 lg:p-24 relative flex-1 min-h-screen lg:min-h-0">
+        <Link href="/" className="lg:hidden absolute top-6 left-6 flex items-center gap-2">
             <Activity className="h-6 w-6 text-brand-accent" />
             <span className="text-xl font-bold tracking-tight">UptimeMonitor</span>
         </Link>

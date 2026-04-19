@@ -58,12 +58,12 @@ export default async function StatusPage({ params }: { params: Promise<{ id: str
             <div className="bg-white shadow overflow-hidden sm:rounded-md border border-gray-200">
                 <ul className="divide-y divide-gray-200">
                     {monitors.map(monitor => (
-                        <li key={monitor.id} className="px-6 py-4 flex items-center justify-between">
-                            <div>
-                                <h3 className="text-lg font-medium text-gray-900">{monitor.name}</h3>
-                                <p className="text-sm text-gray-500 truncate max-w-xs sm:max-w-md">{monitor.url}</p>
+                        <li key={monitor.id} className="px-4 sm:px-6 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0">
+                            <div className="w-full sm:w-auto overflow-hidden">
+                                <h3 className="text-lg font-medium text-gray-900 truncate">{monitor.name}</h3>
+                                <p className="text-sm text-gray-500 truncate max-w-[250px] sm:max-w-md">{monitor.url}</p>
                             </div>
-                            <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
+                            <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium whitespace-nowrap self-start sm:self-auto ${
                                 monitor.status === 'UP' ? 'bg-green-100 text-green-800' :
                                 monitor.status === 'DOWN' ? 'bg-red-100 text-red-800' :
                                 'bg-gray-100 text-gray-800'

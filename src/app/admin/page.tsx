@@ -30,11 +30,11 @@ export default async function AdminDashboard() {
         </div>
       </div>
 
-      <div className="bg-brand-surface rounded-none  border border-brand-muted/30 overflow-hidden">
-        <div className="p-4 border-b border-brand-muted/30">
+      <div className="bg-brand-surface rounded-none  border border-brand-muted/30 overflow-x-auto block w-full">
+        <div className="p-4 border-b border-brand-muted/30 min-w-[600px]">
             <h2 className="text-lg font-semibold text-white">Recent Audit Logs</h2>
         </div>
-        <table className="w-full text-left">
+        <table className="w-full min-w-[600px] text-left">
             <thead className="bg-brand-background border-b border-brand-muted/30 text-sm text-brand-muted">
                 <tr>
                     <th className="p-4 font-medium">Timestamp</th>
