@@ -32,12 +32,14 @@ export async function runChecks() {
     }
 }
 
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function checkMonitor(monitor: any) {
     const startTime = Date.now();
     let isUp = false;
     let statusCode = null;
     let errorMessage = null;
+    let sslExpiryDays = monitor.sslExpiryDays;
 
     try {
         if (monitor.type === "HTTP" || monitor.type === "PING") {
@@ -47,53 +49,72 @@ async function checkMonitor(monitor: any) {
              const headers = monitor.headers ? JSON.parse(monitor.headers) : undefined;
              const body = monitor.body && monitor.method !== "GET" ? monitor.body : undefined;
 
-             // SSL Check
-             if (monitor.url.startsWith("https://")) {
-                 try {
-                     await new Promise<void>((resolve, reject) => {
-                         const req = https.request(monitor.url, { method: 'HEAD', agent: new https.Agent({ rejectUnauthorized: true }) }, (res) => {
-                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                            const cert = (res.socket as any).getPeerCertificate();
-                            if (cert && cert.valid_to) {
-                                const validTo = new Date(cert.valid_to);
-                                const daysRemaining = Math.floor((validTo.getTime() - Date.now()) / (1000 * 60 * 60 * 24));
-                                if (daysRemaining < 7) {
-                                    console.warn(`[SSL WARNING] ${monitor.url} cert expires in ${daysRemaining} days.`);
-                                }
+             // Use https.request for HTTPS to get SSL cert, otherwise use fetch
+             if (monitor.url.startsWith("https://") && monitor.method === "GET" && !body) {
+                 await new Promise<void>((resolve, reject) => {
+                     const req = https.request(monitor.url, { agent: new https.Agent({ rejectUnauthorized: true }), headers }, (res) => {
+                        statusCode = res.statusCode || null;
+
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        const cert = (res.socket as any).getPeerCertificate();
+                        if (cert && cert.valid_to) {
+                            const validTo = new Date(cert.valid_to);
+                            const daysRemaining = Math.floor((validTo.getTime() - Date.now()) / (1000 * 60 * 60 * 24));
+                            sslExpiryDays = daysRemaining;
+                            if (daysRemaining < 7) {
+                                console.warn(`[SSL WARNING] ${monitor.url} cert expires in ${daysRemaining} days.`);
+                            }
+                        }
+
+                        if (monitor.expectedStatus) {
+                            isUp = statusCode === monitor.expectedStatus;
+                        } else {
+                            isUp = statusCode !== null && statusCode >= 200 && statusCode < 300;
+                        }
+
+                        let data = '';
+                        res.on('data', chunk => data += chunk);
+                        res.on('end', () => {
+                            if (isUp && monitor.expectedKeyword) {
+                                isUp = data.includes(monitor.expectedKeyword);
+                                if (!isUp) errorMessage = "Keyword not found";
                             }
                             resolve();
-                         });
-                         req.on('error', reject);
-                         req.end();
+                        });
                      });
-                 } catch (sslError) {
-                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                     console.error(`[SSL ERROR] ${monitor.url}:`, (sslError as any).message);
-                 }
-             }
-
-             const response = await fetch(monitor.url, {
-                 method: monitor.method,
-                 headers,
-                 body,
-                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                 signal: controller.signal as any
-             });
-
-             clearTimeout(timeoutId);
-
-             statusCode = response.status;
-
-             if (monitor.expectedStatus) {
-                 isUp = statusCode === monitor.expectedStatus;
+                     req.on('error', reject);
+                     req.on('timeout', () => {
+                         req.destroy();
+                         reject(new Error("Timeout"));
+                     });
+                     req.setTimeout(monitor.timeout);
+                     req.end();
+                 });
+                 clearTimeout(timeoutId);
              } else {
-                 isUp = statusCode >= 200 && statusCode < 300;
-             }
+                 const response = await fetch(monitor.url, {
+                     method: monitor.method,
+                     headers,
+                     body,
+                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                     signal: controller.signal as any
+                 });
 
-             if (isUp && monitor.expectedKeyword) {
-                 const text = await response.text();
-                 isUp = text.includes(monitor.expectedKeyword);
-                 if (!isUp) errorMessage = "Keyword not found";
+                 clearTimeout(timeoutId);
+
+                 statusCode = response.status;
+
+                 if (monitor.expectedStatus) {
+                     isUp = statusCode === monitor.expectedStatus;
+                 } else {
+                     isUp = statusCode >= 200 && statusCode < 300;
+                 }
+
+                 if (isUp && monitor.expectedKeyword) {
+                     const text = await response.text();
+                     isUp = text.includes(monitor.expectedKeyword);
+                     if (!isUp) errorMessage = "Keyword not found";
+                 }
              }
         }
     } catch (error) {
@@ -103,12 +124,21 @@ async function checkMonitor(monitor: any) {
     }
 
     const responseTime = Date.now() - startTime;
-    const newStatus = isUp ? "UP" : "DOWN";
+
+    // Evaluate retry logic
+    const consecutiveFailures = isUp ? 0 : monitor.consecutiveFailures + 1;
+    let newStatus = monitor.status;
+
+    if (isUp) {
+        newStatus = "UP";
+    } else if (consecutiveFailures >= monitor.retries) {
+        newStatus = "DOWN";
+    } // else, keep previous status (e.g., UP) while retrying
 
     await prisma.monitorLog.create({
         data: {
             monitorId: monitor.id,
-            status: newStatus,
+            status: isUp ? "UP" : "DOWN",
             statusCode,
             responseTime,
             errorMessage
@@ -121,6 +151,8 @@ async function checkMonitor(monitor: any) {
         where: { id: monitor.id },
         data: {
             status: newStatus,
+            consecutiveFailures,
+            sslExpiryDays,
             lastChecked: new Date(),
             nextRunAt
         }

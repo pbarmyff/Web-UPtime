@@ -65,8 +65,10 @@ model Monitor {
   retries         Int      @default(3)
 
   status          String   @default("UP") // UP, DOWN, PAUSED
+  consecutiveFailures Int    @default(0)
   lastChecked     DateTime?
   nextRunAt       DateTime?
+  sslExpiryDays   Int?
 
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt

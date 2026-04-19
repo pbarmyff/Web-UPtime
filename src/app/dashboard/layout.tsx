@@ -30,6 +30,10 @@ export default async function DashboardLayout({
             <Activity size={20} />
             <span>Monitors</span>
           </Link>
+          <Link href="/dashboard/status-pages" className="flex items-center space-x-2 text-gray-700 hover:bg-gray-100 p-2 rounded-md">
+            <Activity size={20} />
+            <span>Status Pages</span>
+          </Link>
           <Link href="/dashboard/settings" className="flex items-center space-x-2 text-gray-700 hover:bg-gray-100 p-2 rounded-md">
             <Settings size={20} />
             <span>Settings</span>

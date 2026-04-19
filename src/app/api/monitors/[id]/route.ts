@@ -23,6 +23,8 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ id: s
     }
 }
 
+import { monitorSchema } from "@/lib/validations";
+
 export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
     const session = await getServerSession(authOptions);
@@ -31,6 +33,17 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
     try {
         const body = await req.json();
 
+        // Prevent Mass Assignment Vulnerability: Only allow valid fields via Zod partial schema
+        const parseResult = monitorSchema.partial().safeParse({
+            ...body,
+            interval: body.interval && typeof body.interval === 'string' ? parseInt(body.interval) : body.interval,
+            expectedStatus: body.expectedStatus && typeof body.expectedStatus === 'string' ? parseInt(body.expectedStatus) : body.expectedStatus,
+        });
+
+        if (!parseResult.success) {
+            return new NextResponse("Invalid input data", { status: 400 });
+        }
+
         const monitor = await prisma.monitor.findUnique({ where: { id } });
         if (!monitor || monitor.userId !== session.user.id) {
             return new NextResponse("Not Found", { status: 404 });
@@ -38,9 +51,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
 
         const updatedMonitor = await prisma.monitor.update({
             where: { id },
-            data: {
-                ...body
-            }
+            data: parseResult.data
         });
 
         return NextResponse.json(updatedMonitor);

@@ -2,12 +2,20 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { handleMonitorRecovery } from "@/lib/incidents";
 
+import { publicApiRateLimiter } from "@/lib/rateLimit";
+
 export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
+    const ip = req.headers.get("x-forwarded-for")?.split(',')[0] || req.headers.get("x-real-ip") || "unknown";
+    if (!publicApiRateLimiter.check(ip).success) return new NextResponse("Too many requests", { status: 429 });
+
     const { id } = await params;
     return handleHeartbeat(id);
 }
 
 export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {
+    const ip = req.headers.get("x-forwarded-for")?.split(',')[0] || req.headers.get("x-real-ip") || "unknown";
+    if (!publicApiRateLimiter.check(ip).success) return new NextResponse("Too many requests", { status: 429 });
+
     const { id } = await params;
     return handleHeartbeat(id);
 }
