@@ -16,26 +16,26 @@ export default async function AdminDashboard() {
       <h1 className="text-2xl font-bold mb-6 text-white">System Overview</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div className="bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-700">
-            <h3 className="text-gray-400 text-sm font-medium">Total Users</h3>
+        <div className="bg-brand-surface p-6 rounded-none  border border-brand-muted/30">
+            <h3 className="text-brand-muted text-sm font-medium">Total Users</h3>
             <p className="text-3xl font-bold text-white mt-2">{userCount}</p>
         </div>
-        <div className="bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-700">
-            <h3 className="text-gray-400 text-sm font-medium">Total Monitors</h3>
+        <div className="bg-brand-surface p-6 rounded-none  border border-brand-muted/30">
+            <h3 className="text-brand-muted text-sm font-medium">Total Monitors</h3>
             <p className="text-3xl font-bold text-white mt-2">{monitorCount}</p>
         </div>
-        <div className="bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-700">
-            <h3 className="text-gray-400 text-sm font-medium">Total Incidents</h3>
+        <div className="bg-brand-surface p-6 rounded-none  border border-brand-muted/30">
+            <h3 className="text-brand-muted text-sm font-medium">Total Incidents</h3>
             <p className="text-3xl font-bold text-white mt-2">{incidentCount}</p>
         </div>
       </div>
 
-      <div className="bg-gray-800 rounded-lg shadow-sm border border-gray-700 overflow-hidden">
-        <div className="p-4 border-b border-gray-700">
+      <div className="bg-brand-surface rounded-none  border border-brand-muted/30 overflow-hidden">
+        <div className="p-4 border-b border-brand-muted/30">
             <h2 className="text-lg font-semibold text-white">Recent Audit Logs</h2>
         </div>
         <table className="w-full text-left">
-            <thead className="bg-gray-900 border-b border-gray-700 text-sm text-gray-400">
+            <thead className="bg-brand-background border-b border-brand-muted/30 text-sm text-brand-muted">
                 <tr>
                     <th className="p-4 font-medium">Timestamp</th>
                     <th className="p-4 font-medium">User</th>
@@ -45,11 +45,11 @@ export default async function AdminDashboard() {
             </thead>
             <tbody className="divide-y divide-gray-700">
                 {recentAuditLogs.map(log => (
-                    <tr key={log.id} className="hover:bg-gray-700/50">
-                        <td className="p-4 text-sm text-gray-300">{new Date(log.createdAt).toLocaleString()}</td>
-                        <td className="p-4 text-sm text-gray-300">{log.user?.email || 'System'}</td>
-                        <td className="p-4 text-sm text-gray-300">{log.action}</td>
-                        <td className="p-4 text-sm text-gray-400">{log.ipAddress || 'N/A'}</td>
+                    <tr key={log.id} className="hover:bg-brand-background/50">
+                        <td className="p-4 text-sm text-brand-text">{new Date(log.createdAt).toLocaleString()}</td>
+                        <td className="p-4 text-sm text-brand-text">{log.user?.email || 'System'}</td>
+                        <td className="p-4 text-sm text-brand-text">{log.action}</td>
+                        <td className="p-4 text-sm text-brand-muted">{log.ipAddress || 'N/A'}</td>
                     </tr>
                 ))}
                 {recentAuditLogs.length === 0 && (

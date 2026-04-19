@@ -48,51 +48,51 @@ export default function SettingsForm({ user }: { user: any }) {
     return (
         <form onSubmit={handleSubmit} className="space-y-6 max-w-lg">
             {message.text && (
-                <div className={`p-4 rounded-md text-sm ${message.type === 'error' ? 'bg-red-50 text-red-700' : 'bg-green-50 text-green-700'}`}>
+                <div className={`p-4 rounded-none text-sm ${message.type === 'error' ? 'bg-red-50 text-red-700' : 'bg-green-50 text-green-700'}`}>
                     {message.text}
                 </div>
             )}
 
             <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                <label className="block text-sm font-medium text-brand-text mb-1">Email</label>
                 <input
                     type="text"
                     value={user.email}
                     disabled
-                    className="w-full border border-gray-200 bg-gray-50 rounded-md p-2 text-gray-500 cursor-not-allowed"
+                    className="w-full border border-gray-200 bg-brand-background rounded-none p-2 text-brand-muted cursor-not-allowed"
                 />
             </div>
 
             <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                <label className="block text-sm font-medium text-brand-text mb-1">Name</label>
                 <input
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full border border-gray-300 rounded-md p-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    className="w-full border border-gray-300 rounded-none p-2 focus:ring-indigo-500 focus:border-indigo-500"
                 />
             </div>
 
             <hr className="border-gray-200" />
-            <h3 className="text-lg font-medium text-gray-800">Change Password</h3>
+            <h3 className="text-lg font-medium text-white">Change Password</h3>
 
             <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Current Password</label>
+                <label className="block text-sm font-medium text-brand-text mb-1">Current Password</label>
                 <input
                     type="password"
                     value={currentPassword}
                     onChange={(e) => setCurrentPassword(e.target.value)}
-                    className="w-full border border-gray-300 rounded-md p-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    className="w-full border border-gray-300 rounded-none p-2 focus:ring-indigo-500 focus:border-indigo-500"
                 />
             </div>
 
             <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">New Password</label>
+                <label className="block text-sm font-medium text-brand-text mb-1">New Password</label>
                 <input
                     type="password"
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
-                    className="w-full border border-gray-300 rounded-md p-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    className="w-full border border-gray-300 rounded-none p-2 focus:ring-indigo-500 focus:border-indigo-500"
                 />
             </div>
 
@@ -100,7 +100,7 @@ export default function SettingsForm({ user }: { user: any }) {
                 <button
                     type="submit"
                     disabled={loading}
-                    className="bg-indigo-600 text-white px-6 py-2 rounded-md font-medium hover:bg-indigo-700 disabled:opacity-50"
+                    className="bg-brand-accent text-white px-6 py-2 rounded-none font-medium hover:bg-brand-surface disabled:opacity-50"
                 >
                     {loading ? "Saving..." : "Save Settings"}
                 </button>

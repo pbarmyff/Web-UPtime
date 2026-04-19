@@ -37,21 +37,21 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="flex h-screen w-full items-center justify-center bg-gray-50">
-      <div className="w-full max-w-md space-y-8 rounded-lg bg-white p-8 shadow">
+    <div className="flex h-screen w-full items-center justify-center bg-brand-background">
+      <div className="w-full max-w-md space-y-8 rounded-none bg-brand-surface p-8 ">
         <div className="text-center">
-          <h2 className="text-3xl font-extrabold text-gray-900">Create an account</h2>
+          <h2 className="text-3xl font-extrabold text-white">Create an account</h2>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           {error && <div className="text-red-500 text-sm text-center">{error}</div>}
-          <div className="space-y-4 rounded-md shadow-sm">
+          <div className="space-y-4 rounded-none -sm">
              <div>
               <label className="sr-only" htmlFor="name">Name</label>
               <input
                 id="name"
                 type="text"
                 required
-                className="block w-full rounded-md border border-gray-300 px-3 py-2 placeholder-gray-500 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className="block w-full rounded-none border border-brand-muted/30 px-3 py-2 placeholder-gray-500 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                 placeholder="Full Name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -63,7 +63,7 @@ export default function SignupPage() {
                 id="email"
                 type="email"
                 required
-                className="block w-full rounded-md border border-gray-300 px-3 py-2 placeholder-gray-500 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className="block w-full rounded-none border border-brand-muted/30 px-3 py-2 placeholder-gray-500 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                 placeholder="Email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -75,7 +75,7 @@ export default function SignupPage() {
                 id="password"
                 type="password"
                 required
-                className="block w-full rounded-md border border-gray-300 px-3 py-2 placeholder-gray-500 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className="block w-full rounded-none border border-brand-muted/30 px-3 py-2 placeholder-gray-500 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -85,14 +85,14 @@ export default function SignupPage() {
           <div>
             <button
               type="submit"
-              className="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              className="group relative flex w-full justify-center rounded-none border border-transparent bg-brand-accent px-4 py-2 text-sm font-medium text-white hover:bg-brand-surface focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
               Sign up
             </button>
           </div>
         </form>
         <div className="text-center mt-4">
-            <Link href="/login" className="text-sm text-indigo-600 hover:text-indigo-500">
+            <Link href="/login" className="text-sm text-brand-accent hover:text-indigo-500">
                 Already have an account? Sign in
             </Link>
         </div>

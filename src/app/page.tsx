@@ -1,222 +1,376 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
-import { Activity, ShieldCheck, Zap, BellRing, Link as LinkIcon, BarChart3, Database } from "lucide-react";
+import { motion, useScroll, useTransform, AnimatePresence, useReducedMotion } from "framer-motion";
+import { Activity, ShieldCheck, Zap, BellRing, Link as LinkIcon, BarChart3, Database, Menu, X } from "lucide-react";
 
 export default function Home() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
+
+  // Parallax effects
+  const { scrollY } = useScroll();
+  const heroY = useTransform(scrollY, [0, 500], [0, shouldReduceMotion ? 0 : -100]);
+  const heroOpacity = useTransform(scrollY, [0, 300], [1, shouldReduceMotion ? 1 : 0]);
+  const blobY = useTransform(scrollY, [0, 800], [0, shouldReduceMotion ? 0 : 200]);
+
+  // Entrance animations variants
+  const staggerContainer = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.08,
+      },
+    },
+  };
+
+  const wordVariant = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0, transition: { type: "spring" as const, damping: 12, stiffness: 100 } },
+  };
+
+  const fadeUpVariant = {
+    hidden: { opacity: 0, y: 30 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as const } },
+  };
+
+  const scaleInVariant = {
+    hidden: { opacity: 0, scale: 0.95 },
+    show: { opacity: 1, scale: 1, transition: { duration: 0.6, ease: "easeOut" as const } },
+  };
+
+  const headline = "Monitor your infrastructure 24/7.";
+  const headlineWords = headline.split(" ");
+
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col font-sans">
+    <div className="min-h-screen bg-[#070D1F] text-[#EDF2FF] font-sans selection:bg-[#4FFFB0] selection:text-[#070D1F] overflow-x-hidden">
+
       {/* Navigation */}
-      <nav className="w-full bg-white shadow-sm border-b border-gray-100 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
-            <div className="flex items-center">
-              <Activity className="h-8 w-8 text-indigo-600" />
-              <span className="ml-2 text-xl font-bold text-gray-900 tracking-tight">UptimeMonitor</span>
-            </div>
-            <div className="flex items-center space-x-4">
-              <Link href="/login" className="text-gray-600 hover:text-gray-900 font-medium text-sm">
+      <nav className="fixed w-full top-0 z-50 bg-[#070D1F]/80 backdrop-blur-md border-b border-[#5A6A8A]/20">
+        <div className="max-w-[1400px] mx-auto px-6 sm:px-12 lg:px-16">
+          <div className="flex justify-between items-center h-20">
+            <Link href="/" className="flex items-center group">
+              <Activity className="h-8 w-8 text-[#4FFFB0] group-hover:scale-110 transition-transform" />
+              <span className="ml-3 text-2xl font-bold font-display tracking-tight text-white">UptimeMonitor</span>
+            </Link>
+
+            {/* Desktop Nav */}
+            <div className="hidden md:flex items-center space-x-8">
+              <Link href="#features" className="text-[#5A6A8A] hover:text-[#4FFFB0] font-medium transition-colors relative group">
+                Features
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#4FFFB0] transition-all group-hover:w-full"></span>
+              </Link>
+              <Link href="/login" className="text-[#EDF2FF] hover:text-[#4FFFB0] font-medium transition-colors relative group">
                 Log in
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#4FFFB0] transition-all group-hover:w-full"></span>
               </Link>
-              <Link href="/signup" className="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700 transition-colors shadow-sm">
-                Get Started
-              </Link>
+              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+                <Link href="/signup" className="bg-[#4FFFB0] text-[#070D1F] px-6 py-3 rounded-none font-bold text-sm tracking-wide transition-colors hover:bg-white">
+                  Get Started
+                </Link>
+              </motion.div>
+            </div>
+
+            {/* Mobile Menu Button */}
+            <div className="md:hidden flex items-center">
+              <button onClick={() => setIsMobileMenuOpen(true)} className="text-[#EDF2FF] hover:text-[#4FFFB0] transition-colors">
+                <Menu size={28} />
+              </button>
             </div>
           </div>
         </div>
       </nav>
 
+      {/* Mobile Drawer */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ type: "spring", damping: 20, stiffness: 100 }}
+            className="fixed inset-0 z-[100] bg-[#0F1A35] p-6 md:hidden flex flex-col"
+          >
+            <div className="flex justify-between items-center mb-12">
+              <div className="flex items-center">
+                <Activity className="h-8 w-8 text-[#4FFFB0]" />
+                <span className="ml-3 text-2xl font-bold font-display tracking-tight text-white">UptimeMonitor</span>
+              </div>
+              <button onClick={() => setIsMobileMenuOpen(false)} className="text-[#EDF2FF] hover:text-[#4FFFB0]">
+                <X size={32} />
+              </button>
+            </div>
+            <div className="flex flex-col space-y-8 text-2xl font-display font-bold">
+              <Link href="#features" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-[#4FFFB0]">Features</Link>
+              <Link href="/login" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-[#4FFFB0]">Log in</Link>
+              <Link href="/signup" onClick={() => setIsMobileMenuOpen(false)} className="text-[#4FFFB0]">Get Started Free</Link>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Hero Section */}
-      <section className="pt-20 pb-16 px-4 sm:px-6 lg:px-8 text-center bg-gradient-to-b from-white to-gray-50 flex-1 flex flex-col justify-center">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900 tracking-tight leading-tight mb-6">
-            Never miss a beat. <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">
-              Monitor your infrastructure 24/7.
-            </span>
-          </h1>
-          <p className="mt-4 text-xl text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed">
-            The complete, production-ready full-stack monitoring platform built entirely on Next.js. Track uptime, track incidents, manage SSL expiry, and configure smart alerts in one unified dashboard.
-          </p>
-          <div className="flex justify-center gap-4">
-            <Link href="/signup" className="bg-indigo-600 text-white px-8 py-4 rounded-lg text-lg font-bold hover:bg-indigo-700 shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5">
-              Start Monitoring Free
-            </Link>
-            <Link href="/login" className="bg-white text-gray-800 border border-gray-200 px-8 py-4 rounded-lg text-lg font-bold hover:bg-gray-50 shadow-sm transition-all">
-              Go to Dashboard
-            </Link>
-          </div>
-        </div>
+      <section className="relative pt-32 pb-20 px-6 sm:px-12 lg:px-16 min-h-screen flex flex-col justify-center overflow-hidden">
+        {/* Background Parallax Blob */}
+        <motion.div
+            style={{ y: blobY }}
+            className="absolute top-1/4 right-[10%] w-[600px] h-[600px] bg-[#4FFFB0]/10 rounded-full blur-[120px] pointer-events-none"
+        />
 
-        {/* Dashboard Mockup Frame */}
-        <div className="mt-20 max-w-5xl mx-auto relative group">
-            {/* Decorative background glow */}
-            <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl blur opacity-25 group-hover:opacity-40 transition duration-1000"></div>
+        <div className="max-w-[1400px] mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-16 items-center relative z-10">
 
-            {/* The "Software Image" Frame */}
-            <div className="relative bg-gray-900 rounded-xl shadow-2xl border border-gray-700 overflow-hidden text-left ring-1 ring-white/10">
-                {/* Browser/Window Header */}
-                <div className="bg-gray-800 px-4 py-3 flex items-center border-b border-gray-700 space-x-2">
-                    <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                    <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                    <div className="ml-4 bg-gray-700 px-4 py-1 rounded text-xs text-gray-400 font-mono flex-1 text-center truncate">
-                        app.uptimemonitor.com/dashboard
+          {/* Text Left */}
+          <motion.div
+            className="lg:col-span-6 text-left"
+            style={{ y: heroY }}
+          >
+            <motion.h1
+              variants={staggerContainer}
+              initial="hidden"
+              animate="show"
+              className="text-[clamp(2.5rem,6vw,5.5rem)] font-display font-extrabold text-white leading-[1.05] tracking-tight mb-6"
+            >
+              <div className="text-[#5A6A8A] font-medium text-xl mb-4 tracking-widest uppercase">Never miss a beat</div>
+              {headlineWords.map((word, idx) => (
+                <motion.span key={idx} variants={wordVariant} className="inline-block mr-[0.3em]">
+                  {word === "24/7." ? (
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4FFFB0] to-teal-200">
+                      {word}
+                    </span>
+                  ) : word}
+                </motion.span>
+              ))}
+            </motion.h1>
+
+            <motion.p
+              variants={fadeUpVariant}
+              initial="hidden"
+              animate="show"
+              transition={{ delay: 0.4 }}
+              style={{ opacity: heroOpacity }}
+              className="text-[clamp(1.125rem,2vw,1.5rem)] text-[#5A6A8A] mb-12 max-w-xl leading-relaxed"
+            >
+              The complete, production-ready full-stack monitoring platform. Track uptime, resolve incidents, manage SSL expiry, and configure smart alerts in one unified deep navy dashboard.
+            </motion.p>
+
+            <motion.div
+              variants={fadeUpVariant}
+              initial="hidden"
+              animate="show"
+              transition={{ delay: 0.6 }}
+              className="flex flex-col sm:flex-row gap-4"
+            >
+              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+                <Link href="/signup" className="flex justify-center items-center bg-[#4FFFB0] text-[#070D1F] px-8 py-4 rounded-none text-lg font-bold hover:bg-white transition-colors w-full sm:w-auto">
+                  Start Monitoring Free
+                </Link>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+                <Link href="/login" className="flex justify-center items-center bg-transparent text-white border border-[#5A6A8A]/50 px-8 py-4 rounded-none text-lg font-bold hover:bg-[#0F1A35] transition-colors w-full sm:w-auto">
+                  Go to Dashboard
+                </Link>
+              </motion.div>
+            </motion.div>
+          </motion.div>
+
+          {/* Visual Right (Mockup) */}
+          <motion.div
+            className="lg:col-span-6 relative w-full"
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1, delay: 0.2, type: "spring", damping: 20 }}
+          >
+            <div className="relative bg-[#0F1A35] shadow-2xl border border-[#5A6A8A]/30 overflow-hidden ring-1 ring-white/5 rounded-none transform lg:rotate-y-[-10deg] lg:rotate-x-[5deg] lg:scale-105 perspective-1000">
+                <div className="bg-[#070D1F] px-4 py-3 flex items-center border-b border-[#5A6A8A]/30 space-x-2">
+                    <div className="w-3 h-3 rounded-none bg-[#5A6A8A]"></div>
+                    <div className="w-3 h-3 rounded-none bg-[#5A6A8A]"></div>
+                    <div className="w-3 h-3 rounded-none bg-[#5A6A8A]"></div>
+                    <div className="ml-4 bg-[#0F1A35] px-4 py-1 rounded-none text-xs text-[#5A6A8A] font-mono flex-1 text-center truncate">
+                        app.uptimemonitor.com
                     </div>
                 </div>
 
-                {/* Fake Dashboard Content */}
                 <div className="flex">
-                    {/* Sidebar */}
-                    <div className="hidden sm:block w-48 bg-gray-800 border-r border-gray-700 p-4 min-h-[400px]">
+                    <div className="hidden sm:block w-48 bg-[#070D1F] border-r border-[#5A6A8A]/30 p-4 min-h-[400px]">
                         <div className="space-y-3">
-                            <div className="h-8 bg-indigo-500/20 rounded flex items-center px-3 border border-indigo-500/30">
-                                <Activity size={16} className="text-indigo-400 mr-2" />
-                                <div className="h-2 w-16 bg-indigo-400/50 rounded"></div>
+                            <div className="h-8 bg-[#4FFFB0]/10 rounded-none flex items-center px-3 border border-[#4FFFB0]/30">
+                                <Activity size={16} className="text-[#4FFFB0] mr-2" />
+                                <div className="h-2 w-16 bg-[#4FFFB0]/50 rounded-none"></div>
                             </div>
-                            <div className="h-8 bg-gray-700 rounded flex items-center px-3">
-                                <BarChart3 size={16} className="text-gray-400 mr-2" />
-                                <div className="h-2 w-20 bg-gray-500 rounded"></div>
+                            <div className="h-8 hover:bg-[#0F1A35] rounded-none flex items-center px-3">
+                                <BarChart3 size={16} className="text-[#5A6A8A] mr-2" />
+                                <div className="h-2 w-20 bg-[#5A6A8A] rounded-none"></div>
                             </div>
-                            <div className="h-8 bg-gray-700 rounded flex items-center px-3">
-                                <BellRing size={16} className="text-gray-400 mr-2" />
-                                <div className="h-2 w-14 bg-gray-500 rounded"></div>
+                            <div className="h-8 hover:bg-[#0F1A35] rounded-none flex items-center px-3">
+                                <BellRing size={16} className="text-[#5A6A8A] mr-2" />
+                                <div className="h-2 w-14 bg-[#5A6A8A] rounded-none"></div>
                             </div>
                         </div>
                     </div>
-                    {/* Main Content Area */}
-                    <div className="flex-1 bg-gray-900 p-6 min-h-[400px]">
-                        <div className="h-6 w-32 bg-gray-700 rounded mb-6"></div>
+                    <div className="flex-1 bg-[#0F1A35] p-6 min-h-[400px]">
+                        <div className="h-6 w-32 bg-[#5A6A8A]/40 rounded-none mb-6"></div>
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-                            <div className="bg-gray-800 p-4 rounded-lg border border-gray-700">
-                                <div className="h-3 w-16 bg-gray-600 rounded mb-3"></div>
-                                <div className="h-8 w-12 bg-green-400 rounded"></div>
+                            <div className="bg-[#070D1F] p-4 rounded-none border border-[#5A6A8A]/30">
+                                <div className="h-3 w-16 bg-[#5A6A8A]/50 rounded-none mb-3"></div>
+                                <div className="h-8 w-12 bg-[#4FFFB0] rounded-none"></div>
                             </div>
-                            <div className="bg-gray-800 p-4 rounded-lg border border-gray-700">
-                                <div className="h-3 w-16 bg-gray-600 rounded mb-3"></div>
-                                <div className="h-8 w-8 bg-red-400 rounded"></div>
+                            <div className="bg-[#070D1F] p-4 rounded-none border border-[#5A6A8A]/30">
+                                <div className="h-3 w-16 bg-[#5A6A8A]/50 rounded-none mb-3"></div>
+                                <div className="h-8 w-8 bg-red-400 rounded-none"></div>
                             </div>
-                            <div className="bg-gray-800 p-4 rounded-lg border border-gray-700">
-                                <div className="h-3 w-20 bg-gray-600 rounded mb-3"></div>
-                                <div className="h-8 w-12 bg-indigo-400 rounded"></div>
+                            <div className="bg-[#070D1F] p-4 rounded-none border border-[#5A6A8A]/30">
+                                <div className="h-3 w-20 bg-[#5A6A8A]/50 rounded-none mb-3"></div>
+                                <div className="h-8 w-12 bg-[#EDF2FF] rounded-none"></div>
                             </div>
                         </div>
 
-                        {/* Fake Chart Area */}
-                        <div className="bg-gray-800 border border-gray-700 rounded-lg p-4 h-48 flex items-end justify-between px-8 space-x-2">
+                        <div className="bg-[#070D1F] border border-[#5A6A8A]/30 rounded-none p-4 h-48 flex items-end justify-between px-8 space-x-2 relative overflow-hidden">
+                            <div className="absolute inset-0 bg-[linear-gradient(to_right,#5A6A8A10_1px,transparent_1px),linear-gradient(to_bottom,#5A6A8A10_1px,transparent_1px)] bg-[size:1rem_1rem]"></div>
                             {[40, 60, 30, 80, 40, 90, 50, 30, 20, 100, 40, 70].map((h, i) => (
-                                <div key={i} className="w-full bg-indigo-500/50 hover:bg-indigo-400 rounded-t" style={{ height: `${h}%` }}></div>
+                                <motion.div
+                                  key={i}
+                                  initial={{ height: 0 }}
+                                  animate={{ height: `${h}%` }}
+                                  transition={{ duration: 1, delay: 0.5 + (i * 0.05), ease: "easeOut" }}
+                                  className="w-full bg-[#4FFFB0] hover:bg-white rounded-t-none relative z-10"
+                                ></motion.div>
                             ))}
                         </div>
                     </div>
                 </div>
             </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Features Grid */}
-      <section className="py-20 bg-white border-t border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">Everything you need to stay online</h2>
-            <p className="mt-4 max-w-2xl mx-auto text-xl text-gray-500">
-              A comprehensive suite of monitoring tools seamlessly integrated into one full-stack Next.js app.
+      <section id="features" className="py-32 bg-[#0F1A35] border-t border-[#5A6A8A]/20">
+        <div className="max-w-[1400px] mx-auto px-6 sm:px-12 lg:px-16">
+          <motion.div
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={fadeUpVariant}
+            className="mb-24 flex items-end justify-between border-b border-[#5A6A8A]/30 pb-8"
+          >
+            <div>
+              <span className="text-[#4FFFB0] font-mono text-xl mb-4 block">01 / Features</span>
+              <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-display font-bold text-white leading-tight">
+                Everything you need <br/>to stay online.
+              </h2>
+            </div>
+            <p className="hidden md:block max-w-sm text-[#5A6A8A] text-lg text-right">
+              A comprehensive suite of monitoring tools seamlessly integrated into one robust application.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-
-            {/* Feature 1 */}
-            <div className="bg-gray-50 p-8 rounded-xl border border-gray-100 hover:shadow-md transition-shadow">
-                <div className="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-lg flex items-center justify-center mb-6">
-                    <Activity size={24} />
+          <motion.div
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={staggerContainer}
+            className="grid grid-cols-1 md:grid-cols-12 gap-8"
+          >
+            {/* Feature 1 (7 cols) */}
+            <motion.div variants={scaleInVariant} whileHover={{ y: -4 }} transition={{ duration: 0.2 }} className="md:col-span-7 bg-[#070D1F] p-10 lg:p-14 border-l-4 border-l-[#4FFFB0] border border-[#5A6A8A]/20 relative overflow-hidden group">
+                <div className="relative z-10">
+                  <div className="w-14 h-14 bg-[#0F1A35] border border-[#5A6A8A]/40 text-[#4FFFB0] rounded-none flex items-center justify-center mb-8">
+                      <Activity size={28} />
+                  </div>
+                  <h3 className="text-2xl font-display font-bold text-white mb-4">Multi-Protocol Checks</h3>
+                  <p className="text-[#5A6A8A] text-lg leading-relaxed max-w-lg">
+                      Monitor via HTTP/HTTPS, custom headers, payload bodies, Ping, and Heartbeat (Cron) endpoints. Supports keyword validation and custom expected status codes.
+                  </p>
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">Multi-Protocol Checks</h3>
-                <p className="text-gray-600 leading-relaxed">
-                    Monitor via HTTP/HTTPS, custom headers, payload bodies, Ping, and Heartbeat (Cron) endpoints. Supports keyword validation and custom expected status codes.
-                </p>
-            </div>
+            </motion.div>
 
-            {/* Feature 2 */}
-            <div className="bg-gray-50 p-8 rounded-xl border border-gray-100 hover:shadow-md transition-shadow">
-                <div className="w-12 h-12 bg-purple-100 text-purple-600 rounded-lg flex items-center justify-center mb-6">
-                    <ShieldCheck size={24} />
+            {/* Feature 2 (5 cols) */}
+            <motion.div variants={scaleInVariant} whileHover={{ y: -4 }} transition={{ duration: 0.2 }} className="md:col-span-5 bg-[#070D1F] p-10 lg:p-14 border border-[#5A6A8A]/20 relative group hover:border-[#4FFFB0]/50 transition-colors">
+                <div className="w-14 h-14 bg-[#0F1A35] border border-[#5A6A8A]/40 text-white rounded-none flex items-center justify-center mb-8">
+                    <ShieldCheck size={28} />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">SSL & Security Tracking</h3>
-                <p className="text-gray-600 leading-relaxed">
-                    Automatically checks HTTPS connections for valid SSL certificates, tracking expiry dates and displaying critical warnings before certs expire.
+                <h3 className="text-2xl font-display font-bold text-white mb-4">SSL & Security</h3>
+                <p className="text-[#5A6A8A] text-lg leading-relaxed">
+                    Automatically checks HTTPS connections for valid SSL certificates, tracking expiry dates and displaying critical warnings.
                 </p>
-            </div>
+            </motion.div>
 
-            {/* Feature 3 */}
-            <div className="bg-gray-50 p-8 rounded-xl border border-gray-100 hover:shadow-md transition-shadow">
-                <div className="w-12 h-12 bg-red-100 text-red-600 rounded-lg flex items-center justify-center mb-6">
+            {/* Feature 3 (4 cols) */}
+            <motion.div variants={scaleInVariant} whileHover={{ y: -4 }} transition={{ duration: 0.2 }} className="md:col-span-4 bg-[#070D1F] p-10 border border-[#5A6A8A]/20 hover:border-white/20 transition-colors">
+                <div className="w-12 h-12 bg-[#0F1A35] border border-[#5A6A8A]/40 text-white flex items-center justify-center mb-6">
                     <BellRing size={24} />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">Smart Alerting & Retries</h3>
-                <p className="text-gray-600 leading-relaxed">
-                    Advanced retry logic ensures no false-positives. Instantly dispatch webhook or email alerts to your team the moment a service genuinely goes down.
+                <h3 className="text-xl font-display font-bold text-white mb-3">Smart Alerting & Retries</h3>
+                <p className="text-[#5A6A8A] leading-relaxed">
+                    Advanced retry logic ensures no false-positives. Dispatch webhook or email alerts instantly.
                 </p>
-            </div>
+            </motion.div>
 
-            {/* Feature 4 */}
-            <div className="bg-gray-50 p-8 rounded-xl border border-gray-100 hover:shadow-md transition-shadow">
-                <div className="w-12 h-12 bg-green-100 text-green-600 rounded-lg flex items-center justify-center mb-6">
+            {/* Feature 4 (4 cols) */}
+            <motion.div variants={scaleInVariant} whileHover={{ y: -4 }} transition={{ duration: 0.2 }} className="md:col-span-4 bg-[#070D1F] p-10 border border-[#5A6A8A]/20 hover:border-white/20 transition-colors">
+                <div className="w-12 h-12 bg-[#0F1A35] border border-[#5A6A8A]/40 text-white flex items-center justify-center mb-6">
                     <BarChart3 size={24} />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">Incident Timeline</h3>
-                <p className="text-gray-600 leading-relaxed">
-                    Automatically logs downtime events, tracking response time latency across historical bounds. Export historical metrics via CSV in one click.
+                <h3 className="text-xl font-display font-bold text-white mb-3">Incident Timeline</h3>
+                <p className="text-[#5A6A8A] leading-relaxed">
+                    Automatically logs downtime events, tracking latency. Export historical metrics via CSV.
                 </p>
-            </div>
+            </motion.div>
 
-            {/* Feature 5 */}
-            <div className="bg-gray-50 p-8 rounded-xl border border-gray-100 hover:shadow-md transition-shadow">
-                <div className="w-12 h-12 bg-yellow-100 text-yellow-600 rounded-lg flex items-center justify-center mb-6">
+            {/* Feature 5 (4 cols) */}
+            <motion.div variants={scaleInVariant} whileHover={{ y: -4 }} transition={{ duration: 0.2 }} className="md:col-span-4 bg-[#070D1F] p-10 border border-[#5A6A8A]/20 hover:border-white/20 transition-colors">
+                <div className="w-12 h-12 bg-[#0F1A35] border border-[#5A6A8A]/40 text-white flex items-center justify-center mb-6">
                     <LinkIcon size={24} />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">Public Status Pages</h3>
-                <p className="text-gray-600 leading-relaxed">
-                    Generate beautiful, customizable public status pages to transparently communicate system health and ongoing incidents with your users.
+                <h3 className="text-xl font-display font-bold text-white mb-3">Public Status Pages</h3>
+                <p className="text-[#5A6A8A] leading-relaxed">
+                    Generate customizable status pages to transparently communicate system health.
                 </p>
-            </div>
+            </motion.div>
 
-            {/* Feature 6 */}
-            <div className="bg-gray-50 p-8 rounded-xl border border-gray-100 hover:shadow-md transition-shadow">
-                <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center mb-6">
-                    <Zap size={24} />
+            {/* Feature 6 (6 cols) */}
+            <motion.div variants={scaleInVariant} whileHover={{ y: -4 }} transition={{ duration: 0.2 }} className="md:col-span-6 bg-[#070D1F] p-10 lg:p-14 border border-[#5A6A8A]/20 hover:border-white/20 transition-colors">
+                <div className="w-14 h-14 bg-[#0F1A35] border border-[#5A6A8A]/40 text-[#4FFFB0] flex items-center justify-center mb-8">
+                    <Zap size={28} />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">Maintenance Windows</h3>
-                <p className="text-gray-600 leading-relaxed">
-                    Schedule upcoming maintenance windows to temporarily suppress downtime alerts and pause pinging, preventing unnecessary panic and noise.
+                <h3 className="text-2xl font-display font-bold text-white mb-4">Maintenance Windows</h3>
+                <p className="text-[#5A6A8A] text-lg leading-relaxed">
+                    Schedule upcoming maintenance windows to temporarily suppress downtime alerts and pause pinging.
                 </p>
-            </div>
+            </motion.div>
 
-            {/* Feature 7 */}
-            <div className="bg-gray-50 p-8 rounded-xl border border-gray-100 hover:shadow-md transition-shadow lg:col-start-2">
-                <div className="w-12 h-12 bg-gray-200 text-gray-800 rounded-lg flex items-center justify-center mb-6">
-                    <Database size={24} />
+            {/* Feature 7 (6 cols) */}
+            <motion.div variants={scaleInVariant} whileHover={{ y: -4 }} transition={{ duration: 0.2 }} className="md:col-span-6 bg-[#070D1F] p-10 lg:p-14 border-t-4 border-t-[#EDF2FF] border border-[#5A6A8A]/20">
+                <div className="w-14 h-14 bg-[#0F1A35] border border-[#5A6A8A]/40 text-white flex items-center justify-center mb-8">
+                    <Database size={28} />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">Admin Panel & RBAC</h3>
-                <p className="text-gray-600 leading-relaxed">
-                    Secure role-based access limits administrative powers. Manage all users, toggle global monitors, and view complete system-wide audit logs.
+                <h3 className="text-2xl font-display font-bold text-white mb-4">Admin Panel & RBAC</h3>
+                <p className="text-[#5A6A8A] text-lg leading-relaxed">
+                    Secure role-based access limits administrative powers. Manage users, toggle monitors, and view complete audit logs.
                 </p>
-            </div>
-
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12 text-center">
-        <div className="max-w-7xl mx-auto px-4">
-            <div className="flex items-center justify-center mb-4">
-                <Activity className="h-6 w-6 text-indigo-400" />
-                <span className="ml-2 text-xl font-bold tracking-tight">UptimeMonitor</span>
+      <footer className="bg-[#070D1F] text-[#5A6A8A] py-16 border-t border-[#5A6A8A]/20">
+        <div className="max-w-[1400px] mx-auto px-6 sm:px-12 lg:px-16 flex flex-col md:flex-row justify-between items-center">
+            <div className="flex items-center mb-6 md:mb-0">
+                <Activity className="h-6 w-6 text-[#4FFFB0]" />
+                <span className="ml-2 text-xl font-bold font-display tracking-tight text-white">UptimeMonitor</span>
             </div>
-            <p className="text-gray-400 mb-6">Built natively on Next.js</p>
-            <div className="flex justify-center space-x-6 text-sm text-gray-400">
-                <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-                <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
-                <a href="#" className="hover:text-white transition-colors">Contact</a>
+            <div className="flex space-x-8 text-sm font-medium">
+                <a href="#" className="hover:text-[#4FFFB0] transition-colors relative group">
+                    Privacy Policy
+                    <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#4FFFB0] transition-all group-hover:w-full"></span>
+                </a>
+                <a href="#" className="hover:text-[#4FFFB0] transition-colors relative group">
+                    Terms of Service
+                    <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#4FFFB0] transition-all group-hover:w-full"></span>
+                </a>
             </div>
         </div>
       </footer>

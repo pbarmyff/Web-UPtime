@@ -25,9 +25,9 @@ export default function AdminUsersClient({ initialUsers }: { initialUsers: any[]
     };
 
     return (
-        <div className="bg-gray-800 rounded-lg shadow-sm border border-gray-700 overflow-hidden">
+        <div className="bg-brand-surface rounded-none  border border-brand-muted/30 overflow-hidden">
             <table className="w-full text-left">
-                <thead className="bg-gray-900 border-b border-gray-700 text-sm text-gray-400">
+                <thead className="bg-brand-background border-b border-brand-muted/30 text-sm text-brand-muted">
                     <tr>
                         <th className="p-4 font-medium">Name</th>
                         <th className="p-4 font-medium">Email</th>
@@ -39,18 +39,18 @@ export default function AdminUsersClient({ initialUsers }: { initialUsers: any[]
                 </thead>
                 <tbody className="divide-y divide-gray-700">
                     {users.map(user => (
-                        <tr key={user.id} className="hover:bg-gray-700/50">
+                        <tr key={user.id} className="hover:bg-brand-background/50">
                             <td className="p-4 text-sm font-medium text-white">{user.name || 'N/A'}</td>
-                            <td className="p-4 text-sm text-gray-300">{user.email}</td>
+                            <td className="p-4 text-sm text-brand-text">{user.email}</td>
                             <td className="p-4">
-                                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                                    user.role === 'ADMIN' ? 'bg-indigo-900 text-indigo-300' : 'bg-gray-700 text-gray-300'
+                                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-none text-xs font-medium ${
+                                    user.role === 'ADMIN' ? 'bg-brand-accent/20 text-brand-accent' : 'bg-gray-700 text-brand-text'
                                 }`}>
                                     {user.role}
                                 </span>
                             </td>
-                            <td className="p-4 text-sm text-gray-300">{user._count.monitors}</td>
-                            <td className="p-4 text-sm text-gray-400">{new Date(user.createdAt).toLocaleDateString()}</td>
+                            <td className="p-4 text-sm text-brand-text">{user._count.monitors}</td>
+                            <td className="p-4 text-sm text-brand-muted">{new Date(user.createdAt).toLocaleDateString()}</td>
                             <td className="p-4 text-right">
                                 {user.role !== 'ADMIN' && (
                                     <button

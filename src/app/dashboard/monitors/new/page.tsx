@@ -47,20 +47,20 @@ export default function NewMonitorPage() {
     return (
         <div className="max-w-2xl mx-auto">
             <div className="flex items-center justify-between mb-6">
-                <h1 className="text-2xl font-bold text-gray-800">Create Monitor</h1>
-                <Link href="/dashboard" className="text-gray-500 hover:text-gray-700">Cancel</Link>
+                <h1 className="text-2xl font-bold text-white">Create Monitor</h1>
+                <Link href="/dashboard" className="text-brand-muted hover:text-brand-text">Cancel</Link>
             </div>
 
-            <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                {error && <div className="mb-4 p-3 bg-red-50 text-red-700 rounded-md text-sm">{error}</div>}
+            <div className="bg-brand-surface p-6 rounded-none  border border-brand-muted/30">
+                {error && <div className="mb-4 p-3 bg-red-50 text-red-700 rounded-none text-sm">{error}</div>}
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Friendly Name</label>
+                        <label className="block text-sm font-medium text-brand-text mb-1">Friendly Name</label>
                         <input
                             required
                             type="text"
-                            className="w-full border border-gray-300 rounded-md p-2 focus:ring-indigo-500 focus:border-indigo-500"
+                            className="w-full border border-gray-300 rounded-none p-2 focus:ring-indigo-500 focus:border-indigo-500"
                             placeholder="My Website"
                             value={formData.name}
                             onChange={(e) => setFormData({...formData, name: e.target.value})}
@@ -68,11 +68,11 @@ export default function NewMonitorPage() {
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">URL (or IP)</label>
+                        <label className="block text-sm font-medium text-brand-text mb-1">URL (or IP)</label>
                         <input
                             required
                             type="url"
-                            className="w-full border border-gray-300 rounded-md p-2 focus:ring-indigo-500 focus:border-indigo-500"
+                            className="w-full border border-gray-300 rounded-none p-2 focus:ring-indigo-500 focus:border-indigo-500"
                             placeholder="https://example.com"
                             value={formData.url}
                             onChange={(e) => setFormData({...formData, url: e.target.value})}
@@ -81,9 +81,9 @@ export default function NewMonitorPage() {
 
                     <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Monitor Type</label>
+                            <label className="block text-sm font-medium text-brand-text mb-1">Monitor Type</label>
                             <select
-                                className="w-full border border-gray-300 rounded-md p-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                className="w-full border border-gray-300 rounded-none p-2 focus:ring-indigo-500 focus:border-indigo-500"
                                 value={formData.type}
                                 onChange={(e) => setFormData({...formData, type: e.target.value})}
                             >
@@ -93,9 +93,9 @@ export default function NewMonitorPage() {
                             </select>
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Check Interval (seconds)</label>
+                            <label className="block text-sm font-medium text-brand-text mb-1">Check Interval (seconds)</label>
                             <select
-                                className="w-full border border-gray-300 rounded-md p-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                className="w-full border border-gray-300 rounded-none p-2 focus:ring-indigo-500 focus:border-indigo-500"
                                 value={formData.interval}
                                 onChange={(e) => setFormData({...formData, interval: parseInt(e.target.value)})}
                             >
@@ -109,20 +109,20 @@ export default function NewMonitorPage() {
 
                     <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Expected Status Code</label>
+                            <label className="block text-sm font-medium text-brand-text mb-1">Expected Status Code</label>
                             <input
                                 type="number"
-                                className="w-full border border-gray-300 rounded-md p-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                className="w-full border border-gray-300 rounded-none p-2 focus:ring-indigo-500 focus:border-indigo-500"
                                 placeholder="200"
                                 value={formData.expectedStatus}
                                 onChange={(e) => setFormData({...formData, expectedStatus: parseInt(e.target.value)})}
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Expected Keyword (Optional)</label>
+                            <label className="block text-sm font-medium text-brand-text mb-1">Expected Keyword (Optional)</label>
                             <input
                                 type="text"
-                                className="w-full border border-gray-300 rounded-md p-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                className="w-full border border-gray-300 rounded-none p-2 focus:ring-indigo-500 focus:border-indigo-500"
                                 placeholder="e.g. Welcome"
                                 value={formData.expectedKeyword}
                                 onChange={(e) => setFormData({...formData, expectedKeyword: e.target.value})}
@@ -134,7 +134,7 @@ export default function NewMonitorPage() {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="bg-indigo-600 text-white px-6 py-2 rounded-md font-medium hover:bg-indigo-700 disabled:opacity-50"
+                            className="bg-brand-accent text-white px-6 py-2 rounded-none font-medium hover:bg-brand-surface disabled:opacity-50"
                         >
                             {loading ? 'Creating...' : 'Create Monitor'}
                         </button>

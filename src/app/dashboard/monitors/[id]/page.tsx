@@ -46,33 +46,33 @@ export default async function MonitorDetailsPage({ params }: { params: Promise<{
   return (
     <div className="space-y-6">
         {monitor.sslExpiryDays !== null && monitor.sslExpiryDays < 14 && (
-            <div className={`p-4 rounded-md text-sm font-medium ${monitor.sslExpiryDays < 3 ? 'bg-red-50 text-red-800' : 'bg-yellow-50 text-yellow-800'}`}>
+            <div className={`p-4 rounded-none text-sm font-medium ${monitor.sslExpiryDays < 3 ? 'bg-red-50 text-red-800' : 'bg-yellow-50 text-yellow-800'}`}>
                 ⚠️ SSL Certificate expires in {monitor.sslExpiryDays} days!
             </div>
         )}
 
-        <div className="flex justify-between items-center bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+        <div className="flex justify-between items-center bg-brand-surface p-6 rounded-none  border border-brand-muted/30">
             <div>
-                <h1 className="text-2xl font-bold text-gray-800">{monitor.name}</h1>
-                <a href={monitor.url} target="_blank" rel="noreferrer" className="text-indigo-600 hover:underline text-sm">{monitor.url}</a>
+                <h1 className="text-2xl font-bold text-white">{monitor.name}</h1>
+                <a href={monitor.url} target="_blank" rel="noreferrer" className="text-brand-accent hover:underline text-sm">{monitor.url}</a>
             </div>
             <div className="flex items-center space-x-4">
-                <a href={`/api/export/${monitor.id}`} download className="px-3 py-1.5 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200">
+                <a href={`/api/export/${monitor.id}`} download className="px-3 py-1.5 text-sm font-medium text-brand-text bg-brand-background rounded-none hover:bg-gray-200">
                     Export Data
                 </a>
-                <div className={`px-4 py-2 rounded-md font-bold ${
+                <div className={`px-4 py-2 rounded-none font-bold ${
                     isRetrying ? 'bg-yellow-100 text-yellow-700' :
                     monitor.status === 'UP' ? 'bg-green-100 text-green-700' :
                     monitor.status === 'DOWN' ? 'bg-red-100 text-red-700' :
-                    'bg-gray-100 text-gray-700'
+                    'bg-brand-background text-brand-text'
                 }`}>
                     {isRetrying ? `RETRYING (${monitor.consecutiveFailures}/${monitor.retries})` : monitor.status}
                 </div>
             </div>
         </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-            <h2 className="text-lg font-semibold text-gray-800 mb-4">Response Time</h2>
+        <div className="bg-brand-surface p-6 rounded-none  border border-brand-muted/30">
+            <h2 className="text-lg font-semibold text-white mb-4">Response Time</h2>
             {chartData.length > 0 ? (
                 <UptimeChart data={chartData} />
             ) : (
@@ -83,32 +83,32 @@ export default async function MonitorDetailsPage({ params }: { params: Promise<{
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 lg:col-span-2">
-                <h2 className="text-lg font-semibold text-gray-800 mb-4">Recent Logs</h2>
+            <div className="bg-brand-surface p-6 rounded-none  border border-brand-muted/30 lg:col-span-2">
+                <h2 className="text-lg font-semibold text-white mb-4">Recent Logs</h2>
                 <div className="space-y-3">
                     {monitor.logs.slice(0, 10).map(log => (
                         <div key={log.id} className="flex justify-between text-sm border-b pb-2 last:border-0">
-                            <span className="text-gray-500">{new Date(log.createdAt).toLocaleString()}</span>
+                            <span className="text-brand-muted">{new Date(log.createdAt).toLocaleString()}</span>
                             <div className="flex space-x-4">
                                 <span className={log.status === 'UP' ? 'text-green-600' : 'text-red-600 font-medium'}>
                                     {log.status} {log.statusCode ? `(${log.statusCode})` : ''}
                                 </span>
-                                <span className="text-gray-600 w-16 text-right">{log.responseTime}ms</span>
+                                <span className="text-brand-muted w-16 text-right">{log.responseTime}ms</span>
                             </div>
                         </div>
                     ))}
-                    {monitor.logs.length === 0 && <p className="text-sm text-gray-500">No logs yet.</p>}
+                    {monitor.logs.length === 0 && <p className="text-sm text-brand-muted">No logs yet.</p>}
                 </div>
             </div>
 
             <div className="space-y-6">
-              <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                  <h2 className="text-lg font-semibold text-gray-800 mb-4">Recent Incidents</h2>
+              <div className="bg-brand-surface p-6 rounded-none  border border-brand-muted/30">
+                  <h2 className="text-lg font-semibold text-white mb-4">Recent Incidents</h2>
                   <div className="space-y-4">
                     {monitor.incidents.map(incident => (
                         <div key={incident.id} className="border-l-4 border-red-500 pl-4 py-1">
-                            <h3 className="font-medium text-gray-800">{incident.title}</h3>
-                            <p className="text-xs text-gray-500 mt-1">
+                            <h3 className="font-medium text-white">{incident.title}</h3>
+                            <p className="text-xs text-brand-muted mt-1">
                                 Started: {new Date(incident.startedAt).toLocaleString()}
                                 {incident.resolvedAt && ` • Resolved: ${new Date(incident.resolvedAt).toLocaleString()}`}
                             </p>
@@ -119,17 +119,17 @@ export default async function MonitorDetailsPage({ params }: { params: Promise<{
                             </span>
                         </div>
                     ))}
-                      {monitor.incidents.length === 0 && <p className="text-sm text-gray-500">No incidents recorded.</p>}
+                      {monitor.incidents.length === 0 && <p className="text-sm text-brand-muted">No incidents recorded.</p>}
                   </div>
               </div>
 
-              <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                  <h2 className="text-lg font-semibold text-gray-800 mb-4">Alert Rules</h2>
+              <div className="bg-brand-surface p-6 rounded-none  border border-brand-muted/30">
+                  <h2 className="text-lg font-semibold text-white mb-4">Alert Rules</h2>
                   <AlertRulesManager monitorId={monitor.id} rules={monitor.alertRules} />
               </div>
 
-              <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                  <h2 className="text-lg font-semibold text-gray-800 mb-4">Upcoming Maintenance</h2>
+              <div className="bg-brand-surface p-6 rounded-none  border border-brand-muted/30">
+                  <h2 className="text-lg font-semibold text-white mb-4">Upcoming Maintenance</h2>
                   <div className="space-y-4">
                       {monitor.maintenanceWindows.map(window => (
                           <div key={window.id} className="border-l-4 border-yellow-500 pl-4 py-1 bg-yellow-50 rounded-r-md">
@@ -139,7 +139,7 @@ export default async function MonitorDetailsPage({ params }: { params: Promise<{
                               </p>
                           </div>
                       ))}
-                      {monitor.maintenanceWindows.length === 0 && <p className="text-sm text-gray-500">No scheduled maintenance.</p>}
+                      {monitor.maintenanceWindows.length === 0 && <p className="text-sm text-brand-muted">No scheduled maintenance.</p>}
                   </div>
               </div>
             </div>

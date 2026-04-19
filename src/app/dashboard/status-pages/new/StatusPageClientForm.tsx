@@ -53,20 +53,20 @@ export default function StatusPageClientForm({ monitors }: { monitors: { id: str
     return (
         <div className="max-w-2xl mx-auto">
             <div className="flex items-center justify-between mb-6">
-                <h1 className="text-2xl font-bold text-gray-800">Create Status Page</h1>
-                <Link href="/dashboard/status-pages" className="text-gray-500 hover:text-gray-700">Cancel</Link>
+                <h1 className="text-2xl font-bold text-white">Create Status Page</h1>
+                <Link href="/dashboard/status-pages" className="text-brand-muted hover:text-brand-text">Cancel</Link>
             </div>
 
-            <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                {error && <div className="mb-4 p-3 bg-red-50 text-red-700 rounded-md text-sm">{error}</div>}
+            <div className="bg-brand-surface p-6 rounded-none  border border-brand-muted/30">
+                {error && <div className="mb-4 p-3 bg-red-50 text-red-700 rounded-none text-sm">{error}</div>}
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Page Title</label>
+                        <label className="block text-sm font-medium text-brand-text mb-1">Page Title</label>
                         <input
                             required
                             type="text"
-                            className="w-full border border-gray-300 rounded-md p-2 focus:ring-indigo-500 focus:border-indigo-500"
+                            className="w-full border border-gray-300 rounded-none p-2 focus:ring-indigo-500 focus:border-indigo-500"
                             placeholder="My Company Status"
                             value={formData.name}
                             onChange={(e) => setFormData({...formData, name: e.target.value})}
@@ -74,9 +74,9 @@ export default function StatusPageClientForm({ monitors }: { monitors: { id: str
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Slug (URL Path)</label>
-                        <div className="flex rounded-md shadow-sm">
-                            <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
+                        <label className="block text-sm font-medium text-brand-text mb-1">Slug (URL Path)</label>
+                        <div className="flex rounded-none ">
+                            <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-brand-background text-brand-muted sm:text-sm">
                                 /status/
                             </span>
                             <input
@@ -93,10 +93,10 @@ export default function StatusPageClientForm({ monitors }: { monitors: { id: str
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Description (Optional)</label>
+                        <label className="block text-sm font-medium text-brand-text mb-1">Description (Optional)</label>
                         <textarea
                             rows={3}
-                            className="w-full border border-gray-300 rounded-md p-2 focus:ring-indigo-500 focus:border-indigo-500"
+                            className="w-full border border-gray-300 rounded-none p-2 focus:ring-indigo-500 focus:border-indigo-500"
                             placeholder="Current status of our services"
                             value={formData.description}
                             onChange={(e) => setFormData({...formData, description: e.target.value})}
@@ -104,23 +104,23 @@ export default function StatusPageClientForm({ monitors }: { monitors: { id: str
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Select Monitors to Include</label>
-                        <div className="space-y-2 max-h-60 overflow-y-auto border border-gray-200 rounded-md p-3">
+                        <label className="block text-sm font-medium text-brand-text mb-2">Select Monitors to Include</label>
+                        <div className="space-y-2 max-h-60 overflow-y-auto border border-gray-200 rounded-none p-3">
                             {monitors.map(monitor => (
                                 <div key={monitor.id} className="flex items-center">
                                     <input
                                         type="checkbox"
                                         id={monitor.id}
-                                        className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                                        className="h-4 w-4 text-brand-accent focus:ring-indigo-500 border-gray-300 rounded"
                                         checked={formData.monitors.includes(monitor.id)}
                                         onChange={(e) => handleCheckboxChange(monitor.id, e.target.checked)}
                                     />
-                                    <label htmlFor={monitor.id} className="ml-2 block text-sm text-gray-900">
+                                    <label htmlFor={monitor.id} className="ml-2 block text-sm text-white">
                                         {monitor.name}
                                     </label>
                                 </div>
                             ))}
-                            {monitors.length === 0 && <p className="text-sm text-gray-500">No monitors available.</p>}
+                            {monitors.length === 0 && <p className="text-sm text-brand-muted">No monitors available.</p>}
                         </div>
                     </div>
 
@@ -128,7 +128,7 @@ export default function StatusPageClientForm({ monitors }: { monitors: { id: str
                         <button
                             type="submit"
                             disabled={loading || formData.monitors.length === 0}
-                            className="bg-indigo-600 text-white px-6 py-2 rounded-md font-medium hover:bg-indigo-700 disabled:opacity-50"
+                            className="bg-brand-accent text-white px-6 py-2 rounded-none font-medium hover:bg-brand-surface disabled:opacity-50"
                         >
                             {loading ? 'Creating...' : 'Create Status Page'}
                         </button>

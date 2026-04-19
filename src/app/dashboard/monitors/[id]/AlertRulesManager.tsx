@@ -57,10 +57,10 @@ export default function AlertRulesManager({ monitorId, rules }: { monitorId: str
         <div>
             <div className="space-y-3 mb-4">
                 {rules.map(rule => (
-                    <div key={rule.id} className="flex items-center justify-between p-3 bg-indigo-50 border border-indigo-100 rounded-md">
+                    <div key={rule.id} className="flex items-center justify-between p-3 bg-indigo-50 border border-indigo-100 rounded-none">
                         <div className="flex-1 min-w-0">
                             <p className="text-sm font-medium text-indigo-900">{rule.type}</p>
-                            <p className="text-xs text-indigo-600 truncate">{rule.target}</p>
+                            <p className="text-xs text-brand-accent truncate">{rule.target}</p>
                         </div>
                         <button
                             onClick={() => deleteRule(rule.id)}
@@ -71,17 +71,17 @@ export default function AlertRulesManager({ monitorId, rules }: { monitorId: str
                         </button>
                     </div>
                 ))}
-                {rules.length === 0 && <p className="text-sm text-gray-500 italic">No alert rules configured.</p>}
+                {rules.length === 0 && <p className="text-sm text-brand-muted italic">No alert rules configured.</p>}
             </div>
 
-            <form onSubmit={handleAdd} className="mt-4 pt-4 border-t border-gray-100">
-                <h4 className="text-sm font-medium text-gray-700 mb-3">Add New Rule</h4>
+            <form onSubmit={handleAdd} className="mt-4 pt-4 border-t border-brand-muted/30">
+                <h4 className="text-sm font-medium text-brand-text mb-3">Add New Rule</h4>
                 {error && <p className="text-xs text-red-600 mb-2">{error}</p>}
                 <div className="flex flex-col space-y-3">
                     <select
                         value={type}
                         onChange={(e) => setType(e.target.value)}
-                        className="text-sm border border-gray-300 rounded-md p-2"
+                        className="text-sm border border-gray-300 rounded-none p-2"
                     >
                         <option value="EMAIL">Email</option>
                         <option value="WEBHOOK">Webhook</option>
@@ -92,12 +92,12 @@ export default function AlertRulesManager({ monitorId, rules }: { monitorId: str
                         placeholder={type === 'EMAIL' ? 'alert@example.com' : 'https://hooks.slack.com/...'}
                         value={target}
                         onChange={(e) => setTarget(e.target.value)}
-                        className="text-sm border border-gray-300 rounded-md p-2"
+                        className="text-sm border border-gray-300 rounded-none p-2"
                     />
                     <button
                         type="submit"
                         disabled={loading || !target}
-                        className="w-full bg-indigo-600 text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-700 disabled:opacity-50"
+                        className="w-full bg-brand-accent text-white px-3 py-2 rounded-none text-sm font-medium hover:bg-brand-surface disabled:opacity-50"
                     >
                         {loading ? 'Adding...' : 'Add Rule'}
                     </button>

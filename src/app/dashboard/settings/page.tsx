@@ -16,8 +16,8 @@ export default async function SettingsPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-800 mb-6">Settings</h1>
-      <div className="bg-white p-8 rounded-lg shadow-sm border border-gray-100">
+      <h1 className="text-2xl font-bold text-white mb-6">Settings</h1>
+      <div className="bg-brand-surface p-8 rounded-none  border border-brand-muted/30">
           <SettingsForm user={user} />
       </div>
     </div>

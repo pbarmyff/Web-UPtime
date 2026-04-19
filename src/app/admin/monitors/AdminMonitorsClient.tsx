@@ -44,9 +44,9 @@ export default function AdminMonitorsClient({ initialMonitors }: { initialMonito
     };
 
     return (
-        <div className="bg-gray-800 rounded-lg shadow-sm border border-gray-700 overflow-hidden">
+        <div className="bg-brand-surface rounded-none  border border-brand-muted/30 overflow-hidden">
             <table className="w-full text-left">
-                <thead className="bg-gray-900 border-b border-gray-700 text-sm text-gray-400">
+                <thead className="bg-brand-background border-b border-brand-muted/30 text-sm text-brand-muted">
                     <tr>
                         <th className="p-4 font-medium">Monitor</th>
                         <th className="p-4 font-medium">Owner</th>
@@ -57,26 +57,26 @@ export default function AdminMonitorsClient({ initialMonitors }: { initialMonito
                 </thead>
                 <tbody className="divide-y divide-gray-700">
                     {monitors.map(monitor => (
-                        <tr key={monitor.id} className="hover:bg-gray-700/50">
+                        <tr key={monitor.id} className="hover:bg-brand-background/50">
                             <td className="p-4">
                                 <div className="font-medium text-white">{monitor.name}</div>
-                                <div className="text-xs text-gray-400 truncate max-w-xs">{monitor.url}</div>
+                                <div className="text-xs text-brand-muted truncate max-w-xs">{monitor.url}</div>
                             </td>
-                            <td className="p-4 text-sm text-gray-300">{monitor.user?.email || 'N/A'}</td>
+                            <td className="p-4 text-sm text-brand-text">{monitor.user?.email || 'N/A'}</td>
                             <td className="p-4">
-                                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-none text-xs font-medium ${
                                     monitor.status === 'UP' ? 'bg-green-900 text-green-300' :
                                     monitor.status === 'DOWN' ? 'bg-red-900 text-red-300' :
-                                    'bg-gray-700 text-gray-300'
+                                    'bg-gray-700 text-brand-text'
                                 }`}>
                                     {monitor.status}
                                 </span>
                             </td>
-                            <td className="p-4 text-sm text-gray-300">{monitor.type}</td>
+                            <td className="p-4 text-sm text-brand-text">{monitor.type}</td>
                             <td className="p-4 text-right space-x-3">
                                 <button
                                     onClick={() => handleTogglePause(monitor.id, monitor.status)}
-                                    className="text-indigo-400 hover:text-indigo-300 text-sm font-medium"
+                                    className="text-brand-accent hover:text-brand-accent text-sm font-medium"
                                 >
                                     {monitor.status === 'PAUSED' ? 'Resume' : 'Pause'}
                                 </button>
