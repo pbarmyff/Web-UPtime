@@ -40,24 +40,34 @@ Unlike typical Next.js apps that rely on Vercel Cron or external services to tri
 
 ## 💾 Multi-Database Support (SQLite, PostgreSQL, MySQL)
 
-UptimeMonitor uses Prisma ORM and supports seamless switching between database providers. By default, it uses a local SQLite database for zero-config rapid development.
+UptimeMonitor uses Prisma ORM and dynamically switches database providers entirely through environment variables. By default, it uses a local SQLite database for zero-config rapid development.
 
-To deploy to production using **Supabase (PostgreSQL)** or **MySQL**, simply use our built-in database switcher:
+When you run `npm run dev`, `npm run build`, or `npm run db:push`, a pre-script automatically configures Prisma based on your `.env` file.
 
-```bash
-# Switch to PostgreSQL (Perfect for Supabase / Neon / Vercel Postgres)
-npm run db:switch postgresql
-
-# Switch to MySQL (PlanetScale / RDS)
-npm run db:switch mysql
-
-# Revert to local SQLite
-npm run db:switch sqlite
+**For local SQLite (Default):**
+Leave your `.env` completely empty, or set it explicitly:
+```env
+DATABASE_PROVIDER="sqlite"
+DATABASE_URL="file:./dev.db"
 ```
 
-After switching, update your `.env` file with your new `DATABASE_URL` and sync your schema:
+**For PostgreSQL (Supabase / Neon / Vercel Postgres):**
+Update your `.env`:
+```env
+DATABASE_PROVIDER="postgresql"
+DATABASE_URL="postgres://user:password@host:5432/dbname"
+```
+
+**For MySQL (PlanetScale / RDS):**
+Update your `.env`:
+```env
+DATABASE_PROVIDER="mysql"
+DATABASE_URL="mysql://user:password@host:3306/dbname"
+```
+
+After updating your `.env`, sync your database:
 ```bash
-npx prisma db push
+npm run db:push
 ```
 
 ## 🛠️ Getting Started Locally
@@ -78,6 +88,7 @@ npx prisma db push
 2.  **Configure Environment Variables**
     Create a `.env` file in the root directory:
     ```env
+    DATABASE_PROVIDER="sqlite"
     DATABASE_URL="file:./dev.db"
     NEXTAUTH_SECRET="your_super_secret_random_key_here"
     NEXTAUTH_URL="http://localhost:3000"
@@ -85,7 +96,7 @@ npx prisma db push
 
 3.  **Initialize the Database**
     ```bash
-    npx prisma db push
+    npm run db:push
     ```
 
 4.  **Start the Development Server**
