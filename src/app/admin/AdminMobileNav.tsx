@@ -20,9 +20,6 @@ export default function AdminMobileNav({ userEmail }: { userEmail?: string | nul
         </button>
       </div>
 
-      {/* Spacer */}
-      <div className="md:hidden h-16 w-full flex-shrink-0"></div>
-
       {/* Overlay */}
       {isOpen && (
         <div className="md:hidden fixed inset-0 top-16 bg-brand-background z-40 overflow-y-auto border-t border-white/5 flex flex-col">

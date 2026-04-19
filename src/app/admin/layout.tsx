@@ -44,7 +44,7 @@ export default async function AdminLayout({
         </nav>
       </aside>
 
-      <main className="flex-1 overflow-y-auto flex flex-col w-full min-w-0">
+      <main className="flex-1 overflow-y-auto flex flex-col w-full min-w-0 pt-16 md:pt-0">
         <header className="hidden md:flex bg-brand-surface p-4 justify-between items-center border-b border-brand-muted/30">
           <h2 className="text-xl font-semibold text-white">System Administration</h2>
            <div className="flex items-center space-x-4">

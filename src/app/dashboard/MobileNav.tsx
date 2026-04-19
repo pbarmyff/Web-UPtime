@@ -20,9 +20,6 @@ export default function MobileNav({ userRole, userName, userEmail }: { userRole?
         </button>
       </div>
 
-      {/* Spacer for mobile header */}
-      <div className="md:hidden h-16 w-full flex-shrink-0"></div>
-
       {/* Mobile Menu Overlay */}
       {isOpen && (
         <div className="md:hidden fixed inset-0 top-16 bg-brand-background z-40 overflow-y-auto border-t border-white/5 flex flex-col">

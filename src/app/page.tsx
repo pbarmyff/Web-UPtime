@@ -152,16 +152,16 @@ export default function Home() {
               ))}
             </motion.h1>
 
-            <motion.p
+            <motion.h2
               variants={fadeUpVariant}
               initial="hidden"
               animate="show"
               transition={{ delay: 0.4 }}
               style={{ opacity: heroOpacity }}
-              className="text-[clamp(1.125rem,2vw,1.5rem)] text-[#5A6A8A] mb-12 max-w-xl leading-relaxed"
+              className="text-[clamp(1.125rem,2vw,1.5rem)] text-[#8B9CBE] mb-12 max-w-xl leading-relaxed font-light"
             >
               The complete, production-ready full-stack monitoring platform. Track uptime, resolve incidents, manage SSL expiry, and configure smart alerts in one unified deep navy dashboard.
-            </motion.p>
+            </motion.h2>
 
             <motion.div
               variants={fadeUpVariant}
@@ -190,8 +190,9 @@ export default function Home() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, delay: 0.2, type: "spring", damping: 20 }}
           >
-            <div className="relative bg-[#0F1A35] shadow-2xl border border-[#5A6A8A]/30 overflow-hidden ring-1 ring-white/5 rounded-none transform lg:rotate-y-[-10deg] lg:rotate-x-[5deg] lg:scale-105 perspective-1000">
-                <div className="bg-[#070D1F] px-4 py-3 flex items-center border-b border-[#5A6A8A]/30 space-x-2">
+            <div className="relative bg-[#0F1A35] shadow-2xl border border-[#5A6A8A]/30 overflow-hidden ring-1 ring-white/5 rounded-xl transform lg:rotate-y-[-10deg] lg:rotate-x-[5deg] lg:scale-105 perspective-1000 group hover:rotate-y-[-5deg] transition-transform duration-700 ease-out">
+                <div className="absolute inset-0 bg-gradient-to-tr from-[#4FFFB0]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                <div className="bg-[#070D1F] px-4 py-3 flex items-center border-b border-[#5A6A8A]/30 space-x-2 relative z-10">
                     <div className="w-3 h-3 rounded-none bg-[#5A6A8A]"></div>
                     <div className="w-3 h-3 rounded-none bg-[#5A6A8A]"></div>
                     <div className="w-3 h-3 rounded-none bg-[#5A6A8A]"></div>
