@@ -15,7 +15,8 @@ export default async function AdminDashboard() {
     <div>
       <h1 className="text-2xl font-bold mb-6 text-white">System Overview</h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      {/* Responsive fix: Add sm:grid-cols-2 for better layout on tablet screens */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-8">
         <div className="bg-brand-surface p-6 rounded-none  border border-brand-muted/30">
             <h3 className="text-brand-muted text-sm font-medium">Total Users</h3>
             <p className="text-3xl font-bold text-white mt-2">{userCount}</p>
