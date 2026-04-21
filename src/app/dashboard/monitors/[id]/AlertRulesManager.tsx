@@ -64,7 +64,7 @@ export default function AlertRulesManager({ monitorId, rules }: { monitorId: str
                         </div>
                         <button
                             onClick={() => deleteRule(rule.id)}
-                            className="ml-4 flex-shrink-0 text-red-500 hover:text-red-700"
+                            className="ml-4 flex-shrink-0 text-red-500 hover:text-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 rounded"
                             aria-label="Delete rule"
                         >
                             <Trash2 size={16} />
