@@ -1,6 +1,7 @@
 # UptimeMonitor - Advanced Full-Stack Monitoring Platform
 
-![UptimeMonitor Dashboard preview](./public/hero-screenshot.png)
+![UptimeMonitor Dashboard preview](./public/screenshots/dashboard-preview.png)
+![UptimeMonitor Dashboard Animation](./public/screenshots/demo.gif)
 
 ## Overview
 
