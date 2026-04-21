@@ -24,8 +24,20 @@ export async function runChecks() {
             }
         });
 
-        for (const monitor of monitors) {
-            await checkMonitor(monitor);
+        // Optimization: Use chunked concurrent execution to prevent interval pile-ups
+        // Sequential checking takes O(N) time where N is monitors. This takes O(N/batchSize) time.
+        // This is critical for background interval workers that might overlap if processing is too slow.
+        const BATCH_SIZE = 10;
+        for (let i = 0; i < monitors.length; i += BATCH_SIZE) {
+            const batch = monitors.slice(i, i + BATCH_SIZE);
+            const results = await Promise.allSettled(batch.map((monitor) => checkMonitor(monitor)));
+
+            // Log any errors that occurred during the batched execution
+            for (const result of results) {
+                if (result.status === 'rejected') {
+                    console.error("Error checking monitor:", result.reason);
+                }
+            }
         }
     } catch (error) {
         console.error("Error in check loop:", error);

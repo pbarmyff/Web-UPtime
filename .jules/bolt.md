@@ -1,0 +1,3 @@
+## 2024-05-24 - [Interval Workers Sequential Processing Bottleneck]
+**Learning:** In `instrumentation.ts`, the globally scoped `setInterval` used for background monitor checking was processing a list of monitors sequentially (e.g. `for (const monitor of monitors) await checkMonitor(monitor)`). As the number of monitors grows, the time to complete a single cycle takes O(N), which can eventually exceed the interval duration (e.g., 10s) and cause interval execution pile-ups.
+**Action:** Always process heavy arrays in interval workers using chunked concurrent execution (e.g., `Promise.allSettled(batch)`). It preserves memory stability compared to unconstrained concurrency and strictly prevents interval overlapping by processing in O(N/batchSize) time.
