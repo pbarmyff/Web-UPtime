@@ -41,7 +41,9 @@ export default async function MonitorsPage() {
                     </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100/10">
-                    {monitors.map(monitor => (
+                    {monitors.map(monitor => {
+                        const isRetrying = monitor.status === "UP" && monitor.consecutiveFailures > 0 && monitor.consecutiveFailures < monitor.retries;
+                        return (
                         <tr key={monitor.id} className="hover:bg-brand-background">
                             <td className="p-4">
                                 <Link href={`/dashboard/monitors/${monitor.id}`} className="font-medium text-brand-accent hover:text-brand-text">
@@ -51,11 +53,12 @@ export default async function MonitorsPage() {
                             </td>
                             <td className="p-4">
                                 <span className={`inline-flex items-center px-2.5 py-0.5 rounded-none text-xs font-medium ${
+                                    isRetrying ? 'bg-yellow-100 text-yellow-800' :
                                     monitor.status === 'UP' ? 'bg-green-100 text-green-800' :
                                     monitor.status === 'DOWN' ? 'bg-red-100 text-red-800' :
                                     'bg-brand-background text-white'
                                 }`}>
-                                    {monitor.status}
+                                    {isRetrying ? `RETRYING` : monitor.status}
                                 </span>
                             </td>
                             <td className="p-4 text-sm text-brand-muted">{monitor.type}</td>
@@ -66,7 +69,8 @@ export default async function MonitorsPage() {
                                 </Link>
                             </td>
                         </tr>
-                    ))}
+                        );
+                    })}
                 </tbody>
             </table>
         )}

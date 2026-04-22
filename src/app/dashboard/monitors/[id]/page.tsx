@@ -4,6 +4,8 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { notFound } from "next/navigation";
 import UptimeChart from "@/components/UptimeChart";
 import AlertRulesManager from "./AlertRulesManager";
+import DeleteMonitorButton from "./DeleteMonitorButton";
+import { Button } from "@/components/ui/button";
 
 export default async function MonitorDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -41,7 +43,7 @@ export default async function MonitorDetailsPage({ params }: { params: Promise<{
       status: log.status
   }));
 
-  const isRetrying = monitor.status === "UP" && monitor.consecutiveFailures > 0;
+  const isRetrying = monitor.status === "UP" && monitor.consecutiveFailures > 0 && monitor.consecutiveFailures < monitor.retries;
 
   return (
     <div className="space-y-6">
@@ -51,15 +53,17 @@ export default async function MonitorDetailsPage({ params }: { params: Promise<{
             </div>
         )}
 
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-brand-surface p-6 rounded-none  border border-brand-muted/30 gap-4">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-brand-surface p-6 rounded-none border border-brand-muted/30 gap-4">
             <div className="w-full sm:w-auto overflow-hidden">
                 <h1 className="text-2xl font-bold text-white truncate w-full">{monitor.name}</h1>
                 <a href={monitor.url} target="_blank" rel="noreferrer" className="text-brand-accent hover:underline text-sm truncate block w-full">{monitor.url}</a>
             </div>
             <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
-                <a href={`/api/export/${monitor.id}`} download className="px-3 py-1.5 text-sm font-medium text-brand-text bg-brand-background rounded-none hover:bg-gray-200 w-full sm:w-auto text-center">
-                    Export Data
-                </a>
+                <Button variant="outline" className="w-full sm:w-auto rounded-none border-brand-muted/30 text-brand-text hover:text-white hover:bg-brand-muted/10">
+                    <a href={`/api/export/${monitor.id}`} download>
+                        Export Data
+                    </a>
+                </Button>
                 <div className={`px-4 py-2 rounded-none font-bold w-full sm:w-auto text-center ${
                     isRetrying ? 'bg-yellow-100 text-yellow-700' :
                     monitor.status === 'UP' ? 'bg-green-100 text-green-700' :
@@ -87,11 +91,11 @@ export default async function MonitorDetailsPage({ params }: { params: Promise<{
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="bg-brand-surface p-6 rounded-none  border border-brand-muted/30 lg:col-span-2">
+            <div className="bg-brand-surface p-6 rounded-none border border-brand-muted/30 lg:col-span-2">
                 <h2 className="text-lg font-semibold text-white mb-4">Recent Logs</h2>
                 <div className="space-y-3">
                     {monitor.logs.slice(0, 10).map(log => (
-                        <div key={log.id} className="flex justify-between text-sm border-b pb-2 last:border-0">
+                        <div key={log.id} className="flex justify-between text-sm border-b pb-2 last:border-0 border-brand-muted/20">
                             <span className="text-brand-muted">{new Date(log.createdAt).toLocaleString()}</span>
                             <div className="flex space-x-4">
                                 <span className={log.status === 'UP' ? 'text-green-600' : 'text-red-600 font-medium'}>
@@ -106,7 +110,7 @@ export default async function MonitorDetailsPage({ params }: { params: Promise<{
             </div>
 
             <div className="space-y-6">
-              <div className="bg-brand-surface p-6 rounded-none  border border-brand-muted/30">
+              <div className="bg-brand-surface p-6 rounded-none border border-brand-muted/30">
                   <h2 className="text-lg font-semibold text-white mb-4">Recent Incidents</h2>
                   <div className="space-y-4">
                     {monitor.incidents.map(incident => (
@@ -127,12 +131,12 @@ export default async function MonitorDetailsPage({ params }: { params: Promise<{
                   </div>
               </div>
 
-              <div className="bg-brand-surface p-6 rounded-none  border border-brand-muted/30">
+              <div className="bg-brand-surface p-6 rounded-none border border-brand-muted/30">
                   <h2 className="text-lg font-semibold text-white mb-4">Alert Rules</h2>
                   <AlertRulesManager monitorId={monitor.id} rules={monitor.alertRules} />
               </div>
 
-              <div className="bg-brand-surface p-6 rounded-none  border border-brand-muted/30">
+              <div className="bg-brand-surface p-6 rounded-none border border-brand-muted/30">
                   <h2 className="text-lg font-semibold text-white mb-4">Upcoming Maintenance</h2>
                   <div className="space-y-4">
                       {monitor.maintenanceWindows.map(window => (
@@ -145,6 +149,14 @@ export default async function MonitorDetailsPage({ params }: { params: Promise<{
                       ))}
                       {monitor.maintenanceWindows.length === 0 && <p className="text-sm text-brand-muted">No scheduled maintenance.</p>}
                   </div>
+              </div>
+
+              <div className="bg-brand-surface p-6 rounded-none border border-red-900/50">
+                  <h2 className="text-lg font-semibold text-red-400 mb-4">Danger Zone</h2>
+                  <p className="text-sm text-brand-muted mb-4">
+                      Permanently delete this monitor and all associated data.
+                  </p>
+                  <DeleteMonitorButton monitorId={monitor.id} />
               </div>
             </div>
         </div>
