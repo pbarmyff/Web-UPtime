@@ -1,6 +1,11 @@
 "use client";
+import { Save } from "lucide-react";
 
 import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import { useRouter } from "next/navigation";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -53,57 +58,69 @@ export default function SettingsForm({ user }: { user: any }) {
                 </div>
             )}
 
-            <div>
-                <label className="block text-sm font-medium text-brand-text mb-1">Email</label>
-                <input
+            <div className="space-y-1">
+                <Label htmlFor="email" className="text-brand-text">Email</Label>
+                <Input
+                    id="email"
                     type="text"
                     value={user.email}
                     disabled
-                    className="w-full border border-gray-200 bg-brand-background rounded-none p-2 text-brand-muted cursor-not-allowed"
+                    className="w-full border-gray-200 bg-brand-background rounded-none p-2 text-brand-muted cursor-not-allowed"
                 />
             </div>
 
-            <div>
-                <label className="block text-sm font-medium text-brand-text mb-1">Name</label>
-                <input
+            <div className="space-y-1">
+                <Label htmlFor="name" className="text-brand-text">Name</Label>
+                <Input
+                    id="name"
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full border border-gray-300 rounded-none p-2 focus:ring-brand-accent focus:border-brand-accent"
+                    className="w-full border-gray-300 rounded-none p-2 focus:ring-brand-accent focus:border-brand-accent"
                 />
             </div>
 
-            <hr className="border-gray-200" />
+            <Separator className="bg-gray-800" />
             <h3 className="text-lg font-medium text-white">Change Password</h3>
 
-            <div>
-                <label className="block text-sm font-medium text-brand-text mb-1">Current Password</label>
-                <input
+            <div className="space-y-1">
+                <Label htmlFor="currentPassword" className="text-brand-text">Current Password</Label>
+                <Input
+                    id="currentPassword"
                     type="password"
                     value={currentPassword}
                     onChange={(e) => setCurrentPassword(e.target.value)}
-                    className="w-full border border-gray-300 rounded-none p-2 focus:ring-brand-accent focus:border-brand-accent"
+                    className="w-full border-gray-300 rounded-none p-2 focus:ring-brand-accent focus:border-brand-accent"
                 />
             </div>
 
-            <div>
-                <label className="block text-sm font-medium text-brand-text mb-1">New Password</label>
-                <input
+            <div className="space-y-1">
+                <Label htmlFor="newPassword" className="text-brand-text">New Password</Label>
+                <Input
+                    id="newPassword"
                     type="password"
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
-                    className="w-full border border-gray-300 rounded-none p-2 focus:ring-brand-accent focus:border-brand-accent"
+                    className="w-full border-gray-300 rounded-none p-2 focus:ring-brand-accent focus:border-brand-accent"
                 />
             </div>
 
             <div className="pt-4">
-                <button
-                    type="submit"
-                    disabled={loading}
-                    className="w-full sm:w-auto bg-brand-accent text-white px-6 py-2 rounded-none font-medium hover:bg-brand-surface disabled:opacity-50"
-                >
-                    {loading ? "Saving..." : "Save Settings"}
-                </button>
+                <Button
+                type="submit"
+                disabled={loading}
+                className="flex items-center gap-2 rounded-lg bg-brand-accent px-6 py-6 text-sm font-semibold text-brand-background hover:bg-brand-accent/90 focus:outline-none focus:ring-2 focus:ring-brand-accent focus:ring-offset-2 focus:ring-offset-brand-background transition-colors disabled:opacity-70 disabled:cursor-not-allowed ml-auto"
+              >
+                {loading ? (
+                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-brand-background" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                ) : (
+                    <Save className="h-4 w-4" />
+                )}
+                Save Changes
+              </Button>
             </div>
         </form>
     );

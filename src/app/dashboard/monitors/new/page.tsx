@@ -1,6 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -55,35 +58,35 @@ export default function NewMonitorPage() {
                 {error && <div className="mb-4 p-3 bg-red-50 text-red-700 rounded-none text-sm">{error}</div>}
 
                 <form onSubmit={handleSubmit} className="space-y-6">
-                    <div>
-                        <label className="block text-sm font-medium text-brand-text mb-1">Friendly Name</label>
-                        <input
+                    <div className="space-y-1">
+                        <Label>Friendly Name</Label>
+                        <Input
                             required
                             type="text"
-                            className="w-full border border-gray-300 rounded-none p-2 focus:ring-brand-accent focus:border-brand-accent"
                             placeholder="My Website"
                             value={formData.name}
                             onChange={(e) => setFormData({...formData, name: e.target.value})}
+                            className="bg-brand-surface border-brand-muted/30 focus-visible:ring-brand-accent"
                         />
                     </div>
 
-                    <div>
-                        <label className="block text-sm font-medium text-brand-text mb-1">URL (or IP)</label>
-                        <input
+                    <div className="space-y-1">
+                        <Label>URL (or IP)</Label>
+                        <Input
                             required
                             type="url"
-                            className="w-full border border-gray-300 rounded-none p-2 focus:ring-brand-accent focus:border-brand-accent"
                             placeholder="https://example.com"
                             value={formData.url}
                             onChange={(e) => setFormData({...formData, url: e.target.value})}
+                            className="bg-brand-surface border-brand-muted/30 focus-visible:ring-brand-accent"
                         />
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
-                        <div>
-                            <label className="block text-sm font-medium text-brand-text mb-1">Monitor Type</label>
+                        <div className="space-y-1">
+                            <Label>Monitor Type</Label>
                             <select
-                                className="w-full border border-gray-300 rounded-none p-2 focus:ring-brand-accent focus:border-brand-accent"
+                                className="flex h-10 w-full rounded-md border border-brand-muted/30 bg-brand-surface px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                                 value={formData.type}
                                 onChange={(e) => setFormData({...formData, type: e.target.value})}
                             >
@@ -92,10 +95,10 @@ export default function NewMonitorPage() {
                                 <option value="HEARTBEAT">Heartbeat</option>
                             </select>
                         </div>
-                        <div>
-                            <label className="block text-sm font-medium text-brand-text mb-1">Check Interval (seconds)</label>
+                        <div className="space-y-1">
+                            <Label>Check Interval (seconds)</Label>
                             <select
-                                className="w-full border border-gray-300 rounded-none p-2 focus:ring-brand-accent focus:border-brand-accent"
+                                className="flex h-10 w-full rounded-md border border-brand-muted/30 bg-brand-surface px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                                 value={formData.interval}
                                 onChange={(e) => setFormData({...formData, interval: parseInt(e.target.value)})}
                             >
@@ -108,36 +111,36 @@ export default function NewMonitorPage() {
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
-                        <div>
-                            <label className="block text-sm font-medium text-brand-text mb-1">Expected Status Code</label>
-                            <input
+                        <div className="space-y-1">
+                            <Label>Expected Status Code</Label>
+                            <Input
                                 type="number"
-                                className="w-full border border-gray-300 rounded-none p-2 focus:ring-brand-accent focus:border-brand-accent"
                                 placeholder="200"
                                 value={formData.expectedStatus}
                                 onChange={(e) => setFormData({...formData, expectedStatus: parseInt(e.target.value)})}
+                                className="bg-brand-surface border-brand-muted/30 focus-visible:ring-brand-accent"
                             />
                         </div>
-                        <div>
-                            <label className="block text-sm font-medium text-brand-text mb-1">Expected Keyword (Optional)</label>
-                            <input
+                        <div className="space-y-1">
+                            <Label>Expected Keyword (Optional)</Label>
+                            <Input
                                 type="text"
-                                className="w-full border border-gray-300 rounded-none p-2 focus:ring-brand-accent focus:border-brand-accent"
                                 placeholder="e.g. Welcome"
                                 value={formData.expectedKeyword}
                                 onChange={(e) => setFormData({...formData, expectedKeyword: e.target.value})}
+                                className="bg-brand-surface border-brand-muted/30 focus-visible:ring-brand-accent"
                             />
                         </div>
                     </div>
 
                     <div className="pt-4 flex justify-end">
-                        <button
+                        <Button
                             type="submit"
                             disabled={loading}
-                            className="bg-brand-accent text-white px-6 py-2 rounded-none font-medium hover:bg-brand-surface disabled:opacity-50"
+                            className="flex items-center gap-2 rounded-lg bg-brand-accent px-6 py-6 text-sm font-semibold text-brand-background hover:bg-brand-accent/90 focus:outline-none focus:ring-2 focus:ring-brand-accent focus:ring-offset-2 focus:ring-offset-brand-background transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
                         >
                             {loading ? 'Creating...' : 'Create Monitor'}
-                        </button>
+                        </Button>
                     </div>
                 </form>
             </div>

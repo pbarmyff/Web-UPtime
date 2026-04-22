@@ -1,252 +1,164 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { Activity, ShieldCheck, BellRing, BarChart3, Link as LinkIcon, Zap, Database } from "lucide-react";
 import Link from "next/link";
-import { motion, useScroll, useTransform, AnimatePresence, useReducedMotion } from "framer-motion";
-import { Activity, ShieldCheck, Zap, BellRing, Link as LinkIcon, BarChart3, Database, Menu, X } from "lucide-react";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { BackgroundBeams } from "@/components/aceternity/background-beams";
+import { Spotlight } from "@/components/aceternity/spotlight";
+import { WavyBackground } from "@/components/aceternity/wavy-background";
+import { Meteors } from "@/components/aceternity/meteors";
+import { HoverBorderGradient } from "@/components/aceternity/hover-border-gradient";
 
 export default function Home() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  const shouldReduceMotion = useReducedMotion();
+  const fadeUpVariant = {
+    hidden: { opacity: 0, y: 30 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" as any } }
+  };
 
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 768);
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  const scaleInVariant = {
+    hidden: { opacity: 0, scale: 0.95 },
+    show: { opacity: 1, scale: 1, transition: { duration: 0.6, ease: "easeOut" as any } }
+  };
 
-  // Parallax effects
-  const { scrollY } = useScroll();
-  const heroY = useTransform(scrollY, [0, 500], [0, (shouldReduceMotion || isMobile) ? 0 : -100]);
-  const heroOpacity = useTransform(scrollY, [0, 300], [1, (shouldReduceMotion || isMobile) ? 1 : 0]);
-  const blobY = useTransform(scrollY, [0, 800], [0, (shouldReduceMotion || isMobile) ? 0 : 200]);
-
-  // Entrance animations variants
   const staggerContainer = {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.08,
-      },
-    },
+        staggerChildren: 0.15
+      }
+    }
   };
-
-  const wordVariant = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0, transition: { type: "spring" as const, damping: 12, stiffness: 100 } },
-  };
-
-  const fadeUpVariant = {
-    hidden: { opacity: 0, y: 30 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as const } },
-  };
-
-  const scaleInVariant = {
-    hidden: { opacity: 0, scale: 0.95 },
-    show: { opacity: 1, scale: 1, transition: { duration: 0.6, ease: "easeOut" as const } },
-  };
-
-  const headline = "Monitor your infrastructure 24/7.";
-  const headlineWords = headline.split(" ");
 
   return (
-    <div className="min-h-screen bg-[#070D1F] text-[#EDF2FF] font-sans selection:bg-[#4FFFB0] selection:text-[#070D1F] overflow-x-hidden">
-
+    <div className="min-h-screen bg-brand-background text-brand-text font-sans selection:bg-brand-accent selection:text-brand-background overflow-x-hidden">
       {/* Navigation */}
-      <nav className="fixed w-full top-0 z-50 bg-[#070D1F]/80 backdrop-blur-md border-b border-[#5A6A8A]/20">
-        <div className="max-w-[1400px] mx-auto px-6 sm:px-12 lg:px-16">
-          <div className="flex justify-between items-center h-20">
-            <Link href="/" className="flex items-center group">
-              <Activity className="h-8 w-8 text-[#4FFFB0] group-hover:scale-110 transition-transform" />
-              <span className="ml-3 text-2xl font-bold font-display tracking-tight text-white">UptimeMonitor</span>
-            </Link>
-
-            {/* Desktop Nav */}
-            <div className="hidden md:flex items-center space-x-8">
-              <Link href="#features" className="text-[#5A6A8A] hover:text-[#4FFFB0] font-medium transition-colors relative group">
-                Features
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#4FFFB0] transition-all group-hover:w-full"></span>
-              </Link>
-              <Link href="/login" className="text-[#EDF2FF] hover:text-[#4FFFB0] font-medium transition-colors relative group">
-                Log in
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#4FFFB0] transition-all group-hover:w-full"></span>
-              </Link>
-              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-                <Link href="/signup" className="bg-[#4FFFB0] text-[#070D1F] px-6 py-3 rounded-none font-bold text-sm tracking-wide transition-colors hover:bg-white">
-                  Get Started
-                </Link>
-              </motion.div>
+      <nav className="fixed w-full top-0 z-50 bg-brand-background/80 backdrop-blur-lg border-b border-white/5">
+        <div className="max-w-[1400px] mx-auto px-6 h-20 flex justify-between items-center">
+            <div className="flex items-center group cursor-pointer">
+                <div className="relative">
+                    <Activity className="h-7 w-7 text-brand-accent transition-transform duration-500 group-hover:rotate-180" />
+                    <div className="absolute inset-0 bg-brand-accent/20 blur-xl rounded-full scale-0 group-hover:scale-150 transition-transform duration-500"></div>
+                </div>
+                <span className="ml-3 text-2xl font-bold font-display tracking-tight text-white">UptimeMonitor</span>
             </div>
-
-            {/* Mobile Menu Button */}
-            <div className="md:hidden flex items-center">
-              <button onClick={() => setIsMobileMenuOpen(true)} className="text-[#EDF2FF] hover:text-[#4FFFB0] transition-colors">
-                <Menu size={28} />
-              </button>
+            <div className="flex space-x-6 items-center">
+                <Link href="/login" className="text-sm font-medium hover:text-white transition-colors">Log In</Link>
+                <HoverBorderGradient containerClassName="rounded-full" className="bg-brand-background">
+                    <Link href="/signup" className="text-sm font-semibold text-white px-4 py-2">
+                        Get Started
+                    </Link>
+                </HoverBorderGradient>
             </div>
-          </div>
         </div>
       </nav>
 
-      {/* Mobile Drawer */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            initial={{ x: "100%" }}
-            animate={{ x: 0 }}
-            exit={{ x: "100%" }}
-            transition={{ type: "spring", damping: 20, stiffness: 100 }}
-            className="fixed inset-0 z-[100] bg-[#0F1A35] p-6 md:hidden flex flex-col"
-          >
-            <div className="flex justify-between items-center mb-12">
-              <div className="flex items-center">
-                <Activity className="h-8 w-8 text-[#4FFFB0]" />
-                <span className="ml-3 text-2xl font-bold font-display tracking-tight text-white">UptimeMonitor</span>
-              </div>
-              <button onClick={() => setIsMobileMenuOpen(false)} className="text-[#EDF2FF] hover:text-[#4FFFB0]">
-                <X size={32} />
-              </button>
-            </div>
-            <div className="flex flex-col space-y-8 text-2xl font-display font-bold">
-              <Link href="#features" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-[#4FFFB0]">Features</Link>
-              <Link href="/login" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-[#4FFFB0]">Log in</Link>
-              <Link href="/signup" onClick={() => setIsMobileMenuOpen(false)} className="text-[#4FFFB0]">Get Started Free</Link>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 px-6 sm:px-12 lg:px-16 min-h-screen flex flex-col justify-center overflow-hidden">
-        {/* Background Parallax Blob */}
-        <motion.div
-            style={{ y: blobY }}
-            className="absolute top-1/4 right-[10%] w-[600px] h-[600px] bg-[#4FFFB0]/10 rounded-full blur-[120px] pointer-events-none"
-        />
+      <section className="relative min-h-[100vh] flex items-center pt-20 overflow-hidden isolate">
+        <BackgroundBeams className="opacity-30" />
+        <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="white" />
 
-        <div className="max-w-[1400px] mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-16 items-center relative z-10">
+        <div className="max-w-[1400px] mx-auto w-full px-6 sm:px-12 lg:px-16 grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-8 items-center z-10 relative">
 
-          {/* Text Left */}
           <motion.div
-            className="lg:col-span-6 text-left"
-            style={{ y: heroY }}
+            initial="hidden"
+            animate="show"
+            variants={staggerContainer}
+            className="max-w-2xl"
           >
-            <motion.h1
-              variants={staggerContainer}
-              initial="hidden"
-              animate="show"
-              className="text-[clamp(2.5rem,6vw,5.5rem)] font-display font-extrabold text-white leading-[1.05] tracking-tight mb-6 text-balance"
-            >
-              <div className="text-[#5A6A8A] font-medium text-xl mb-4 tracking-widest uppercase">Never miss a beat</div>
-              {headlineWords.map((word, idx) => (
-                <motion.span key={idx} variants={wordVariant} className="inline-block mr-[0.3em]">
-                  {word === "24/7." ? (
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4FFFB0] to-teal-200">
-                      {word}
-                    </span>
-                  ) : word}
-                </motion.span>
-              ))}
+            <motion.div variants={fadeUpVariant} className="mb-6 inline-flex items-center space-x-2 bg-brand-surface/50 border border-brand-accent/20 px-3 py-1.5 rounded-full backdrop-blur-sm">
+                <span className="flex h-2 w-2 rounded-full bg-brand-accent animate-pulse"></span>
+                <span className="text-xs font-medium text-brand-accent uppercase tracking-wider">v2.0 is live</span>
+            </motion.div>
+
+            <motion.h1 variants={fadeUpVariant} className="text-[clamp(3rem,6vw,5.5rem)] font-display font-extrabold text-white leading-[1.05] tracking-tight mb-8">
+              Zero downtime. <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-accent to-[#00d2ff]">Infinite visibility.</span>
             </motion.h1>
 
-            <motion.h2
-              variants={fadeUpVariant}
-              initial="hidden"
-              animate="show"
-              transition={{ delay: 0.4 }}
-              style={{ opacity: heroOpacity }}
-              className="text-[clamp(1.125rem,2vw,1.5rem)] text-[#8B9CBE] mb-12 max-w-xl leading-relaxed font-light"
-            >
-              The complete, production-ready full-stack monitoring platform. Track uptime, resolve incidents, manage SSL expiry, and configure smart alerts in one unified deep navy dashboard.
-            </motion.h2>
+            <motion.p variants={fadeUpVariant} className="text-xl md:text-2xl text-brand-muted mb-10 leading-relaxed font-light max-w-xl">
+              The modern standard for infrastructure monitoring. Ping endpoints, track SSL, and alert your team before users even notice.
+            </motion.p>
 
-            <motion.div
-              variants={fadeUpVariant}
-              initial="hidden"
-              animate="show"
-              transition={{ delay: 0.6 }}
-              className="flex flex-col sm:flex-row gap-4"
-            >
-              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-                <Link href="/signup" className="flex justify-center items-center bg-[#4FFFB0] text-[#070D1F] px-8 py-4 rounded-none text-lg font-bold hover:bg-white transition-colors w-full sm:w-auto">
-                  Start Monitoring Free
-                </Link>
-              </motion.div>
-              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-                <Link href="/login" className="flex justify-center items-center bg-transparent text-white border border-[#5A6A8A]/50 px-8 py-4 rounded-none text-lg font-bold hover:bg-[#0F1A35] transition-colors w-full sm:w-auto">
-                  Go to Dashboard
-                </Link>
-              </motion.div>
+            <motion.div variants={fadeUpVariant} className="flex flex-col sm:flex-row gap-4">
+               <HoverBorderGradient containerClassName="rounded-full" className="bg-brand-surface">
+                   <Link href="/signup" className="flex items-center justify-center text-lg font-semibold text-white px-8 py-3">
+                        Start Monitoring Free
+                        <Activity className="ml-2 h-5 w-5" />
+                   </Link>
+               </HoverBorderGradient>
+               <Button variant="outline" className="rounded-full px-8 py-6 text-lg font-medium border-brand-muted/30 text-brand-text hover:bg-brand-surface hover:text-white transition-all">
+                  <Link href="#features">
+                      Explore Features
+                  </Link>
+               </Button>
             </motion.div>
           </motion.div>
 
-          {/* Visual Right (Mockup) */}
           <motion.div
-            className="lg:col-span-6 relative w-full"
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1, delay: 0.2, type: "spring", damping: 20 }}
+            initial="hidden"
+            animate="show"
+            variants={scaleInVariant}
+            className="relative lg:ml-auto w-full max-w-[600px] hidden md:block"
           >
-            <div className="relative bg-[#0F1A35] shadow-2xl border border-[#5A6A8A]/30 overflow-hidden ring-1 ring-white/5 rounded-xl transform lg:rotate-y-[-10deg] lg:rotate-x-[5deg] lg:scale-105 perspective-1000 group hover:rotate-y-[-5deg] transition-transform duration-700 ease-out">
-                <div className="absolute inset-0 bg-gradient-to-tr from-[#4FFFB0]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-                <div className="bg-[#070D1F] px-4 py-3 flex items-center border-b border-[#5A6A8A]/30 space-x-2 relative z-10">
-                    <div className="w-3 h-3 rounded-none bg-[#5A6A8A]"></div>
-                    <div className="w-3 h-3 rounded-none bg-[#5A6A8A]"></div>
-                    <div className="w-3 h-3 rounded-none bg-[#5A6A8A]"></div>
-                    <div className="ml-4 bg-[#0F1A35] px-4 py-1 rounded-none text-xs text-[#5A6A8A] font-mono flex-1 text-center truncate">
-                        app.uptimemonitor.com
+            <div className="absolute inset-0 bg-brand-accent/10 blur-[100px] rounded-full"></div>
+            <div className="relative bg-brand-surface/80 backdrop-blur-xl border border-white/10 rounded-2xl p-6 shadow-2xl overflow-hidden">
+                <Meteors number={10} className="opacity-30" />
+                <div className="flex items-center justify-between mb-8 border-b border-white/5 pb-4">
+                    <div className="flex items-center space-x-3">
+                        <div className="flex space-x-1.5">
+                            <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
+                            <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                            <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
+                        </div>
                     </div>
+                    <div className="text-xs font-mono text-brand-muted">api.production.internal</div>
                 </div>
 
-                <div className="flex">
-                    <div className="hidden sm:block w-48 bg-[#070D1F] border-r border-[#5A6A8A]/30 p-4 min-h-[400px]">
-                        <div className="space-y-3">
-                            <div className="h-8 bg-[#4FFFB0]/10 rounded-none flex items-center px-3 border border-[#4FFFB0]/30">
-                                <Activity size={16} className="text-[#4FFFB0] mr-2" />
-                                <div className="h-2 w-16 bg-[#4FFFB0]/50 rounded-none"></div>
+                <div className="space-y-6">
+                    <div className="flex justify-between items-center bg-brand-background/50 p-4 rounded-xl border border-white/5">
+                        <div className="flex items-center space-x-4">
+                            <div className="h-10 w-10 bg-green-500/20 rounded-full flex items-center justify-center">
+                                <Activity className="h-5 w-5 text-green-400" />
                             </div>
-                            <div className="h-8 hover:bg-[#0F1A35] rounded-none flex items-center px-3">
-                                <BarChart3 size={16} className="text-[#5A6A8A] mr-2" />
-                                <div className="h-2 w-20 bg-[#5A6A8A] rounded-none"></div>
+                            <div>
+                                <div className="text-white font-medium">Main API Endpoint</div>
+                                <div className="text-xs text-brand-muted font-mono">https://api.example.com</div>
                             </div>
-                            <div className="h-8 hover:bg-[#0F1A35] rounded-none flex items-center px-3">
-                                <BellRing size={16} className="text-[#5A6A8A] mr-2" />
-                                <div className="h-2 w-14 bg-[#5A6A8A] rounded-none"></div>
-                            </div>
+                        </div>
+                        <div className="text-right">
+                            <div className="text-green-400 font-medium">UP</div>
+                            <div className="text-xs text-brand-muted">45ms ping</div>
                         </div>
                     </div>
-                    <div className="flex-1 bg-[#0F1A35] p-6 min-h-[400px]">
-                        <div className="h-6 w-32 bg-[#5A6A8A]/40 rounded-none mb-6"></div>
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-                            <div className="bg-[#070D1F] p-4 rounded-none border border-[#5A6A8A]/30">
-                                <div className="h-3 w-16 bg-[#5A6A8A]/50 rounded-none mb-3"></div>
-                                <div className="h-8 w-12 bg-[#4FFFB0] rounded-none"></div>
-                            </div>
-                            <div className="bg-[#070D1F] p-4 rounded-none border border-[#5A6A8A]/30">
-                                <div className="h-3 w-16 bg-[#5A6A8A]/50 rounded-none mb-3"></div>
-                                <div className="h-8 w-8 bg-red-400 rounded-none"></div>
-                            </div>
-                            <div className="bg-[#070D1F] p-4 rounded-none border border-[#5A6A8A]/30">
-                                <div className="h-3 w-20 bg-[#5A6A8A]/50 rounded-none mb-3"></div>
-                                <div className="h-8 w-12 bg-[#EDF2FF] rounded-none"></div>
-                            </div>
-                        </div>
 
-                        <div className="bg-[#070D1F] border border-[#5A6A8A]/30 rounded-none p-4 h-48 flex items-end justify-between px-8 space-x-2 relative overflow-hidden">
-                            <div className="absolute inset-0 bg-[linear-gradient(to_right,#5A6A8A10_1px,transparent_1px),linear-gradient(to_bottom,#5A6A8A10_1px,transparent_1px)] bg-[size:1rem_1rem]"></div>
-                            {[40, 60, 30, 80, 40, 90, 50, 30, 20, 100, 40, 70].map((h, i) => (
-                                <motion.div
-                                  key={i}
-                                  initial={{ height: 0 }}
-                                  animate={{ height: `${h}%` }}
-                                  transition={{ duration: 1, delay: 0.5 + (i * 0.05), ease: "easeOut" }}
-                                  className="w-full bg-[#4FFFB0] hover:bg-white rounded-t-none relative z-10"
-                                ></motion.div>
-                            ))}
+                    <div className="flex justify-between items-center bg-brand-background/50 p-4 rounded-xl border border-white/5">
+                        <div className="flex items-center space-x-4">
+                            <div className="h-10 w-10 bg-red-500/20 rounded-full flex items-center justify-center">
+                                <Zap className="h-5 w-5 text-red-400" />
+                            </div>
+                            <div>
+                                <div className="text-white font-medium">Payment Gateway</div>
+                                <div className="text-xs text-brand-muted font-mono">https://pay.example.com</div>
+                            </div>
                         </div>
+                        <div className="text-right">
+                            <div className="text-red-400 font-medium animate-pulse">DOWN</div>
+                            <div className="text-xs text-brand-muted">Timeout</div>
+                        </div>
+                    </div>
+
+                    <div className="bg-brand-background/50 border border-white/5 rounded-xl p-4 h-32 flex items-end justify-between px-6 relative overflow-hidden">
+                        {[40, 60, 30, 80, 40, 90, 50, 30, 20, 100, 40, 70].map((h, i) => (
+                            <motion.div
+                              key={i}
+                              initial={{ height: 0 }}
+                              animate={{ height: `${h}%` }}
+                              transition={{ duration: 1, delay: 0.5 + (i * 0.05), ease: "easeOut" as any }}
+                              className="w-full mx-1 bg-brand-accent/80 hover:bg-white rounded-t-sm relative z-10"
+                            ></motion.div>
+                        ))}
                     </div>
                 </div>
             </div>
@@ -255,23 +167,24 @@ export default function Home() {
       </section>
 
       {/* Features Grid */}
-      <section id="features" className="py-32 bg-[#0F1A35] border-t border-[#5A6A8A]/20">
-        <div className="max-w-[1400px] mx-auto px-6 sm:px-12 lg:px-16">
+      <section id="features" className="py-32 relative z-10 bg-brand-surface">
+        <WavyBackground className="max-w-4xl mx-auto pb-40" containerClassName="absolute inset-0 h-full opacity-10 pointer-events-none" colors={["#4FFFB0", "#00d2ff", "#5A6A8A"]} waveOpacity={0.3} backgroundFill="#0F1A35" />
+        <div className="max-w-[1400px] mx-auto px-6 sm:px-12 lg:px-16 relative z-20">
           <motion.div
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, margin: "-100px" }}
             variants={fadeUpVariant}
-            className="mb-24 flex items-end justify-between border-b border-[#5A6A8A]/30 pb-8"
+            className="mb-24 flex flex-col md:flex-row items-start md:items-end justify-between border-b border-brand-muted/20 pb-8"
           >
             <div>
-              <span className="text-[#4FFFB0] font-mono text-xl mb-4 block">01 / Features</span>
-              <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-display font-bold text-white leading-tight text-balance">
-                Everything you need <br className="hidden md:block" />to stay online.
+              <span className="text-brand-accent font-mono text-xl mb-4 block">01 / Features</span>
+              <h2 className="text-[clamp(2.5rem,4vw,4rem)] font-display font-bold text-white leading-tight text-balance">
+                Built for <br className="hidden md:block" />resilience.
               </h2>
             </div>
-            <p className="hidden md:block max-w-sm text-[#5A6A8A] text-lg text-right">
-              A comprehensive suite of monitoring tools seamlessly integrated into one robust application.
+            <p className="mt-6 md:mt-0 max-w-sm text-brand-muted text-lg md:text-right">
+              A comprehensive suite of monitoring tools designed to keep your infrastructure reliable and transparent.
             </p>
           </motion.div>
 
@@ -280,83 +193,83 @@ export default function Home() {
             whileInView="show"
             viewport={{ once: true, margin: "-100px" }}
             variants={staggerContainer}
-            className="grid grid-cols-1 md:grid-cols-12 gap-8"
+            className="grid grid-cols-1 md:grid-cols-12 gap-6"
           >
-            {/* Feature 1 (7 cols) */}
-            <motion.div variants={scaleInVariant} whileHover={{ y: -4 }} transition={{ duration: 0.2 }} className="md:col-span-7 bg-[#070D1F] p-10 lg:p-14 border-l-4 border-l-[#4FFFB0] border border-[#5A6A8A]/20 relative overflow-hidden group">
+            {/* Feature 1 */}
+            <motion.div variants={scaleInVariant} className="md:col-span-8 bg-brand-background/80 backdrop-blur-sm p-10 lg:p-14 rounded-3xl border border-white/5 relative overflow-hidden group hover:border-brand-accent/50 transition-colors">
                 <div className="relative z-10">
-                  <div className="w-14 h-14 bg-[#0F1A35] border border-[#5A6A8A]/40 text-[#4FFFB0] rounded-none flex items-center justify-center mb-8">
-                      <Activity size={28} />
+                  <div className="w-16 h-16 bg-brand-surface border border-white/10 text-brand-accent rounded-2xl flex items-center justify-center mb-8 shadow-inner shadow-brand-accent/20">
+                      <Activity size={32} />
                   </div>
-                  <h3 className="text-2xl font-display font-bold text-white mb-4">Multi-Protocol Checks</h3>
-                  <p className="text-[#5A6A8A] text-lg leading-relaxed max-w-lg">
+                  <h3 className="text-3xl font-display font-bold text-white mb-4">Multi-Protocol Checks</h3>
+                  <p className="text-brand-muted text-xl leading-relaxed max-w-xl">
                       Monitor via HTTP/HTTPS, custom headers, payload bodies, Ping, and Heartbeat (Cron) endpoints. Supports keyword validation and custom expected status codes.
                   </p>
                 </div>
             </motion.div>
 
-            {/* Feature 2 (5 cols) */}
-            <motion.div variants={scaleInVariant} whileHover={{ y: -4 }} transition={{ duration: 0.2 }} className="md:col-span-5 bg-[#070D1F] p-10 lg:p-14 border border-[#5A6A8A]/20 relative group hover:border-[#4FFFB0]/50 transition-colors">
-                <div className="w-14 h-14 bg-[#0F1A35] border border-[#5A6A8A]/40 text-white rounded-none flex items-center justify-center mb-8">
+            {/* Feature 2 */}
+            <motion.div variants={scaleInVariant} className="md:col-span-4 bg-brand-background/80 backdrop-blur-sm p-10 lg:p-14 rounded-3xl border border-white/5 relative group hover:border-brand-accent/50 transition-colors">
+                <div className="w-14 h-14 bg-brand-surface border border-white/10 text-white rounded-2xl flex items-center justify-center mb-8">
                     <ShieldCheck size={28} />
                 </div>
-                <h3 className="text-2xl font-display font-bold text-white mb-4">SSL & Security</h3>
-                <p className="text-[#5A6A8A] text-lg leading-relaxed">
-                    Automatically checks HTTPS connections for valid SSL certificates, tracking expiry dates and displaying critical warnings.
+                <h3 className="text-2xl font-display font-bold text-white mb-4">SSL Security</h3>
+                <p className="text-brand-muted text-lg leading-relaxed">
+                    Automatically checks HTTPS connections for valid SSL certificates and tracks expiry.
                 </p>
             </motion.div>
 
-            {/* Feature 3 (4 cols) */}
-            <motion.div variants={scaleInVariant} whileHover={{ y: -4 }} transition={{ duration: 0.2 }} className="md:col-span-4 bg-[#070D1F] p-10 border border-[#5A6A8A]/20 hover:border-white/20 transition-colors">
-                <div className="w-12 h-12 bg-[#0F1A35] border border-[#5A6A8A]/40 text-white flex items-center justify-center mb-6">
+            {/* Feature 3 */}
+            <motion.div variants={scaleInVariant} className="md:col-span-4 bg-brand-background/80 backdrop-blur-sm p-10 rounded-3xl border border-white/5 hover:border-white/20 transition-colors">
+                <div className="w-12 h-12 bg-brand-surface border border-white/10 text-white rounded-xl flex items-center justify-center mb-6">
                     <BellRing size={24} />
                 </div>
-                <h3 className="text-xl font-display font-bold text-white mb-3">Smart Alerting & Retries</h3>
-                <p className="text-[#5A6A8A] leading-relaxed">
+                <h3 className="text-xl font-display font-bold text-white mb-3">Smart Alerting</h3>
+                <p className="text-brand-muted leading-relaxed">
                     Advanced retry logic ensures no false-positives. Dispatch webhook or email alerts instantly.
                 </p>
             </motion.div>
 
-            {/* Feature 4 (4 cols) */}
-            <motion.div variants={scaleInVariant} whileHover={{ y: -4 }} transition={{ duration: 0.2 }} className="md:col-span-4 bg-[#070D1F] p-10 border border-[#5A6A8A]/20 hover:border-white/20 transition-colors">
-                <div className="w-12 h-12 bg-[#0F1A35] border border-[#5A6A8A]/40 text-white flex items-center justify-center mb-6">
+            {/* Feature 4 */}
+            <motion.div variants={scaleInVariant} className="md:col-span-4 bg-brand-background/80 backdrop-blur-sm p-10 rounded-3xl border border-white/5 hover:border-white/20 transition-colors">
+                <div className="w-12 h-12 bg-brand-surface border border-white/10 text-white rounded-xl flex items-center justify-center mb-6">
                     <BarChart3 size={24} />
                 </div>
                 <h3 className="text-xl font-display font-bold text-white mb-3">Incident Timeline</h3>
-                <p className="text-[#5A6A8A] leading-relaxed">
+                <p className="text-brand-muted leading-relaxed">
                     Automatically logs downtime events, tracking latency. Export historical metrics via CSV.
                 </p>
             </motion.div>
 
-            {/* Feature 5 (4 cols) */}
-            <motion.div variants={scaleInVariant} whileHover={{ y: -4 }} transition={{ duration: 0.2 }} className="md:col-span-4 bg-[#070D1F] p-10 border border-[#5A6A8A]/20 hover:border-white/20 transition-colors">
-                <div className="w-12 h-12 bg-[#0F1A35] border border-[#5A6A8A]/40 text-white flex items-center justify-center mb-6">
+            {/* Feature 5 */}
+            <motion.div variants={scaleInVariant} className="md:col-span-4 bg-brand-background/80 backdrop-blur-sm p-10 rounded-3xl border border-white/5 hover:border-white/20 transition-colors">
+                <div className="w-12 h-12 bg-brand-surface border border-white/10 text-white rounded-xl flex items-center justify-center mb-6">
                     <LinkIcon size={24} />
                 </div>
-                <h3 className="text-xl font-display font-bold text-white mb-3">Public Status Pages</h3>
-                <p className="text-[#5A6A8A] leading-relaxed">
+                <h3 className="text-xl font-display font-bold text-white mb-3">Status Pages</h3>
+                <p className="text-brand-muted leading-relaxed">
                     Generate customizable status pages to transparently communicate system health.
                 </p>
             </motion.div>
 
-            {/* Feature 6 (6 cols) */}
-            <motion.div variants={scaleInVariant} whileHover={{ y: -4 }} transition={{ duration: 0.2 }} className="md:col-span-6 bg-[#070D1F] p-10 lg:p-14 border border-[#5A6A8A]/20 hover:border-white/20 transition-colors">
-                <div className="w-14 h-14 bg-[#0F1A35] border border-[#5A6A8A]/40 text-[#4FFFB0] flex items-center justify-center mb-8">
+             {/* Feature 6 */}
+             <motion.div variants={scaleInVariant} className="md:col-span-6 bg-brand-background/80 backdrop-blur-sm p-10 lg:p-14 rounded-3xl border border-white/5 hover:border-white/20 transition-colors">
+                <div className="w-14 h-14 bg-brand-surface border border-white/10 text-[#00d2ff] rounded-2xl flex items-center justify-center mb-8 shadow-inner shadow-[#00d2ff]/20">
                     <Zap size={28} />
                 </div>
                 <h3 className="text-2xl font-display font-bold text-white mb-4">Maintenance Windows</h3>
-                <p className="text-[#5A6A8A] text-lg leading-relaxed">
+                <p className="text-brand-muted text-lg leading-relaxed">
                     Schedule upcoming maintenance windows to temporarily suppress downtime alerts and pause pinging.
                 </p>
             </motion.div>
 
-            {/* Feature 7 (6 cols) */}
-            <motion.div variants={scaleInVariant} whileHover={{ y: -4 }} transition={{ duration: 0.2 }} className="md:col-span-6 bg-[#070D1F] p-10 lg:p-14 border-t-4 border-t-[#EDF2FF] border border-[#5A6A8A]/20">
-                <div className="w-14 h-14 bg-[#0F1A35] border border-[#5A6A8A]/40 text-white flex items-center justify-center mb-8">
+            {/* Feature 7 */}
+            <motion.div variants={scaleInVariant} className="md:col-span-6 bg-brand-background/80 backdrop-blur-sm p-10 lg:p-14 rounded-3xl border border-white/5 hover:border-brand-accent/50 transition-colors">
+                <div className="w-14 h-14 bg-brand-surface border border-white/10 text-brand-accent rounded-2xl flex items-center justify-center mb-8 shadow-inner shadow-brand-accent/20">
                     <Database size={28} />
                 </div>
                 <h3 className="text-2xl font-display font-bold text-white mb-4">Admin Panel & RBAC</h3>
-                <p className="text-[#5A6A8A] text-lg leading-relaxed">
+                <p className="text-brand-muted text-lg leading-relaxed">
                     Secure role-based access limits administrative powers. Manage users, toggle monitors, and view complete audit logs.
                 </p>
             </motion.div>
@@ -365,21 +278,15 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-[#070D1F] text-[#5A6A8A] py-16 border-t border-[#5A6A8A]/20">
+      <footer className="bg-brand-background text-brand-muted py-16 border-t border-white/5 relative z-20">
         <div className="max-w-[1400px] mx-auto px-6 sm:px-12 lg:px-16 flex flex-col md:flex-row justify-between items-center">
             <div className="flex items-center mb-6 md:mb-0">
-                <Activity className="h-6 w-6 text-[#4FFFB0]" />
+                <Activity className="h-6 w-6 text-brand-accent" />
                 <span className="ml-2 text-xl font-bold font-display tracking-tight text-white">UptimeMonitor</span>
             </div>
             <div className="flex space-x-8 text-sm font-medium">
-                <a href="#" className="hover:text-[#4FFFB0] transition-colors relative group">
-                    Privacy Policy
-                    <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#4FFFB0] transition-all group-hover:w-full"></span>
-                </a>
-                <a href="#" className="hover:text-[#4FFFB0] transition-colors relative group">
-                    Terms of Service
-                    <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#4FFFB0] transition-all group-hover:w-full"></span>
-                </a>
+                <a href="#" className="hover:text-brand-accent transition-colors">Privacy Policy</a>
+                <a href="#" className="hover:text-brand-accent transition-colors">Terms of Service</a>
             </div>
         </div>
       </footer>

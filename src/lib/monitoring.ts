@@ -133,7 +133,12 @@ async function checkMonitor(monitor: any) {
         newStatus = "UP";
     } else if (consecutiveFailures >= monitor.retries) {
         newStatus = "DOWN";
-    } // else, keep previous status (e.g., UP) while retrying
+    } else if (!isUp && monitor.status === "UP") {
+        // keep previous status (UP) while retrying
+        newStatus = "UP";
+    } else if (!isUp && monitor.status === "DOWN") {
+        newStatus = "DOWN";
+    }
 
     await prisma.monitorLog.create({
         data: {

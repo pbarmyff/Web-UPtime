@@ -6,6 +6,11 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Activity, ArrowRight, CheckCircle2, ShieldAlert, Zap } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { BackgroundBeams } from "@/components/aceternity/background-beams";
+import { TextGenerateEffect } from "@/components/aceternity/text-generate-effect";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -39,6 +44,7 @@ export default function LoginPage() {
       <div className="hidden lg:flex lg:w-1/2 flex-col justify-between p-12 bg-gradient-to-br from-brand-surface via-brand-background to-brand-surface/50 border-r border-white/5 relative overflow-hidden">
         {/* Abstract background shapes */}
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+          <BackgroundBeams />
           <div className="absolute -top-24 -left-24 w-96 h-96 bg-brand-accent/10 rounded-full blur-3xl mix-blend-screen opacity-50"></div>
           <div className="absolute bottom-0 right-0 w-full h-1/2 bg-gradient-to-t from-brand-accent/5 to-transparent"></div>
         </div>
@@ -55,9 +61,7 @@ export default function LoginPage() {
             transition={{ duration: 0.5 }}
             className="space-y-6 max-w-lg"
           >
-            <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl text-transparent bg-clip-text bg-gradient-to-r from-white to-white/70 text-balance">
-              Welcome back to your command center.
-            </h1>
+            <TextGenerateEffect words="Welcome back to your command center." className="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl text-transparent bg-clip-text bg-gradient-to-r from-white to-white/70 text-balance" />
             <p className="text-lg text-brand-muted leading-relaxed">
               Log in to manage your monitors, check incident reports, and ensure your infrastructure is running smoothly.
             </p>
@@ -119,15 +123,13 @@ export default function LoginPage() {
 
             <div className="space-y-5">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1.5" htmlFor="email">
-                  Email Address
-                </label>
+                <Label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1.5">Email Address</Label>
                 <div className="relative">
-                  <input
+                  <Input
                     id="email"
                     type="email"
                     required
-                    className="block w-full bg-brand-surface/50 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:border-brand-accent focus:ring-1 focus:ring-brand-accent focus:outline-none transition-colors sm:text-sm"
+                    className="block w-full bg-brand-surface/50 border border-white/10 rounded-lg px-4 py-6 text-white placeholder-gray-500 focus:border-brand-accent focus:ring-1 focus:ring-brand-accent focus:outline-none transition-colors sm:text-sm"
                     placeholder="you@company.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -137,19 +139,17 @@ export default function LoginPage() {
 
               <div>
                 <div className="flex justify-between items-center mb-1.5">
-                  <label className="block text-sm font-medium text-gray-300" htmlFor="password">
-                    Password
-                  </label>
+                  <Label htmlFor="password" className="block text-sm font-medium text-gray-300">Password</Label>
                   <Link href="#" className="text-xs text-brand-muted hover:text-white transition-colors">
                     Forgot password?
                   </Link>
                 </div>
                 <div className="relative">
-                  <input
+                  <Input
                     id="password"
                     type="password"
                     required
-                    className="block w-full bg-brand-surface/50 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:border-brand-accent focus:ring-1 focus:ring-brand-accent focus:outline-none transition-colors sm:text-sm"
+                    className="block w-full bg-brand-surface/50 border border-white/10 rounded-lg px-4 py-6 text-white placeholder-gray-500 focus:border-brand-accent focus:ring-1 focus:ring-brand-accent focus:outline-none transition-colors sm:text-sm"
                     placeholder="••••••••"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -159,10 +159,10 @@ export default function LoginPage() {
             </div>
 
             <div>
-              <button
+              <Button
                 type="submit"
                 disabled={loading}
-                className="group relative flex w-full justify-center items-center gap-2 rounded-lg bg-brand-accent px-4 py-3 text-sm font-semibold text-brand-background hover:bg-brand-accent/90 focus:outline-none focus:ring-2 focus:ring-brand-accent focus:ring-offset-2 focus:ring-offset-brand-background transition-all disabled:opacity-70 disabled:cursor-not-allowed"
+                className="group relative flex w-full justify-center items-center gap-2 rounded-lg bg-brand-accent px-4 py-6 text-sm font-semibold text-brand-background hover:bg-brand-accent/90 focus:outline-none focus:ring-2 focus:ring-brand-accent focus:ring-offset-2 focus:ring-offset-brand-background transition-all disabled:opacity-70 disabled:cursor-not-allowed"
               >
                 {loading ? (
                   <span className="flex items-center gap-2">
@@ -178,7 +178,7 @@ export default function LoginPage() {
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </>
                 )}
-              </button>
+              </Button>
             </div>
           </form>
 

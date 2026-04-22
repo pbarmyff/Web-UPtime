@@ -2,6 +2,16 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableHead,
+  TableRow,
+  TableCell,
+} from "@/components/ui/table";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function AdminMonitorsClient({ initialMonitors }: { initialMonitors: any[] }) {
@@ -44,53 +54,55 @@ export default function AdminMonitorsClient({ initialMonitors }: { initialMonito
     };
 
     return (
-        <div className="bg-brand-surface rounded-none  border border-brand-muted/30 overflow-x-auto block w-full">
-            <table className="w-full min-w-[600px] text-left">
-                <thead className="bg-brand-background border-b border-brand-muted/30 text-sm text-brand-muted">
-                    <tr>
-                        <th className="p-4 font-medium">Monitor</th>
-                        <th className="p-4 font-medium">Owner</th>
-                        <th className="p-4 font-medium">Status</th>
-                        <th className="p-4 font-medium">Type</th>
-                        <th className="p-4 font-medium text-right">Actions</th>
-                    </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-700">
+        <div className="bg-brand-surface rounded-none border border-brand-muted/30 overflow-x-auto block w-full">
+            <Table className="w-full min-w-[600px] text-left">
+                <TableHeader className="bg-brand-background border-b border-brand-muted/30 text-sm text-brand-muted">
+                    <TableRow>
+                        <TableHead className="p-4 font-medium text-brand-muted">Monitor</TableHead>
+                        <TableHead className="p-4 font-medium text-brand-muted">Owner</TableHead>
+                        <TableHead className="p-4 font-medium text-brand-muted">Status</TableHead>
+                        <TableHead className="p-4 font-medium text-brand-muted">Type</TableHead>
+                        <TableHead className="p-4 font-medium text-right text-brand-muted">Actions</TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody className="divide-y divide-gray-700">
                     {monitors.map(monitor => (
-                        <tr key={monitor.id} className="hover:bg-brand-background/50">
-                            <td className="p-4">
+                        <TableRow key={monitor.id} className="hover:bg-brand-background/50 border-gray-700">
+                            <TableCell className="p-4">
                                 <div className="font-medium text-white">{monitor.name}</div>
                                 <div className="text-xs text-brand-muted truncate max-w-xs">{monitor.url}</div>
-                            </td>
-                            <td className="p-4 text-sm text-brand-text">{monitor.user?.email || 'N/A'}</td>
-                            <td className="p-4">
-                                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-none text-xs font-medium ${
-                                    monitor.status === 'UP' ? 'bg-green-900 text-green-300' :
-                                    monitor.status === 'DOWN' ? 'bg-red-900 text-red-300' :
-                                    'bg-gray-700 text-brand-text'
+                            </TableCell>
+                            <TableCell className="p-4 text-sm text-brand-text">{monitor.user?.email || 'N/A'}</TableCell>
+                            <TableCell className="p-4">
+                                <Badge variant="outline" className={`rounded-none font-medium ${
+                                    monitor.status === 'UP' ? 'bg-green-900/50 text-green-400 border-green-800' :
+                                    monitor.status === 'DOWN' ? 'bg-red-900/50 text-red-400 border-red-800' :
+                                    'bg-gray-800 text-brand-text border-gray-700'
                                 }`}>
                                     {monitor.status}
-                                </span>
-                            </td>
-                            <td className="p-4 text-sm text-brand-text">{monitor.type}</td>
-                            <td className="p-4 text-right space-x-3">
-                                <button
+                                </Badge>
+                            </TableCell>
+                            <TableCell className="p-4 text-sm text-brand-text">{monitor.type}</TableCell>
+                            <TableCell className="p-4 text-right space-x-3">
+                                <Button
+                                    variant="ghost"
                                     onClick={() => handleTogglePause(monitor.id, monitor.status)}
-                                    className="text-brand-accent hover:text-brand-accent text-sm font-medium"
+                                    className="text-brand-accent hover:text-brand-accent/80 text-sm font-medium h-8 px-2"
                                 >
                                     {monitor.status === 'PAUSED' ? 'Resume' : 'Pause'}
-                                </button>
-                                <button
+                                </Button>
+                                <Button
+                                    variant="ghost"
                                     onClick={() => handleDelete(monitor.id)}
-                                    className="text-red-400 hover:text-red-300 text-sm font-medium"
+                                    className="text-red-400 hover:text-red-300 hover:bg-red-950/30 text-sm font-medium h-8 px-2"
                                 >
                                     Delete
-                                </button>
-                            </td>
-                        </tr>
+                                </Button>
+                            </TableCell>
+                        </TableRow>
                     ))}
-                </tbody>
-            </table>
+                </TableBody>
+            </Table>
         </div>
     );
 }

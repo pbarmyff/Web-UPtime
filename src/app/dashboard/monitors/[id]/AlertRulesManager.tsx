@@ -1,6 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useRouter } from "next/navigation";
 import { Trash2 } from "lucide-react";
 
@@ -62,13 +66,15 @@ export default function AlertRulesManager({ monitorId, rules }: { monitorId: str
                             <p className="text-sm font-medium text-white">{rule.type}</p>
                             <p className="text-xs text-brand-accent truncate">{rule.target}</p>
                         </div>
-                        <button
+                        <Button
+                            variant="ghost"
+                            size="icon"
                             onClick={() => deleteRule(rule.id)}
-                            className="ml-4 flex-shrink-0 text-red-500 hover:text-red-700"
+                            className="ml-4 flex-shrink-0 text-red-500 hover:text-red-700 hover:bg-red-950/30"
                             aria-label="Delete rule"
                         >
                             <Trash2 size={16} />
-                        </button>
+                        </Button>
                     </div>
                 ))}
                 {rules.length === 0 && <p className="text-sm text-brand-muted italic">No alert rules configured.</p>}
@@ -78,29 +84,31 @@ export default function AlertRulesManager({ monitorId, rules }: { monitorId: str
                 <h4 className="text-sm font-medium text-brand-text mb-3">Add New Rule</h4>
                 {error && <p className="text-xs text-red-600 mb-2">{error}</p>}
                 <div className="flex flex-col space-y-3">
-                    <select
-                        value={type}
-                        onChange={(e) => setType(e.target.value)}
-                        className="text-sm border border-gray-300 rounded-none p-2"
-                    >
-                        <option value="EMAIL">Email</option>
-                        <option value="WEBHOOK">Webhook</option>
-                    </select>
-                    <input
+                    <Select value={type} onValueChange={(val) => val && setType(val)}>
+                        <SelectTrigger className="w-full text-sm border-gray-800 rounded-none bg-brand-background text-brand-text">
+                            <SelectValue placeholder="Select type" />
+                        </SelectTrigger>
+                        <SelectContent className="bg-brand-surface border-gray-800 rounded-none text-brand-text">
+                            <SelectItem value="EMAIL">Email</SelectItem>
+                            <SelectItem value="WEBHOOK">Webhook</SelectItem>
+                        </SelectContent>
+                    </Select>
+
+                    <Input
                         type={type === 'EMAIL' ? 'email' : 'url'}
                         required
                         placeholder={type === 'EMAIL' ? 'alert@example.com' : 'https://hooks.slack.com/...'}
                         value={target}
                         onChange={(e) => setTarget(e.target.value)}
-                        className="text-sm border border-gray-300 rounded-none p-2"
+                        className="text-sm border-gray-800 bg-brand-background text-brand-text rounded-none focus:ring-brand-accent focus:border-brand-accent"
                     />
-                    <button
+                    <Button
                         type="submit"
                         disabled={loading || !target}
-                        className="w-full bg-brand-accent text-white px-3 py-2 rounded-none text-sm font-medium hover:bg-brand-surface disabled:opacity-50"
+                        className="w-full bg-brand-accent text-brand-background rounded-none text-sm font-medium hover:bg-brand-accent/90 disabled:opacity-50"
                     >
                         {loading ? 'Adding...' : 'Add Rule'}
-                    </button>
+                    </Button>
                 </div>
             </form>
         </div>
