@@ -1,6 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -131,13 +134,13 @@ export default function NewMonitorPage() {
                     </div>
 
                     <div className="pt-4 flex justify-end">
-                        <button
+                        <Button
                             type="submit"
                             disabled={loading}
-                            className="bg-brand-accent text-white px-6 py-2 rounded-none font-medium hover:bg-brand-surface disabled:opacity-50"
+                            className="flex items-center gap-2 rounded-lg bg-brand-accent px-6 py-6 text-sm font-semibold text-brand-background hover:bg-brand-accent/90 focus:outline-none focus:ring-2 focus:ring-brand-accent focus:ring-offset-2 focus:ring-offset-brand-background transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
                         >
                             {loading ? 'Creating...' : 'Create Monitor'}
-                        </button>
+                        </Button>
                     </div>
                 </form>
             </div>
