@@ -1,0 +1,3 @@
+## 2024-05-24 - Keyboard Navigation on Icon-Only Buttons
+**Learning:** Icon-only buttons (like Lucide React icons used for menu toggles or delete actions) across the app's components consistently lack visible focus indicators (`focus-visible` states). Since many of these buttons have dark backgrounds, standardizing on a focus ring (`focus-visible:outline-none focus-visible:ring-2`) matched to their context (e.g., `ring-brand-accent` for nav, `ring-red-500` for delete) greatly improves keyboard accessibility.
+**Action:** When creating or updating icon-only interactive elements, always ensure appropriate `aria-label`s are defined and manually add context-colored `focus-visible` ring classes to support keyboard navigation.
