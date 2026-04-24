@@ -1,0 +1,3 @@
+## 2024-05-24 - Accessibility for Mobile Nav Toggles
+**Learning:** Icon-only buttons used for mobile navigation toggles across different layouts (`page.tsx`, `MobileNav.tsx`, `AdminMobileNav.tsx`) were missing critical accessibility attributes (`aria-label`, `aria-expanded`) and visible focus states, rendering them unusable for keyboard and screen reader users.
+**Action:** When adding icon-only buttons, always ensure they have an `aria-label` describing the action, an `aria-expanded` state if they toggle content, and clear `focus-visible` styling (e.g., `focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent`).
