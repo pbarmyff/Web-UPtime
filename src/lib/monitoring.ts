@@ -24,8 +24,22 @@ export async function runChecks() {
             }
         });
 
-        for (const monitor of monitors) {
-            await checkMonitor(monitor);
+        // ⚡ Bolt: Performance Optimization
+        // What: Replaced sequential `await checkMonitor(monitor)` loop with chunked concurrent execution using `Promise.allSettled`.
+        // Why: The previous sequential approach suffered from N+1 style blocking, leading to interval pile-ups if many monitors were checked at once or responses were slow.
+        // Impact: Reduces the overall execution time of the background polling process significantly (approx. up to 10x faster depending on latency and batch size), and prevents a single monitor check failure from halting the queue.
+        const BATCH_SIZE = 10;
+        for (let i = 0; i < monitors.length; i += BATCH_SIZE) {
+            const batch = monitors.slice(i, i + BATCH_SIZE);
+            const results = await Promise.allSettled(
+                batch.map(monitor => checkMonitor(monitor))
+            );
+
+            results.forEach((result, index) => {
+                if (result.status === 'rejected') {
+                    console.error(`Error checking monitor ${batch[index].id}:`, result.reason);
+                }
+            });
         }
     } catch (error) {
         console.error("Error in check loop:", error);
