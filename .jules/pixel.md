@@ -1,0 +1,3 @@
+## 2024-05-15 - [Avoid hardcoded grid-cols without responsive prefix]
+**Learning:** Hardcoding `grid-cols-2` without smaller breakpoint fallbacks causes side-by-side elements on forms to become cramped on mobile views (e.g. at 375px), breaking the design and usability.
+**Action:** When implementing side-by-side grid layouts in forms or other elements, always start with a mobile-first `grid-cols-1` approach and use responsive prefixes like `sm:grid-cols-2` or `md:grid-cols-2` for larger screens.
