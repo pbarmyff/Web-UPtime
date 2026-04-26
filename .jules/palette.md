@@ -1,0 +1,3 @@
+## 2024-03-24 - Accessibility standards for icon-only toggles
+**Learning:** Icon-only navigation toggle buttons in this application initially lacked descriptive text for screen readers, accessible dynamic state indication, and visible keyboard focus states.
+**Action:** When adding or fixing interactive icon-only elements (like mobile navigation menus, e.g., the `Menu` and `X` Lucide icons), always add a static or dynamic `aria-label`, an `aria-expanded` state if it acts as a collapsible toggle, and visible focus indicators using Tailwind utility classes (`focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent` or similar context colors) to ensure adherence to keyboard accessibility requirements and usability.
