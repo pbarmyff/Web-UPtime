@@ -83,7 +83,12 @@ export default function Home() {
 
             {/* Mobile Menu Button */}
             <div className="md:hidden flex items-center">
-              <button onClick={() => setIsMobileMenuOpen(true)} className="text-[#EDF2FF] hover:text-[#4FFFB0] transition-colors">
+              <button
+                onClick={() => setIsMobileMenuOpen(true)}
+                className="text-[#EDF2FF] hover:text-[#4FFFB0] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4FFFB0] rounded-sm"
+                aria-label="Open menu"
+                aria-expanded={isMobileMenuOpen}
+              >
                 <Menu size={28} />
               </button>
             </div>
@@ -106,7 +111,12 @@ export default function Home() {
                 <Activity className="h-8 w-8 text-[#4FFFB0]" />
                 <span className="ml-3 text-2xl font-bold font-display tracking-tight text-white">UptimeMonitor</span>
               </div>
-              <button onClick={() => setIsMobileMenuOpen(false)} className="text-[#EDF2FF] hover:text-[#4FFFB0]">
+              <button
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="text-[#EDF2FF] hover:text-[#4FFFB0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4FFFB0] rounded-sm"
+                aria-label="Close menu"
+                aria-expanded={isMobileMenuOpen}
+              >
                 <X size={32} />
               </button>
             </div>
