@@ -1,0 +1,3 @@
+## 2024-05-18 - Concurrent Background Job Batching Avoids Interval Pile-ups
+**Learning:** Sequential processing in Next.js `instrumentation.ts` globally scoped intervals can lead to interval pile-ups if there are many background items to process (e.g., uptime checks). If `checkMonitor` is slow, the loop takes longer than the interval frequency, causing the next interval to trigger before the current one finishes or backing up memory.
+**Action:** When implementing heavy array processing in background intervals, use batched concurrent execution via `Promise.allSettled()`. Always explicitly handle and log rejected promises from `allSettled` to prevent silent failures.
