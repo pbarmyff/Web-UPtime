@@ -15,7 +15,12 @@ export default function AdminMobileNav({ userEmail }: { userEmail?: string | nul
           <ShieldAlert className="h-6 w-6 text-brand-accent" />
           <span className="font-bold tracking-tight">Admin Panel</span>
         </div>
-        <button onClick={() => setIsOpen(!isOpen)} className="text-white hover:text-brand-accent">
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="text-white hover:text-brand-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent rounded p-1 -mr-1"
+          aria-label={isOpen ? "Close mobile menu" : "Open mobile menu"}
+          aria-expanded={isOpen}
+        >
           {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
