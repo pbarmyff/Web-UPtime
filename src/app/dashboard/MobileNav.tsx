@@ -15,7 +15,12 @@ export default function MobileNav({ userRole, userName, userEmail }: { userRole?
           <Activity className="h-6 w-6 text-brand-accent" />
           <span className="font-bold text-white tracking-tight">UptimeMonitor</span>
         </div>
-        <button onClick={() => setIsOpen(!isOpen)} className="text-white hover:text-brand-accent">
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="text-white hover:text-brand-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent rounded"
+          aria-label={isOpen ? "Close menu" : "Open menu"}
+          aria-expanded={isOpen}
+        >
           {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
