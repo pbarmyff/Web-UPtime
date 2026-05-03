@@ -16,15 +16,17 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ id: s
             return new NextResponse("Cannot delete yourself", { status: 400 });
         }
 
-        await prisma.user.delete({ where: { id } });
-
-        await prisma.auditLog.create({
-            data: {
-                userId: session.user.id,
-                action: "DELETE_USER",
-                details: JSON.stringify({ targetUserId: id })
-            }
-        });
+        // Optimization: Use transaction to batch primary entity deletion and audit log creation
+        await prisma.$transaction([
+            prisma.user.delete({ where: { id } }),
+            prisma.auditLog.create({
+                data: {
+                    userId: session.user.id,
+                    action: "DELETE_USER",
+                    details: JSON.stringify({ targetUserId: id })
+                }
+            })
+        ]);
 
         return new NextResponse(null, { status: 204 });
     } catch (error) {
