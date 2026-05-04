@@ -24,8 +24,18 @@ export async function runChecks() {
             }
         });
 
-        for (const monitor of monitors) {
-            await checkMonitor(monitor);
+        // Process monitors in batches to prevent event loop blocking while still bounding concurrency
+        const BATCH_SIZE = 10;
+        for (let i = 0; i < monitors.length; i += BATCH_SIZE) {
+            const batch = monitors.slice(i, i + BATCH_SIZE);
+            const results = await Promise.allSettled(batch.map(monitor => checkMonitor(monitor)));
+
+            // Explicitly handle/log rejected promises to prevent silent failures
+            results.forEach((result, index) => {
+                if (result.status === 'rejected') {
+                    console.error(`Error checking monitor ${batch[index].id}:`, result.reason);
+                }
+            });
         }
     } catch (error) {
         console.error("Error in check loop:", error);
@@ -135,28 +145,30 @@ async function checkMonitor(monitor: any) {
         newStatus = "DOWN";
     } // else, keep previous status (e.g., UP) while retrying
 
-    await prisma.monitorLog.create({
-        data: {
-            monitorId: monitor.id,
-            status: isUp ? "UP" : "DOWN",
-            statusCode,
-            responseTime,
-            errorMessage
-        }
-    });
-
     const nextRunAt = new Date(Date.now() + (monitor.interval * 1000));
 
-    await prisma.monitor.update({
-        where: { id: monitor.id },
-        data: {
-            status: newStatus,
-            consecutiveFailures,
-            sslExpiryDays,
-            lastChecked: new Date(),
-            nextRunAt
-        }
-    });
+    // Batch database operations into a single transaction to reduce network round-trips
+    await prisma.$transaction([
+        prisma.monitorLog.create({
+            data: {
+                monitorId: monitor.id,
+                status: isUp ? "UP" : "DOWN",
+                statusCode,
+                responseTime,
+                errorMessage
+            }
+        }),
+        prisma.monitor.update({
+            where: { id: monitor.id },
+            data: {
+                status: newStatus,
+                consecutiveFailures,
+                sslExpiryDays,
+                lastChecked: new Date(),
+                nextRunAt
+            }
+        })
+    ]);
 
     const inMaintenance = monitor.maintenanceWindows && monitor.maintenanceWindows.length > 0;
 
