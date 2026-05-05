@@ -24,8 +24,17 @@ export async function runChecks() {
             }
         });
 
-        for (const monitor of monitors) {
-            await checkMonitor(monitor);
+        // Batch execute monitor checks to prevent interval pile-ups
+        const chunkSize = 10;
+        for (let i = 0; i < monitors.length; i += chunkSize) {
+            const chunk = monitors.slice(i, i + chunkSize);
+            const results = await Promise.allSettled(chunk.map(checkMonitor));
+
+            results.forEach((result, index) => {
+                if (result.status === 'rejected') {
+                    console.error(`Error checking monitor ${chunk[index].id}:`, result.reason);
+                }
+            });
         }
     } catch (error) {
         console.error("Error in check loop:", error);
@@ -135,28 +144,30 @@ async function checkMonitor(monitor: any) {
         newStatus = "DOWN";
     } // else, keep previous status (e.g., UP) while retrying
 
-    await prisma.monitorLog.create({
-        data: {
-            monitorId: monitor.id,
-            status: isUp ? "UP" : "DOWN",
-            statusCode,
-            responseTime,
-            errorMessage
-        }
-    });
-
     const nextRunAt = new Date(Date.now() + (monitor.interval * 1000));
 
-    await prisma.monitor.update({
-        where: { id: monitor.id },
-        data: {
-            status: newStatus,
-            consecutiveFailures,
-            sslExpiryDays,
-            lastChecked: new Date(),
-            nextRunAt
-        }
-    });
+    // Batch database updates into a transaction to reduce network round-trips
+    await prisma.$transaction([
+        prisma.monitorLog.create({
+            data: {
+                monitorId: monitor.id,
+                status: isUp ? "UP" : "DOWN",
+                statusCode,
+                responseTime,
+                errorMessage
+            }
+        }),
+        prisma.monitor.update({
+            where: { id: monitor.id },
+            data: {
+                status: newStatus,
+                consecutiveFailures,
+                sslExpiryDays,
+                lastChecked: new Date(),
+                nextRunAt
+            }
+        })
+    ]);
 
     const inMaintenance = monitor.maintenanceWindows && monitor.maintenanceWindows.length > 0;
 
