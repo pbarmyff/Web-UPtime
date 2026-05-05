@@ -1,0 +1,4 @@
+
+## 2024-05-05 - Batching Array Execution & DB Updates
+**Learning:** The built-in monitor check interval loops through all active monitors sequentially. This is a severe performance bottleneck because the `for...of` await loop blocks execution until each fetch completes, which risks massive interval pile-ups if monitors hang or count scales. Furthermore, sequential individual `.create` and `.update` Prisma operations for each monitor cause double the network round-trips.
+**Action:** Use chunked `Promise.allSettled` (e.g. `const chunk = monitors.slice(i, i + chunkSize); const results = await Promise.allSettled(chunk.map(checkMonitor));`) to parallelize I/O safely and prevent unhandled promise rejections from killing the queue. Additionally, always combine related DB inserts and updates (like `monitorLog.create` and `monitor.update` during a check cycle) inside a single `prisma.$transaction([])` to improve atomicity and cut database connection time.
