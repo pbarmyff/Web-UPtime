@@ -52,12 +52,15 @@ export default function NewMonitorPage() {
             </div>
 
             <div className="bg-brand-surface p-6 rounded-none  border border-brand-muted/30">
-                {error && <div className="mb-4 p-3 bg-red-50 text-red-700 rounded-none text-sm">{error}</div>}
+                {error && <div role="alert" aria-live="polite" className="mb-4 p-3 bg-red-50 text-red-700 rounded-none text-sm">{error}</div>}
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
-                        <label className="block text-sm font-medium text-brand-text mb-1">Friendly Name</label>
+                        <label htmlFor="monitor-name" className="block text-sm font-medium text-brand-text mb-1">
+                            Friendly Name <span className="text-red-500">*</span>
+                        </label>
                         <input
+                            id="monitor-name"
                             required
                             type="text"
                             className="w-full border border-gray-300 rounded-none p-2 focus:ring-brand-accent focus:border-brand-accent"
@@ -68,8 +71,11 @@ export default function NewMonitorPage() {
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-brand-text mb-1">URL (or IP)</label>
+                        <label htmlFor="monitor-url" className="block text-sm font-medium text-brand-text mb-1">
+                            URL (or IP) <span className="text-red-500">*</span>
+                        </label>
                         <input
+                            id="monitor-url"
                             required
                             type="url"
                             className="w-full border border-gray-300 rounded-none p-2 focus:ring-brand-accent focus:border-brand-accent"
@@ -81,8 +87,9 @@ export default function NewMonitorPage() {
 
                     <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-sm font-medium text-brand-text mb-1">Monitor Type</label>
+                            <label htmlFor="monitor-type" className="block text-sm font-medium text-brand-text mb-1">Monitor Type</label>
                             <select
+                                id="monitor-type"
                                 className="w-full border border-gray-300 rounded-none p-2 focus:ring-brand-accent focus:border-brand-accent"
                                 value={formData.type}
                                 onChange={(e) => setFormData({...formData, type: e.target.value})}
@@ -93,8 +100,9 @@ export default function NewMonitorPage() {
                             </select>
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-brand-text mb-1">Check Interval (seconds)</label>
+                            <label htmlFor="monitor-interval" className="block text-sm font-medium text-brand-text mb-1">Check Interval (seconds)</label>
                             <select
+                                id="monitor-interval"
                                 className="w-full border border-gray-300 rounded-none p-2 focus:ring-brand-accent focus:border-brand-accent"
                                 value={formData.interval}
                                 onChange={(e) => setFormData({...formData, interval: parseInt(e.target.value)})}
@@ -109,8 +117,9 @@ export default function NewMonitorPage() {
 
                     <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-sm font-medium text-brand-text mb-1">Expected Status Code</label>
+                            <label htmlFor="monitor-status" className="block text-sm font-medium text-brand-text mb-1">Expected Status Code</label>
                             <input
+                                id="monitor-status"
                                 type="number"
                                 className="w-full border border-gray-300 rounded-none p-2 focus:ring-brand-accent focus:border-brand-accent"
                                 placeholder="200"
@@ -119,8 +128,9 @@ export default function NewMonitorPage() {
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-brand-text mb-1">Expected Keyword (Optional)</label>
+                            <label htmlFor="monitor-keyword" className="block text-sm font-medium text-brand-text mb-1">Expected Keyword (Optional)</label>
                             <input
+                                id="monitor-keyword"
                                 type="text"
                                 className="w-full border border-gray-300 rounded-none p-2 focus:ring-brand-accent focus:border-brand-accent"
                                 placeholder="e.g. Welcome"
