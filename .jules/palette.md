@@ -1,0 +1,3 @@
+## 2024-05-15 - Form Label Accessibility and Error Readout
+**Learning:** Raw HTML forms built with React and Tailwind often miss proper label-to-input linkage (`htmlFor` mapping to `id`) which breaks screen reader flow, and dynamic error messages are easily missed if they lack `role="alert"` and `aria-live="polite"`. Visual required indicators like asterisks (`*`) need accompanying aria attributes (though here we relied on standard HTML5 `required` attribute combined with the visual cue).
+**Action:** When creating or modifying forms, always ensure explicit `id` bindings between `<label>` and inputs, apply `aria-live` regions to dynamic error or success messages, and use clear visual markers for required fields.
