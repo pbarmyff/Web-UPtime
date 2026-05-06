@@ -1,0 +1,3 @@
+## 2024-05-06 - Batching Concurrent Background Tasks
+**Learning:** Sequential `for...of` loops with `await` for I/O bound background tasks (like checking monitor statuses) create a severe bottleneck, causing interval processing to pile up and delay subsequent execution.
+**Action:** Always process heavy array items concurrently. For background intervals, use batched execution (e.g., chunks of 10) combined with `Promise.allSettled`. This maximizes network concurrency while preventing rate limits. Furthermore, explicitly process the results to log rejected promises to avoid silently swallowed errors when not using `Promise.all`.
