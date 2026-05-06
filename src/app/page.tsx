@@ -83,7 +83,13 @@ export default function Home() {
 
             {/* Mobile Menu Button */}
             <div className="md:hidden flex items-center">
-              <button onClick={() => setIsMobileMenuOpen(true)} className="text-[#EDF2FF] hover:text-[#4FFFB0] transition-colors">
+              <button
+                onClick={() => setIsMobileMenuOpen(true)}
+                className="text-[#EDF2FF] hover:text-[#4FFFB0] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4FFFB0] rounded-md p-1"
+                aria-label="Open mobile menu"
+                aria-expanded={isMobileMenuOpen}
+                aria-controls="mobile-drawer"
+              >
                 <Menu size={28} />
               </button>
             </div>
@@ -95,6 +101,7 @@ export default function Home() {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
+            id="mobile-drawer"
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
@@ -106,7 +113,12 @@ export default function Home() {
                 <Activity className="h-8 w-8 text-[#4FFFB0]" />
                 <span className="ml-3 text-2xl font-bold font-display tracking-tight text-white">UptimeMonitor</span>
               </div>
-              <button onClick={() => setIsMobileMenuOpen(false)} className="text-[#EDF2FF] hover:text-[#4FFFB0]">
+              <button
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="text-[#EDF2FF] hover:text-[#4FFFB0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4FFFB0] rounded-md p-1"
+                aria-label="Close mobile menu"
+                aria-controls="mobile-drawer"
+              >
                 <X size={32} />
               </button>
             </div>
