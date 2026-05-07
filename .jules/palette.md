@@ -1,0 +1,3 @@
+## 2024-05-08 - Added accessible icon-only button to MobileNav
+**Learning:** Icon-only toggles in custom header/nav layouts easily lack necessary screen reader announcements (via `aria-label` or `aria-expanded`). Further, mobile touch points frequently omit visual focus-visible cues necessary for consistent keyboard and non-mouse navigation.
+**Action:** Always ensure that `lucide-react` or similar icon-only buttons include an `aria-label` attribute, an `aria-expanded` status flag (for dropdown/menu states), and standard Tailwind `focus-visible:` classes (e.g., `focus-visible:ring-2`) to meet baseline WCAG keyboard accessibility standards.
