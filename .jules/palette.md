@@ -1,0 +1,3 @@
+## 2024-05-18 - Missing ARIA attributes and focus states on mobile navigation menu toggles
+**Learning:** Found a recurring pattern where icon-only mobile navigation menu toggles (`Menu` and `X` from `lucide-react`) across multiple layouts (`src/app/page.tsx`, `src/app/dashboard/MobileNav.tsx`, `src/app/admin/AdminMobileNav.tsx`) are lacking proper `aria-label`, `aria-expanded` properties and explicit keyboard focus states, making them difficult to use for keyboard-only and screen reader users.
+**Action:** Always verify that icon-only buttons (especially navigation toggles) include an `aria-label`, a dynamic `aria-expanded` state if applicable, and explicit `focus-visible:` utility classes for keyboard accessibility.
