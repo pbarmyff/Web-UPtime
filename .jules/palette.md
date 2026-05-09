@@ -1,0 +1,3 @@
+## 2024-05-10 - Mobile Menu Accessibility Pattern
+**Learning:** There was a consistent pattern of mobile "hamburger" menus lacking accessibility features across the app (in `MobileNav`, `AdminMobileNav`, and the landing `page.tsx`). They lacked `aria-label`, `aria-expanded` attributes to communicate state, `aria-hidden` on the inner decorative SVGs, and visible focus indicators for keyboard users.
+**Action:** Always ensure custom icon toggle buttons implement full accessibility semantics: a descriptive `aria-label` (ideally dynamic based on state), an `aria-expanded` attribute, `aria-hidden` on nested visual icons, and robust `focus-visible` styling using context-appropriate colors.
