@@ -1,0 +1,3 @@
+## 2024-05-24 - Interactive Mobile Menu Toggles Require Explicit Accessibility Annotations
+**Learning:** In custom mobile navigation menus utilizing overlay and icons, raw `<button>` elements with `onClick` handlers fail to effectively announce state to screen readers and lack clear visual indicators for keyboard navigation.
+**Action:** When creating or modifying menu toggles (e.g., hamburger icons), always add `aria-expanded={isOpen}`, an appropriate `aria-label` (e.g., "Open menu" or "Close menu"), add `aria-hidden="true"` to decorative internal SVG icons (like Lucide React `Menu` or `X`), and ensure a visible focus state via utility classes like `focus-visible:ring-2` to support keyboard and assistive technology users seamlessly.
