@@ -24,8 +24,18 @@ export async function runChecks() {
             }
         });
 
-        for (const monitor of monitors) {
-            await checkMonitor(monitor);
+        // ⚡ Bolt Performance Optimization: Process checks in concurrent chunks using Promise.allSettled
+        // Expected impact: Dramatically speeds up processing of intervals while preventing pile-ups and avoiding out-of-memory/timeout issues that a massive Promise.all could cause.
+        const CHUNK_SIZE = 10;
+        for (let i = 0; i < monitors.length; i += CHUNK_SIZE) {
+            const chunk = monitors.slice(i, i + CHUNK_SIZE);
+            const results = await Promise.allSettled(chunk.map(checkMonitor));
+
+            results.forEach((result, index) => {
+                if (result.status === 'rejected') {
+                    console.error(`Error checking monitor ${chunk[index].id}:`, result.reason);
+                }
+            });
         }
     } catch (error) {
         console.error("Error in check loop:", error);

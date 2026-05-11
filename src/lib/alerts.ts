@@ -5,11 +5,13 @@ export async function triggerAlerts(monitor: { id: string, name: string }, incid
         where: { monitorId: monitor.id }
     });
 
-    for (const rule of rules) {
-        if (rule.type === "EMAIL") {
-            console.log(`[ALERT - EMAIL] Sending to ${rule.target} | Monitor: ${monitor.name} is ${state}`);
-        } else if (rule.type === "WEBHOOK") {
-            try {
+    // ⚡ Bolt Performance Optimization: Process alerts concurrently instead of sequentially
+    // Expected impact: Reduces total time to send N alerts from O(N * time_per_alert) to O(max(time_per_alert)).
+    await Promise.all(rules.map(async (rule) => {
+        try {
+            if (rule.type === "EMAIL") {
+                console.log(`[ALERT - EMAIL] Sending to ${rule.target} | Monitor: ${monitor.name} is ${state}`);
+            } else if (rule.type === "WEBHOOK") {
                 const payload = {
                     monitorId: monitor.id,
                     monitorName: monitor.name,
@@ -24,9 +26,9 @@ export async function triggerAlerts(monitor: { id: string, name: string }, incid
                     body: JSON.stringify(payload)
                 });
                 console.log(`[ALERT - WEBHOOK] Sent to ${rule.target} | Monitor: ${monitor.name} is ${state}`);
-            } catch (error) {
-                console.error(`Failed to send webhook to ${rule.target}:`, error);
             }
+        } catch (error) {
+            console.error(`Failed to process ${rule.type} alert for ${rule.target}:`, error);
         }
-    }
+    }));
 }
