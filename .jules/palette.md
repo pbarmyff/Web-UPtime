@@ -1,0 +1,3 @@
+## 2024-05-14 - Missing ARIA labels and focus states on mobile menu toggles
+**Learning:** Found a persistent pattern where mobile menu toggle buttons across different navigation components (`MobileNav`, `AdminMobileNav`, and the landing page) were lacking `aria-label`, `aria-expanded` attributes, and `aria-hidden` on inner decorative icons. They also lacked keyboard focus indicators.
+**Action:** When building new interactive toggles or reviewing existing ones, ensure `aria-expanded` dynamically reflects state, the button has a descriptive `aria-label`, inner icons have `aria-hidden="true"`, and the button has visible focus states using `focus-visible` utility classes.
