@@ -1,0 +1,1 @@
+## 2026-05-14 - Fix grid-cols cramped inputs\n**Learning:** Using fixed grid columns like grid-cols-2 without responsive prefixes sm: can cause form inputs to be too cramped and narrow on mobile screens.\n**Action:** Add grid-cols-1 sm:grid-cols-2 fallback for forms with multiple columns on mobile.
