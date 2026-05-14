@@ -24,8 +24,20 @@ export async function runChecks() {
             }
         });
 
-        for (const monitor of monitors) {
-            await checkMonitor(monitor);
+        // ⚡ Bolt Performance Optimization
+        // 💡 What: Batched concurrent execution for monitor checks
+        // 🎯 Why: Replaced sequential `await` in loop to prevent network I/O from blocking subsequent checks.
+        // 📊 Impact: Significant reduction in overall loop execution time, preventing interval pile-ups.
+        const chunkSize = 10;
+        for (let i = 0; i < monitors.length; i += chunkSize) {
+            const batch = monitors.slice(i, i + chunkSize);
+            const results = await Promise.allSettled(batch.map(m => checkMonitor(m)));
+
+            results.forEach((result, index) => {
+                if (result.status === "rejected") {
+                    console.error(`Failed to check monitor ${batch[index].id}:`, result.reason);
+                }
+            });
         }
     } catch (error) {
         console.error("Error in check loop:", error);
