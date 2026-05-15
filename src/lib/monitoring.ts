@@ -24,8 +24,18 @@ export async function runChecks() {
             }
         });
 
-        for (const monitor of monitors) {
-            await checkMonitor(monitor);
+        // ⚡ Bolt: Chunked concurrent execution of IO-bound HTTP requests
+        // Replaces sequential iteration to dramatically reduce total processing time and prevent interval pile-up
+        const chunkSize = 10;
+        for (let i = 0; i < monitors.length; i += chunkSize) {
+            const chunk = monitors.slice(i, i + chunkSize);
+            const results = await Promise.allSettled(chunk.map(monitor => checkMonitor(monitor)));
+
+            for (const result of results) {
+                if (result.status === "rejected") {
+                    console.error("Error checking monitor:", result.reason);
+                }
+            }
         }
     } catch (error) {
         console.error("Error in check loop:", error);
