@@ -1,0 +1,3 @@
+## 2026-05-15 - Accessible Icon-Only Toggles
+**Learning:** React/Next.js icon-only menu toggle buttons in this codebase frequently omit `aria-label`, `aria-expanded`, `aria-hidden` on SVG children, and explicit keyboard focus indicators (like `focus-visible:ring`), leading to poor screen reader and keyboard navigation experiences.
+**Action:** Always add semantic ARIA attributes (`aria-label`, dynamic `aria-expanded`) to `lucide-react` icon-only buttons. Set `aria-hidden="true"` on inner SVG icons to prevent redundant announcements, and include `focus-visible` Tailwind classes to ensure clear keyboard navigation paths.
