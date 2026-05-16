@@ -1,0 +1,3 @@
+## 2024-05-17 - Missing ARIA Labels on Mobile Menus
+**Learning:** Icon-only navigation toggle buttons (`<Menu />`, `<X />`) used across multiple layouts (`app/dashboard/MobileNav.tsx`, `app/admin/AdminMobileNav.tsx`, `app/page.tsx`) lacked `aria-label`, `aria-expanded`, and keyboard focus (`focus-visible`) styles, rendering them opaque to screen readers and keyboard users.
+**Action:** Always verify that mobile navigation toggles include `aria-expanded`, dynamic `aria-label`s based on state, `aria-controls` linking to the menu's ID, `aria-hidden="true"` on the SVG icons, and `focus-visible:ring` Tailwind classes for keyboard accessibility.
