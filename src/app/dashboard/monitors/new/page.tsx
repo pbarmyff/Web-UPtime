@@ -79,7 +79,8 @@ export default function NewMonitorPage() {
                         />
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {/* Responsive fix: Stack form fields on mobile to prevent cramping */}
                         <div>
                             <label className="block text-sm font-medium text-brand-text mb-1">Monitor Type</label>
                             <select
@@ -107,7 +108,8 @@ export default function NewMonitorPage() {
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {/* Responsive fix: Stack form fields on mobile to prevent cramping */}
                         <div>
                             <label className="block text-sm font-medium text-brand-text mb-1">Expected Status Code</label>
                             <input
