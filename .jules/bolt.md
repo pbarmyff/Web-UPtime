@@ -1,0 +1,3 @@
+## 2025-05-16 - Interval Pile-ups and Concurrent Alerting
+**Learning:** Sequential processing in recurring scheduled tasks (like uptime checking loops) can cause interval pile-ups as the number of entities grows. Additionally, handling multiple alert outputs sequentially limits throughput.
+**Action:** Always process batch iterations running in a global background interval (such as `setInterval`) using concurrent chunks (e.g. `Promise.allSettled`) to prevent the task runtime from exceeding the interval period. Apply concurrent processing (`Promise.all` with individual `try/catch`) when sending multiple external alerts or HTTP requests to avoid cascading failure or delay.

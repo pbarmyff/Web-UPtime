@@ -24,8 +24,18 @@ export async function runChecks() {
             }
         });
 
-        for (const monitor of monitors) {
-            await checkMonitor(monitor);
+        // ⚡ Bolt: Execute monitor checks concurrently in batches to prevent background interval pile-up.
+        // Impact: Reduces total polling loop duration from O(N) to O(N/10) network time while keeping open connections safe.
+        const CHUNK_SIZE = 10;
+        for (let i = 0; i < monitors.length; i += CHUNK_SIZE) {
+            const chunk = monitors.slice(i, i + CHUNK_SIZE);
+            const results = await Promise.allSettled(chunk.map(monitor => checkMonitor(monitor)));
+
+            results.forEach((result, index) => {
+                if (result.status === 'rejected') {
+                    console.error(`Error checking monitor ${chunk[index].id}:`, result.reason);
+                }
+            });
         }
     } catch (error) {
         console.error("Error in check loop:", error);
