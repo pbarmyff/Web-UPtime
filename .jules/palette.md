@@ -1,0 +1,3 @@
+## 2024-05-17 - Missing ARIA labels and focus states on mobile menu toggles
+**Learning:** Found a recurring pattern where icon-only mobile menu toggle buttons across the dashboard, admin panel, and landing page were missing `aria-label`, `aria-expanded`, and keyboard focus (`focus-visible`) styles, rendering them completely inaccessible to screen reader and keyboard users.
+**Action:** Always verify that interactive icon-only toggles (`<button>`) include `aria-label` or `aria-labelledby`, `aria-expanded` (for menus/drawers), `aria-hidden="true"` on inner presentation SVG/icons, and `focus-visible` Tailwind classes for keyboard navigation.
