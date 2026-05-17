@@ -1,0 +1,4 @@
+
+## 2025-02-12 - Concurrent Network Operations Optimization
+**Learning:** In backend processing environments (like incident alerting loops), iterating over network requests (e.g., webhook fetches) using a sequential `for...of` loop creates significant I/O blocking time. For example, triggering multiple webhook alerts sequentially makes each network request wait for the previous one to complete, potentially delaying critical downstream notifications during an incident.
+**Action:** When performing independent network requests within a loop, always utilize concurrent execution using `Promise.all` coupled with `Array.prototype.map`. Critically, ensure that each individual promise wraps its own `try...catch` logic so that the failure of one concurrent request does not cause the entire `Promise.all` to reject, thereby preserving robustness while maximizing network throughput.
