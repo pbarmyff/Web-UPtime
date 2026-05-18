@@ -1,0 +1,3 @@
+## 2024-05-18 - Icon-Only Button Accessibility Pattern
+**Learning:** In this codebase, mobile menu toggles and destructive action buttons (like delete) often use `lucide-react` icons inside raw `<button>` elements without explicit ARIA labels or visual focus indicators, leading to poor keyboard navigation and screen reader experiences.
+**Action:** Always add explicit `aria-label` attributes to icon-only buttons, set `aria-expanded` for toggles, include `aria-hidden="true"` on the inner SVG icons, and add Tailwind `focus-visible` classes (e.g., `focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent rounded-sm`) to ensure clear keyboard focus states.
