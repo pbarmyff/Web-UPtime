@@ -1,0 +1,3 @@
+## 2024-05-20 - Adding Accessibility to MobileNav Toggle
+**Learning:** Found that the standard icon-only toggle buttons in the application using `lucide-react` initially lacked context for screen readers and keyboard focus indication. It is important to remember to not only add `aria-label` and `aria-expanded` attributes to the button itself, but also effectively hide the inner decorative SVG icons using `aria-hidden="true"`.
+**Action:** When creating or fixing any icon-only interactive components (like hamburger menus or close buttons), always implement the combination of: dynamic `aria-label` and `aria-expanded` (if it toggles state), `focus-visible` styling for keyboard navigation, and `aria-hidden="true"` on the underlying icon components.
