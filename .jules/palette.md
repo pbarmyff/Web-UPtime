@@ -1,0 +1,3 @@
+## 2024-05-19 - Mobile Navigation Menu Accessibility
+**Learning:** Found a recurring pattern where mobile navigation toggle buttons (using Lucide icons like `<Menu />` and `<X />`) were implemented as raw `<button>` elements missing critical ARIA states (`aria-label`, `aria-expanded`), decorative SVG `aria-hidden` attributes, and `focus-visible` ring styling for keyboard users.
+**Action:** Always ensure that icon-only toggle buttons in mobile menus include `aria-expanded={isOpen}`, a dynamic `aria-label` ("Open menu" / "Close menu"), `aria-hidden="true"` on the enclosed SVGs, and consistent `focus-visible` Tailwind classes (e.g., `focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent`).
