@@ -5,28 +5,32 @@ export async function triggerAlerts(monitor: { id: string, name: string }, incid
         where: { monitorId: monitor.id }
     });
 
-    for (const rule of rules) {
-        if (rule.type === "EMAIL") {
-            console.log(`[ALERT - EMAIL] Sending to ${rule.target} | Monitor: ${monitor.name} is ${state}`);
-        } else if (rule.type === "WEBHOOK") {
-            try {
-                const payload = {
-                    monitorId: monitor.id,
-                    monitorName: monitor.name,
-                    incidentId: incident.id,
-                    state,
-                    timestamp: new Date().toISOString()
-                };
+    // ⚡ Bolt: Process webhook alerts concurrently to eliminate O(N) sequential network latency.
+    // Expected impact: Reduces total network wait time from (rules * latency) to ~O(1) network round trip.
+    await Promise.all(
+        rules.map(async (rule) => {
+            if (rule.type === "EMAIL") {
+                console.log(`[ALERT - EMAIL] Sending to ${rule.target} | Monitor: ${monitor.name} is ${state}`);
+            } else if (rule.type === "WEBHOOK") {
+                try {
+                    const payload = {
+                        monitorId: monitor.id,
+                        monitorName: monitor.name,
+                        incidentId: incident.id,
+                        state,
+                        timestamp: new Date().toISOString()
+                    };
 
-                await fetch(rule.target, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(payload)
-                });
-                console.log(`[ALERT - WEBHOOK] Sent to ${rule.target} | Monitor: ${monitor.name} is ${state}`);
-            } catch (error) {
-                console.error(`Failed to send webhook to ${rule.target}:`, error);
+                    await fetch(rule.target, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(payload)
+                    });
+                    console.log(`[ALERT - WEBHOOK] Sent to ${rule.target} | Monitor: ${monitor.name} is ${state}`);
+                } catch (error) {
+                    console.error(`Failed to send webhook to ${rule.target}:`, error);
+                }
             }
-        }
-    }
+        })
+    );
 }
