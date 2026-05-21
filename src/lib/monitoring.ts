@@ -24,9 +24,18 @@ export async function runChecks() {
             }
         });
 
-        for (const monitor of monitors) {
-            await checkMonitor(monitor);
-        }
+        // ⚡ Bolt: Execute monitor checks concurrently instead of sequentially (for...of loop).
+        // Expected impact: Prevents interval pile-ups by executing N requests in parallel.
+        // Uses Promise.allSettled so one failing check doesn't interrupt the rest.
+        const results = await Promise.allSettled(
+            monitors.map(m => checkMonitor(m))
+        );
+
+        results.forEach((result, index) => {
+            if (result.status === 'rejected') {
+                console.error(`Monitor check failed for monitor ID ${monitors[index].id}:`, result.reason);
+            }
+        });
     } catch (error) {
         console.error("Error in check loop:", error);
     }
