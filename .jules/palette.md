@@ -1,0 +1,3 @@
+## 2024-05-24 - Accessible Mobile Menus
+**Learning:** Icon-only navigation toggle buttons require `aria-expanded` and explicit `focus-visible` outlines alongside their `aria-label`s to be fully accessible for keyboard and screen reader users. The `aria-hidden="true"` should also be added directly to the SVGs to prevent redundant screen reader announcements.
+**Action:** Always include `focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent` (or similar context-appropriate ring colors), `aria-expanded`, and `aria-hidden` when creating or modifying icon-only dropdown or menu toggle buttons.
