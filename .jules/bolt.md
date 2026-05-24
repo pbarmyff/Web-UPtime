@@ -1,0 +1,3 @@
+## 2025-01-09 - [Batching DB Mutations and Audit Logs]
+**Learning:** In the `admin` API routes, combining primary entity mutations (`delete`/`update`) with `auditLog.create` sequentially introduces an N+1 query problem, increasing network latency and risking atomicity issues if one query fails.
+**Action:** Always batch primary mutations and corresponding audit log creations into a single transaction using `prisma.$transaction([])` to prevent N+1 network roundtrips and ensure atomicity. When using array syntax, use array destructuring to capture return values correctly.

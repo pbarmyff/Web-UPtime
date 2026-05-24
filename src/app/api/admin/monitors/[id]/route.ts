@@ -12,15 +12,18 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ id: s
     }
 
     try {
-        await prisma.monitor.delete({ where: { id } });
-
-        await prisma.auditLog.create({
-            data: {
-                userId: session.user.id,
-                action: "DELETE_MONITOR",
-                details: JSON.stringify({ targetMonitorId: id })
-            }
-        });
+        // Performance optimization: Batch primary mutation and audit log into a single transaction
+        // Reduces N+1 network roundtrips to the database and ensures atomicity
+        await prisma.$transaction([
+            prisma.monitor.delete({ where: { id } }),
+            prisma.auditLog.create({
+                data: {
+                    userId: session.user.id,
+                    action: "DELETE_MONITOR",
+                    details: JSON.stringify({ targetMonitorId: id })
+                }
+            })
+        ]);
 
         return new NextResponse(null, { status: 204 });
     } catch (error) {
@@ -40,18 +43,21 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
     try {
         const body = await req.json();
 
-        const monitor = await prisma.monitor.update({
-            where: { id },
-            data: { status: body.status }
-        });
-
-        await prisma.auditLog.create({
-            data: {
-                userId: session.user.id,
-                action: "UPDATE_MONITOR_STATUS",
-                details: JSON.stringify({ targetMonitorId: id, status: body.status })
-            }
-        });
+        // Performance optimization: Batch primary mutation and audit log into a single transaction
+        // Reduces N+1 network roundtrips to the database and ensures atomicity
+        const [monitor] = await prisma.$transaction([
+            prisma.monitor.update({
+                where: { id },
+                data: { status: body.status }
+            }),
+            prisma.auditLog.create({
+                data: {
+                    userId: session.user.id,
+                    action: "UPDATE_MONITOR_STATUS",
+                    details: JSON.stringify({ targetMonitorId: id, status: body.status })
+                }
+            })
+        ]);
 
         return NextResponse.json(monitor);
     } catch (error) {
