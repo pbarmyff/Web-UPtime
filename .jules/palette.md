@@ -1,0 +1,3 @@
+## 2024-05-14 - Mobile Nav Accessibility Fix
+**Learning:** Reusable UX pattern found in mobile navigation toggle buttons. When updating icons toggles, it is crucial to explicitly apply `aria-hidden="true"` to SVG elements injected via UI libraries like `lucide-react` within buttons that contain conditional logic rendering different components for different states (like Menu/X), because screen readers may otherwise read the SVG title tag or code inappropriately instead of just the button's `aria-label`.
+**Action:** When working on navigation menus, explicitly hide inner ornamental toggle SVGs with `aria-hidden` and handle states via outer button `aria-expanded` and `aria-label`.
