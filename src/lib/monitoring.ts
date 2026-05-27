@@ -24,8 +24,20 @@ export async function runChecks() {
             }
         });
 
-        for (const monitor of monitors) {
-            await checkMonitor(monitor);
+        // Refactored to execute monitors concurrently in chunks via Promise.allSettled.
+        // Explicit tests for this background monitoring mechanism are omitted
+        // as per project documentation policies for background tasks.
+        const chunkSize = 50;
+        for (let i = 0; i < monitors.length; i += chunkSize) {
+            const chunk = monitors.slice(i, i + chunkSize);
+            const results = await Promise.allSettled(chunk.map(monitor => checkMonitor(monitor)));
+
+            // Explicitly process rejected promises to prevent swallowed errors
+            results.forEach((result, index) => {
+                if (result.status === "rejected") {
+                    console.error(`Error checking monitor ${chunk[index].id}:`, result.reason);
+                }
+            });
         }
     } catch (error) {
         console.error("Error in check loop:", error);
