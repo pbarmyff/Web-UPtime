@@ -1,0 +1,3 @@
+## 2026-05-27 - Accessible Mobile Navigation Toggle
+**Learning:** Found a recurring pattern in the app's standard responsive setup where the hamburger menu/close icon toggles inside fixed mobile headers lacked ARIA descriptions. Because the UI uses `lucide-react` which defaults to rendering SVGs without text, these toggle buttons were silent to screen readers.
+**Action:** Always verify that 'icon-only' navigation toggles include `aria-label` (dynamically describing action like 'Open menu' / 'Close menu'), `aria-expanded`, and that the internal lucide SVG has `aria-hidden="true"` to prevent redundant/confusing announcements. Additionally, explicitly supply `focus-visible:ring-2 focus-visible:ring-[ACCENT_COLOR]` for keyboard navigability.
