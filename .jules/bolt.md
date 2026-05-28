@@ -1,0 +1,3 @@
+## 2024-05-28 - Interval Pile-ups from Sequential Network Calls
+**Learning:** The background monitoring interval (`runChecks`) processes monitors sequentially in a `for...of` loop, awaiting network requests for each. This causes O(N) wait times, which can lead to interval pile-ups (where the next interval fires before the previous finishes) if there are many monitors or slow responses.
+**Action:** Always use batched concurrent processing (like chunked `Promise.allSettled`) for heavy processing or network calls within globally scoped `setInterval` loops. Always explicitly handle rejected promises to prevent swallowed errors.
