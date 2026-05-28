@@ -1,0 +1,3 @@
+## 2024-05-28 - Accessible Mobile Navigation Toggles
+**Learning:** Found a consistent pattern across the application (`page.tsx`, `MobileNav.tsx`, `AdminMobileNav.tsx`) where mobile menu toggle buttons were entirely inaccessible: they lacked `aria-label`s for screen readers (despite being icon-only), lacked `aria-expanded` attributes to communicate state, lacked keyboard focus indicators, and allowed screen readers to announce decorative SVG icons.
+**Action:** When implementing new or auditing existing responsive navigation, always include `aria-label="Toggle menu"`, dynamically bind `aria-expanded={isOpen}`, apply `focus-visible:ring-2` utility classes for keyboard navigation, and add `aria-hidden="true"` to inner decorative SVG components.
