@@ -1,0 +1,3 @@
+## 2024-05-24 - Interactive Toggles Accessibility
+**Learning:** Found a recurring pattern where mobile navigation and drawer toggle buttons (using lucide-react icons like `<Menu />` and `<X />`) were missing `aria-expanded`, `aria-label`, and `aria-hidden` attributes. Keyboard focus indicators were also missing on these primary interaction points across different page layouts (Dashboard, Admin, Landing).
+**Action:** When implementing custom toggle buttons or mobile navigation menus, ensure that the button has context-aware `aria-label`s, an `aria-expanded` state that dynamically reflects the menu's state, and `aria-hidden="true"` on the internal decorative icons. Add `focus-visible` utility classes to clearly indicate keyboard focus.
