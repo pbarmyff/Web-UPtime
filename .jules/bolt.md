@@ -1,0 +1,3 @@
+## 2024-05-30 - [Concurrent Execution for Interval Handlers]
+**Learning:** Sequential processing in interval loops (like monitor checking via `for...of`) causes O(N) wait times, which can lead to interval pile-ups if N grows large or operations take longer than the interval itself.
+**Action:** Always batch and execute heavy background task arrays concurrently (e.g., using chunked `Promise.allSettled`) and ensure the results array is explicitly processed to log rejections, rather than silently swallowing errors.
