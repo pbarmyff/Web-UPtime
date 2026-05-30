@@ -1,0 +1,3 @@
+## 2026-05-30 - ARIA Labels and Focus States for Mobile Navigation
+**Learning:** Icon-only toggle buttons in mobile navigation menus (e.g., hamburger menus) were missing critical ARIA attributes (aria-label, aria-expanded) and keyboard focus styles across multiple files, reducing accessibility for screen readers and keyboard users.
+**Action:** Applied 'aria-label' and 'aria-expanded' for screen reader clarity, 'aria-hidden="true"' to decorative internal icons, and Tailwind focus-visible classes for keyboard navigability. Ensure future icon-only buttons always include these accessibility standard practices.
