@@ -1,0 +1,3 @@
+## 2024-06-01 - Concurrent Webhook Alert Execution
+**Learning:** Alert rule triggering in `src/lib/alerts.ts` used a sequential `for...of` loop. This created an O(N) wait time bottleneck because each network request (e.g., `fetch` for WEBHOOK alerts) blocked the execution of subsequent alerts. This could significantly delay downstream incident reporting if a webhook target timed out or was slow to respond.
+**Action:** Always dispatch network operations concurrently using `Promise.all` with `Array.prototype.map` rather than sequentially within a loop to prevent blocking. Ensure each mapped task is wrapped in its own `try...catch` block so a failure in one concurrent promise does not fail fast and prevent the others from firing.
