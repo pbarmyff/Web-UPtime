@@ -275,15 +275,16 @@ export default function Home() {
             </p>
           </motion.div>
 
+          {/* Responsive fix: fixed cramped grid columns on tablet view */}
           <motion.div
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, margin: "-100px" }}
             variants={staggerContainer}
-            className="grid grid-cols-1 md:grid-cols-12 gap-8"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8"
           >
             {/* Feature 1 (7 cols) */}
-            <motion.div variants={scaleInVariant} whileHover={{ y: -4 }} transition={{ duration: 0.2 }} className="md:col-span-7 bg-[#070D1F] p-10 lg:p-14 border-l-4 border-l-[#4FFFB0] border border-[#5A6A8A]/20 relative overflow-hidden group">
+            <motion.div variants={scaleInVariant} whileHover={{ y: -4 }} transition={{ duration: 0.2 }} className="md:col-span-2 lg:col-span-7 bg-[#070D1F] p-10 lg:p-14 border-l-4 border-l-[#4FFFB0] border border-[#5A6A8A]/20 relative overflow-hidden group">
                 <div className="relative z-10">
                   <div className="w-14 h-14 bg-[#0F1A35] border border-[#5A6A8A]/40 text-[#4FFFB0] rounded-none flex items-center justify-center mb-8">
                       <Activity size={28} />
@@ -296,7 +297,7 @@ export default function Home() {
             </motion.div>
 
             {/* Feature 2 (5 cols) */}
-            <motion.div variants={scaleInVariant} whileHover={{ y: -4 }} transition={{ duration: 0.2 }} className="md:col-span-5 bg-[#070D1F] p-10 lg:p-14 border border-[#5A6A8A]/20 relative group hover:border-[#4FFFB0]/50 transition-colors">
+            <motion.div variants={scaleInVariant} whileHover={{ y: -4 }} transition={{ duration: 0.2 }} className="md:col-span-2 lg:col-span-5 bg-[#070D1F] p-10 lg:p-14 border border-[#5A6A8A]/20 relative group hover:border-[#4FFFB0]/50 transition-colors">
                 <div className="w-14 h-14 bg-[#0F1A35] border border-[#5A6A8A]/40 text-white rounded-none flex items-center justify-center mb-8">
                     <ShieldCheck size={28} />
                 </div>
@@ -307,7 +308,7 @@ export default function Home() {
             </motion.div>
 
             {/* Feature 3 (4 cols) */}
-            <motion.div variants={scaleInVariant} whileHover={{ y: -4 }} transition={{ duration: 0.2 }} className="md:col-span-4 bg-[#070D1F] p-10 border border-[#5A6A8A]/20 hover:border-white/20 transition-colors">
+            <motion.div variants={scaleInVariant} whileHover={{ y: -4 }} transition={{ duration: 0.2 }} className="md:col-span-1 lg:col-span-4 bg-[#070D1F] p-10 border border-[#5A6A8A]/20 hover:border-white/20 transition-colors">
                 <div className="w-12 h-12 bg-[#0F1A35] border border-[#5A6A8A]/40 text-white flex items-center justify-center mb-6">
                     <BellRing size={24} />
                 </div>
@@ -318,7 +319,7 @@ export default function Home() {
             </motion.div>
 
             {/* Feature 4 (4 cols) */}
-            <motion.div variants={scaleInVariant} whileHover={{ y: -4 }} transition={{ duration: 0.2 }} className="md:col-span-4 bg-[#070D1F] p-10 border border-[#5A6A8A]/20 hover:border-white/20 transition-colors">
+            <motion.div variants={scaleInVariant} whileHover={{ y: -4 }} transition={{ duration: 0.2 }} className="md:col-span-1 lg:col-span-4 bg-[#070D1F] p-10 border border-[#5A6A8A]/20 hover:border-white/20 transition-colors">
                 <div className="w-12 h-12 bg-[#0F1A35] border border-[#5A6A8A]/40 text-white flex items-center justify-center mb-6">
                     <BarChart3 size={24} />
                 </div>
@@ -329,7 +330,7 @@ export default function Home() {
             </motion.div>
 
             {/* Feature 5 (4 cols) */}
-            <motion.div variants={scaleInVariant} whileHover={{ y: -4 }} transition={{ duration: 0.2 }} className="md:col-span-4 bg-[#070D1F] p-10 border border-[#5A6A8A]/20 hover:border-white/20 transition-colors">
+            <motion.div variants={scaleInVariant} whileHover={{ y: -4 }} transition={{ duration: 0.2 }} className="md:col-span-1 lg:col-span-4 bg-[#070D1F] p-10 border border-[#5A6A8A]/20 hover:border-white/20 transition-colors">
                 <div className="w-12 h-12 bg-[#0F1A35] border border-[#5A6A8A]/40 text-white flex items-center justify-center mb-6">
                     <LinkIcon size={24} />
                 </div>
@@ -340,7 +341,7 @@ export default function Home() {
             </motion.div>
 
             {/* Feature 6 (6 cols) */}
-            <motion.div variants={scaleInVariant} whileHover={{ y: -4 }} transition={{ duration: 0.2 }} className="md:col-span-6 bg-[#070D1F] p-10 lg:p-14 border border-[#5A6A8A]/20 hover:border-white/20 transition-colors">
+            <motion.div variants={scaleInVariant} whileHover={{ y: -4 }} transition={{ duration: 0.2 }} className="md:col-span-2 lg:col-span-6 bg-[#070D1F] p-10 lg:p-14 border border-[#5A6A8A]/20 hover:border-white/20 transition-colors">
                 <div className="w-14 h-14 bg-[#0F1A35] border border-[#5A6A8A]/40 text-[#4FFFB0] flex items-center justify-center mb-8">
                     <Zap size={28} />
                 </div>
@@ -351,7 +352,7 @@ export default function Home() {
             </motion.div>
 
             {/* Feature 7 (6 cols) */}
-            <motion.div variants={scaleInVariant} whileHover={{ y: -4 }} transition={{ duration: 0.2 }} className="md:col-span-6 bg-[#070D1F] p-10 lg:p-14 border-t-4 border-t-[#EDF2FF] border border-[#5A6A8A]/20">
+            <motion.div variants={scaleInVariant} whileHover={{ y: -4 }} transition={{ duration: 0.2 }} className="md:col-span-2 lg:col-span-6 bg-[#070D1F] p-10 lg:p-14 border-t-4 border-t-[#EDF2FF] border border-[#5A6A8A]/20">
                 <div className="w-14 h-14 bg-[#0F1A35] border border-[#5A6A8A]/40 text-white flex items-center justify-center mb-8">
                     <Database size={28} />
                 </div>
