@@ -1,0 +1,1 @@
+## 2025-02-23 - Fixed Form Grid Responsiveness on New Monitor Page\n**Learning:** Found that hardcoded `grid-cols-2` classes compress form inputs on mobile screens under 600px width. \n**Action:** Replaced instances with mobile-first `grid-cols-1 sm:grid-cols-2` arrays across form fields to ensure inputs stack cleanly at mobile widths.
