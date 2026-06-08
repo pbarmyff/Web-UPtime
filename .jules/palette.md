@@ -1,0 +1,3 @@
+## 2026-06-08 - Accessible Hamburger Menus
+**Learning:** Icon-only hamburger menus (`lucide-react` <Menu> and <X>) in the MobileNav components lacked ARIA roles, rendering them silent and unpredictable to screen readers. Relying purely on onClick without corresponding `aria-controls`, `aria-expanded`, or focus styling is an accessibility gap.
+**Action:** When implementing icon-only UI toggles in this codebase, always apply an `aria-label`, bind `aria-expanded` to the open state, set `aria-controls` to the ID of the menu container, mark the SVG icons as `aria-hidden='true'`, and provide keyboard visibility via Tailwind `focus-visible` classes.
