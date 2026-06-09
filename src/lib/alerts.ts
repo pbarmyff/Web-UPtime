@@ -5,8 +5,11 @@ export async function triggerAlerts(monitor: { id: string, name: string }, incid
         where: { monitorId: monitor.id }
     });
 
-    for (const rule of rules) {
+    // ⚡ Bolt: Execute webhook and email alerts concurrently to avoid O(N) waiting times
+    // and significantly speed up dispatch for monitors with multiple alert rules.
+    await Promise.all(rules.map(async (rule) => {
         if (rule.type === "EMAIL") {
+            // Note: Email implementation should also be non-blocking/async when actually implemented
             console.log(`[ALERT - EMAIL] Sending to ${rule.target} | Monitor: ${monitor.name} is ${state}`);
         } else if (rule.type === "WEBHOOK") {
             try {
@@ -28,5 +31,5 @@ export async function triggerAlerts(monitor: { id: string, name: string }, incid
                 console.error(`Failed to send webhook to ${rule.target}:`, error);
             }
         }
-    }
+    }));
 }
