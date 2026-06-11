@@ -1,0 +1,3 @@
+## 2024-06-11 - Dynamic ARIA attributes for mobile menus
+**Learning:** Interactive icon-only toggles (like mobile hamburger menus) often miss critical accessibility context, especially when they control an off-canvas or overlay menu.
+**Action:** Always ensure that toggle buttons have a dynamic `aria-expanded` reflecting their state, an `aria-controls` linked to the menu's ID, an explicit `aria-label`, and `focus-visible` styling (e.g. `focus-visible:ring-2 focus-visible:ring-brand-accent`) so that keyboard and screen reader users can navigate effectively. Additionally, internal decorative icons should have `aria-hidden="true"`.
