@@ -1,0 +1,3 @@
+## 2024-05-18 - Missing interactive attributes on custom mobile toggles
+**Learning:** Found a pattern across the app where raw `button` elements are used as interactive icon-only toggles (e.g., hamburger menus), lacking structural `aria-expanded` and ID relationships (`aria-controls`) to their respective content overlays, as well as adequate visual focus indicators for keyboard navigation.
+**Action:** When implementing or fixing interactive toggles (like menus, popovers), explicitly assign `aria-expanded={isOpen}`, `aria-controls="[id]"`, assign the `id` to the controlled container, add `aria-label`, and use `focus-visible:outline-none focus-visible:ring-2` with appropriate contextual colors. Also remember to add `aria-hidden="true"` to inner decorative icons.
