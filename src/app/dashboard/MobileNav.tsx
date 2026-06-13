@@ -15,14 +15,23 @@ export default function MobileNav({ userRole, userName, userEmail }: { userRole?
           <Activity className="h-6 w-6 text-brand-accent" />
           <span className="font-bold text-white tracking-tight">UptimeMonitor</span>
         </div>
-        <button onClick={() => setIsOpen(!isOpen)} className="text-white hover:text-brand-accent">
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="text-white hover:text-brand-accent rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+          aria-label="Toggle menu"
+          aria-expanded={isOpen}
+          aria-controls="mobile-menu"
+        >
+          {isOpen ? <X size={24} aria-hidden="true" /> : <Menu size={24} aria-hidden="true" />}
         </button>
       </div>
 
       {/* Mobile Menu Overlay */}
       {isOpen && (
-        <div className="md:hidden fixed inset-0 top-16 bg-brand-background z-40 overflow-y-auto border-t border-white/5 flex flex-col">
+        <div
+          id="mobile-menu"
+          className="md:hidden fixed inset-0 top-16 bg-brand-background z-40 overflow-y-auto border-t border-white/5 flex flex-col"
+        >
           <div className="p-4 border-b border-white/5 bg-brand-surface/50">
             <h2 className="text-sm font-semibold text-white truncate">Welcome, {userName}</h2>
             <span className="text-xs text-brand-muted truncate block">{userEmail}</span>
