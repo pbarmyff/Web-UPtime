@@ -5,7 +5,9 @@ export async function triggerAlerts(monitor: { id: string, name: string }, incid
         where: { monitorId: monitor.id }
     });
 
-    for (const rule of rules) {
+    // Performance optimization: Process all alert rules concurrently instead of sequentially
+    // to prevent O(N) wait times during network operations.
+    await Promise.all(rules.map(async (rule) => {
         if (rule.type === "EMAIL") {
             console.log(`[ALERT - EMAIL] Sending to ${rule.target} | Monitor: ${monitor.name} is ${state}`);
         } else if (rule.type === "WEBHOOK") {
@@ -25,8 +27,9 @@ export async function triggerAlerts(monitor: { id: string, name: string }, incid
                 });
                 console.log(`[ALERT - WEBHOOK] Sent to ${rule.target} | Monitor: ${monitor.name} is ${state}`);
             } catch (error) {
+                // Individual error handling ensures one failed webhook doesn't break others
                 console.error(`Failed to send webhook to ${rule.target}:`, error);
             }
         }
-    }
+    }));
 }
