@@ -24,9 +24,17 @@ export async function runChecks() {
             }
         });
 
-        for (const monitor of monitors) {
-            await checkMonitor(monitor);
-        }
+        // ⚡ Bolt: Execute monitor checks concurrently to prevent interval pile-ups and reduce total execution time
+        const results = await Promise.allSettled(
+            monitors.map(monitor => checkMonitor(monitor))
+        );
+
+        // Explicitly handle and log rejected promises to prevent swallowed errors
+        results.forEach((result, index) => {
+            if (result.status === 'rejected') {
+                console.error(`Error checking monitor ${monitors[index].id}:`, result.reason);
+            }
+        });
     } catch (error) {
         console.error("Error in check loop:", error);
     }
