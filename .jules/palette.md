@@ -1,0 +1,3 @@
+## 2024-06-15 - Interactive Toggles A11y Pattern
+**Learning:** Found multiple instances of icon-only mobile menu toggle buttons missing proper accessibility features across navigation components (Admin and Dashboard). They lacked state indication, labels, keyboard focus indicators, and linkages to the toggled content.
+**Action:** Always ensure that interactive toggles, such as mobile menus, utilize a combination of `aria-expanded`, dynamic `aria-label`, `aria-controls` (linked to the dropdown menu's `id`), and keyboard focus rings (`focus-visible:ring-2 focus-visible:ring-brand-accent`). Hide inner decorative icons with `aria-hidden="true"`.
