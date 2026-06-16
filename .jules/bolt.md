@@ -1,0 +1,3 @@
+## 2024-06-16 - Sequential Async Loop Anti-Pattern in Network Operations
+**Learning:** Network operations like webhook alert notifications were being dispatched sequentially using a `for...of` loop with `await` in `src/lib/alerts.ts`. This causes O(N) wait times as each webhook wait blocks the next, leading to performance bottlenecks when there are multiple alerts to send.
+**Action:** Replace sequential `for...of` loops involving independent async network requests with concurrent execution using `Promise.all` and `Array.prototype.map`. Ensure each attempt is wrapped in a `try...catch` block so failures in one request do not interrupt the others.
