@@ -15,14 +15,20 @@ export default function AdminMobileNav({ userEmail }: { userEmail?: string | nul
           <ShieldAlert className="h-6 w-6 text-brand-accent" />
           <span className="font-bold tracking-tight">Admin Panel</span>
         </div>
-        <button onClick={() => setIsOpen(!isOpen)} className="text-white hover:text-brand-accent">
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="text-white hover:text-brand-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent rounded-sm p-1"
+          aria-expanded={isOpen}
+          aria-controls="admin-mobile-menu"
+          aria-label={isOpen ? "Close menu" : "Open menu"}
+        >
+          {isOpen ? <X size={24} aria-hidden="true" /> : <Menu size={24} aria-hidden="true" />}
         </button>
       </div>
 
       {/* Overlay */}
       {isOpen && (
-        <div className="md:hidden fixed inset-0 top-16 bg-brand-background z-40 overflow-y-auto border-t border-white/5 flex flex-col">
+        <div id="admin-mobile-menu" className="md:hidden fixed inset-0 top-16 bg-brand-background z-40 overflow-y-auto border-t border-white/5 flex flex-col">
           <div className="p-4 border-b border-white/5 bg-brand-surface/50">
              <span className="text-sm font-medium text-white truncate block">{userEmail} (Admin)</span>
           </div>
