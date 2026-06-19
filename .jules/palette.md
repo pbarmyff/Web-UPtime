@@ -1,0 +1,3 @@
+## 2024-06-20 - [Mobile Navigation Toggle Accessibility]
+**Learning:** The application's mobile navigation menus use icon-only toggle buttons without ARIA attributes (like `aria-label`, `aria-expanded`, and `aria-controls`), `aria-hidden` on the icons themselves, or keyboard focus styling. This breaks accessibility for screen reader and keyboard users navigating the mobile layouts.
+**Action:** When implementing or updating mobile toggles, always add `aria-expanded`, `aria-controls` (linking to the menu's ID), `aria-label`, `aria-hidden="true"` to inner SVG icons, and `focus-visible:ring-2 focus-visible:ring-brand-accent` classes for keyboard focusability.
