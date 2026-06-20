@@ -1,0 +1,3 @@
+## 2024-05-24 - Mobile Navigation Menu Accessibility
+**Learning:** Icon-only mobile navigation buttons in this app lacked `aria-label`, `aria-expanded`, `aria-controls`, and `focus-visible` styling, hindering screen reader navigation and keyboard usage.
+**Action:** When implementing icon-only interactive toggles, always include dynamic `aria-label` (e.g., "Open menu"/"Close menu"), `aria-expanded`, `aria-controls` referencing the target container's ID, `aria-hidden="true"` on child SVGs, and `focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent rounded-sm` for keyboard focus.
