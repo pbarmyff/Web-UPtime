@@ -1,0 +1,3 @@
+## 2025-02-23 - Interactive Toggles Require Explicit Accessibility Associations
+**Learning:** Icon-only navigation toggles in Next.js/React applications often omit keyboard focus rings, `aria-expanded` state tracking, and direct linkage (`aria-controls`) to the rendered menu element, making screen reader navigation difficult.
+**Action:** When creating or modifying menu toggles (e.g., Hamburger/Close icons), always ensure `aria-label` (dynamic based on state), `aria-expanded`, `aria-controls`, and `focus-visible` outline styles are applied, while hiding purely decorative inner icons with `aria-hidden="true"`.
