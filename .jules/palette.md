@@ -1,0 +1,3 @@
+## 2024-05-18 - Mobile Nav Accessibility
+**Learning:** Mobile navigation toggles in the Next.js layouts (`MobileNav` and `AdminMobileNav`) frequently missed dynamic ARIA bindings (`aria-expanded`, `aria-controls`) and visible keyboard focus styles, which degraded screen reader and keyboard navigation experiences.
+**Action:** When implementing or updating custom interactive toggles, always link the toggle to its collapsible container using an explicit `id` and `aria-controls`, bind the state to `aria-expanded`, add an explicit `aria-label`, explicitly hide inner SVG icons using `aria-hidden="true"`, and ensure visible focus states (`focus-visible:outline-none focus-visible:ring-2`).
