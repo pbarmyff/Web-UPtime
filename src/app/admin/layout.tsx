@@ -48,7 +48,7 @@ export default async function AdminLayout({
         <header className="hidden md:flex bg-brand-surface p-4 justify-between items-center border-b border-brand-muted/30">
           <h2 className="text-xl font-semibold text-white">System Administration</h2>
            <div className="flex items-center space-x-4">
-              <span className="text-sm text-brand-muted truncate max-w-[200px]">{session.user?.email} (Admin)</span>
+              <span className="text-sm text-brand-muted truncate max-w-[200px] md:max-w-md lg:max-w-lg">{session.user?.email} (Admin)</span> {/* Responsive fix: Expand email truncation on larger screens */}
            </div>
         </header>
         <div className="p-4 md:p-8 w-full max-w-full overflow-x-hidden">
