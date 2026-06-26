@@ -1,0 +1,3 @@
+## 2025-01-23 - Mobile Navigation Accessibility
+**Learning:** The mobile navigation toggles (`MobileNav` and `AdminMobileNav`) were missing critical `aria-*` attributes (label, expanded, controls), lacked visual keyboard focus states, and the decorative SVG icons did not have `aria-hidden="true"`.
+**Action:** Always ensure that icon-only interactive toggle buttons receive explicit `aria-label`, `aria-expanded`/`aria-controls` bindings to their target containers, and `focus-visible` styling using brand context colors (`focus-visible:ring-brand-accent`). Add `aria-hidden="true"` to inner Lucide icons.
