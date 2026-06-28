@@ -1,0 +1,3 @@
+## 2024-05-24 - Accessible Mobile Navigation Toggles
+**Learning:** Icon-only navigation toggles often lack crucial accessibility attributes (`aria-expanded`, `aria-controls`, `aria-label`, and `aria-hidden` on inner icons) and visible keyboard focus states, making them difficult for screen reader and keyboard users to navigate.
+**Action:** Always ensure interactive menu buttons have dynamic `aria-expanded` states linking to an `id` via `aria-controls`, descriptive `aria-label`s, `aria-hidden="true"` on purely decorative icons, and distinct focus states (e.g., `focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent rounded-sm`).
