@@ -1,0 +1,3 @@
+## 2024-07-02 - Mobile Navigation Menu Accessibility
+**Learning:** Mobile navigation toggle buttons across the application lack basic screen reader and keyboard accessibility support. Essential interactive toggles must implement `aria-expanded`, `aria-controls`, descriptive `aria-label`s, dynamic focus rings (`focus-visible:ring-2`), and hide purely decorative inner icons with `aria-hidden="true"` to comply with inclusive design principles.
+**Action:** Ensure all interactive menu buttons globally link to their controlled overlays via `id` and `aria-controls`, explicitly announce state via `aria-expanded`, and include visible keyboard focus styles.
