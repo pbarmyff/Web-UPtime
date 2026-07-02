@@ -72,7 +72,8 @@ export default async function DashboardPage() {
                                 <Link href={`/dashboard/monitors/${monitor.id}`} className="font-medium text-brand-accent hover:text-brand-text">
                                     {monitor.name}
                                 </Link>
-                                <p className="text-xs text-brand-muted truncate max-w-xs">{monitor.url}</p>
+                                {/* Responsive fix: Replaced hardcoded max-w-xs with responsive max-widths to expand content gracefully on larger screens without breaking mobile */}
+                                <p className="text-xs text-brand-muted truncate max-w-[200px] sm:max-w-[300px] md:max-w-md lg:max-w-lg">{monitor.url}</p>
                             </td>
                             <td className="p-4">
                                 <span className={`inline-flex items-center px-2.5 py-0.5 rounded-none text-xs font-medium ${
