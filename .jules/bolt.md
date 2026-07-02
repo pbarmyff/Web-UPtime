@@ -1,0 +1,3 @@
+## 2024-07-02 - Optimize alert dispatch concurrency
+**Learning:** Sequential processing in notification loops (e.g., triggering webhooks) scales poorly and blocks the event loop, causing O(N) network wait times which drastically degrades background task throughput as rule counts scale.
+**Action:** Always dispatch network I/O operations (like fetching webhooks) concurrently using `Promise.all` with `Array.prototype.map` in notification or background monitoring systems to avoid cumulative latency blockages, ensuring individual request failures are independently handled via isolated try-catch blocks to prevent cascading failures.
