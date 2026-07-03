@@ -1,0 +1,3 @@
+## $(date +%Y-%m-%d) - Adding accessibility to icon-only toggles
+**Learning:** Icon-only toggles like hamburger menus in this Next.js app require dynamic ARIA states (`aria-expanded` tracking `isOpen` state, and `aria-controls` linked to the modal ID), as well as explicit hiding of the inner SVGs (`aria-hidden="true"`) to prevent redundant screen reader announcements.
+**Action:** Always verify that interactive buttons have explicit focus rings (e.g. `focus-visible:ring-2 focus-visible:ring-brand-accent`) since default focus styles are stripped, and pair stateful menus with `aria-controls` linking directly to the overlay's unique ID.
