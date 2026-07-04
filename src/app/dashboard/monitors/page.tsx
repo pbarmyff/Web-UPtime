@@ -47,7 +47,8 @@ export default async function MonitorsPage() {
                                 <Link href={`/dashboard/monitors/${monitor.id}`} className="font-medium text-brand-accent hover:text-brand-text">
                                     {monitor.name}
                                 </Link>
-                                <p className="text-xs text-brand-muted truncate max-w-[200px]">{monitor.url}</p>
+                                {/* Responsive fix: Replace hardcoded max-w-[200px] with responsive max-widths to prevent premature truncation on larger screens */}
+                                <p className="text-xs text-brand-muted truncate max-w-[200px] sm:max-w-[300px] md:max-w-md lg:max-w-lg">{monitor.url}</p>
                             </td>
                             <td className="p-4">
                                 <span className={`inline-flex items-center px-2.5 py-0.5 rounded-none text-xs font-medium ${

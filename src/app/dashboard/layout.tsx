@@ -54,7 +54,8 @@ export default async function DashboardLayout({
         <header className="hidden md:flex bg-brand-surface p-4 justify-between items-center border-b border-white/5">
           <h2 className="text-xl font-semibold text-white">Welcome, {session.user?.name}</h2>
            <div className="flex items-center space-x-4">
-              <span className="text-sm text-brand-muted truncate max-w-[200px]">{session.user?.email}</span>
+              {/* Responsive fix: Replace hardcoded max-w-[200px] with responsive max-widths to prevent premature truncation on larger screens */}
+              <span className="text-sm text-brand-muted truncate max-w-[200px] sm:max-w-[300px] md:max-w-md lg:max-w-lg">{session.user?.email}</span>
            </div>
         </header>
         <div className="p-4 md:p-8 w-full max-w-full overflow-x-hidden">
