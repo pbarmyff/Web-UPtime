@@ -1,0 +1,3 @@
+## 2026-07-07 - Mobile Navigation Accessibility
+**Learning:** Interactive toggles for menus in this application's components require dynamic `aria-expanded`, `aria-controls`, and `focus-visible` styles to be properly accessible for screen readers and keyboard users, as the raw lucide-react icons and buttons lack these by default.
+**Action:** Always include `aria-expanded`, `aria-controls` (linking to the menu container's ID), dynamic `aria-label`, and keyboard focus styling (`focus-visible:ring-2`) when implementing or refactoring menu toggles. Add `aria-hidden="true"` to decorative icons within these buttons.
