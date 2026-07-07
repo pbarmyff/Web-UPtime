@@ -1,0 +1,3 @@
+## 2026-07-07 - Optimize webhook alert dispatches with concurrent Promise.all
+**Learning:** Network operations like webhook alert notifications were being dispatched sequentially within a `for...of` loop, causing O(N) wait times. Using `Promise.all` with `Array.prototype.map` ensures dispatches occur concurrently, preventing interval pile-ups without sacrificing each rule's isolated `try...catch` execution.
+**Action:** Always wrap heavy network or database calls in a chunked or full `Promise.all` array processing when looping through potentially unbounded arrays like alert rules to avoid sequential wait periods.
