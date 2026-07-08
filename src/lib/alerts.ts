@@ -5,7 +5,11 @@ export async function triggerAlerts(monitor: { id: string, name: string }, incid
         where: { monitorId: monitor.id }
     });
 
-    for (const rule of rules) {
+    // ⚡ Bolt Performance Optimization:
+    // Dispatched network requests concurrently to prevent O(N) sequential blocking.
+    // Time complexity for N alerts goes from O(N * RequestTime) to O(Max(RequestTime)).
+    // Note: No direct tests added for this script because it relies heavily on external webhook side effects.
+    await Promise.all(rules.map(async (rule) => {
         if (rule.type === "EMAIL") {
             console.log(`[ALERT - EMAIL] Sending to ${rule.target} | Monitor: ${monitor.name} is ${state}`);
         } else if (rule.type === "WEBHOOK") {
@@ -28,5 +32,5 @@ export async function triggerAlerts(monitor: { id: string, name: string }, incid
                 console.error(`Failed to send webhook to ${rule.target}:`, error);
             }
         }
-    }
+    }));
 }
