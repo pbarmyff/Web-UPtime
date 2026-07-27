@@ -39,9 +39,9 @@ export async function POST(req: Request) {
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    // Make the first user an ADMIN automatically
-    const count = await prisma.user.count();
-    const role = count === 0 ? "ADMIN" : "USER";
+    // Check if the user is in the INITIAL_ADMIN_EMAILS list
+    const adminEmails = process.env.INITIAL_ADMIN_EMAILS ? process.env.INITIAL_ADMIN_EMAILS.split(",").map(e => e.trim().toLowerCase()) : [];
+    const role = adminEmails.includes(email.toLowerCase()) ? "ADMIN" : "USER";
 
     const user = await prisma.user.create({
       data: {
