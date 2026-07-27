@@ -24,8 +24,18 @@ export async function runChecks() {
             }
         });
 
-        for (const monitor of monitors) {
-            await checkMonitor(monitor);
+        const CHUNK_SIZE = 10;
+        for (let i = 0; i < monitors.length; i += CHUNK_SIZE) {
+            const chunk = monitors.slice(i, i + CHUNK_SIZE);
+            const results = await Promise.allSettled(
+                chunk.map((monitor) => checkMonitor(monitor))
+            );
+
+            results.forEach((result, index) => {
+                if (result.status === "rejected") {
+                    console.error(`Error checking monitor ${chunk[index].id}:`, result.reason);
+                }
+            });
         }
     } catch (error) {
         console.error("Error in check loop:", error);
