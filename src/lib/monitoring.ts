@@ -1,6 +1,67 @@
 import prisma from "./prisma";
 import fetch from "node-fetch";
 import https from "https";
+import http from "http";
+import dns from "node:dns";
+
+function isPrivateIP(ip: string): boolean {
+    if (!ip || typeof ip !== 'string') return false;
+
+    // Check for IPv4 mapped IPv6 addresses (e.g., ::ffff:127.0.0.1)
+    let checkIp = ip.toLowerCase();
+    if (checkIp.startsWith('::ffff:')) {
+        checkIp = checkIp.substring(7);
+    }
+
+    // IPv4 Checks
+    const parts = checkIp.split('.');
+    if (parts.length === 4) {
+        if (parts[0] === '127') return true;
+        if (parts[0] === '10') return true;
+        if (parts[0] === '169' && parts[1] === '254') return true;
+        if (parts[0] === '0') return true;
+        if (parts[0] === '192' && parts[1] === '168') return true;
+        if (parts[0] === '172') {
+            const second = parseInt(parts[1], 10);
+            if (second >= 16 && second <= 31) return true;
+        }
+        return false;
+    }
+
+    // IPv6 Checks
+    if (checkIp === '::' || checkIp === '::1') return true;
+    if (checkIp.startsWith('fe80:')) return true;
+    if (checkIp.startsWith('fc00:') || checkIp.startsWith('fd')) return true;
+
+    return false;
+}
+
+const customLookup = (hostname: string, options: dns.LookupOptions, callback: (err: NodeJS.ErrnoException | null, address: string | dns.LookupAddress[], family: number) => void) => {
+    // Check if the hostname is already an IP, and if it's private, block it immediately
+    if (isPrivateIP(hostname)) {
+         return process.nextTick(() => callback(new Error("SSRF blocked: private IP resolved"), hostname, 4));
+    }
+    dns.lookup(hostname, options, (err, address, family) => {
+        if (err) return callback(err, address as any, family);
+        let ipsToCheck: string[] = [];
+        if (Array.isArray(address)) {
+            ipsToCheck = address.map(a => a.address);
+        } else {
+            ipsToCheck = [address as unknown as string];
+        }
+
+        for (const ip of ipsToCheck) {
+            if (isPrivateIP(ip)) {
+                return callback(new Error("SSRF blocked: private IP resolved"), address as any, family);
+            }
+        }
+        callback(null, address as any, family);
+    });
+};
+
+const httpAgent = new http.Agent({ lookup: customLookup as any });
+const httpsAgent = new https.Agent({ lookup: customLookup as any, rejectUnauthorized: true });
+
 
 export async function runChecks() {
     try {
@@ -52,7 +113,7 @@ async function checkMonitor(monitor: any) {
              // Use https.request for HTTPS to get SSL cert, otherwise use fetch
              if (monitor.url.startsWith("https://") && monitor.method === "GET" && !body) {
                  await new Promise<void>((resolve, reject) => {
-                     const req = https.request(monitor.url, { agent: new https.Agent({ rejectUnauthorized: true }), headers }, (res) => {
+                     const req = https.request(monitor.url, { agent: httpsAgent, headers }, (res) => {
                         statusCode = res.statusCode || null;
 
                         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -93,6 +154,7 @@ async function checkMonitor(monitor: any) {
                  clearTimeout(timeoutId);
              } else {
                  const response = await fetch(monitor.url, {
+                     agent: (_parsedURL) => _parsedURL.protocol === 'http:' ? httpAgent : httpsAgent,
                      method: monitor.method,
                      headers,
                      body,
