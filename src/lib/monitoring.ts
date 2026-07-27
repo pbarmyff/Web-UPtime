@@ -1,6 +1,13 @@
 import prisma from "./prisma";
 import fetch from "node-fetch";
 import https from "https";
+import { Prisma } from "@prisma/client";
+
+type MonitorWithMaintenance = Prisma.MonitorGetPayload<{
+    include: {
+        maintenanceWindows: true
+    }
+}>;
 
 export async function runChecks() {
     try {
@@ -33,8 +40,7 @@ export async function runChecks() {
 }
 
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-async function checkMonitor(monitor: any) {
+async function checkMonitor(monitor: MonitorWithMaintenance) {
     const startTime = Date.now();
     let isUp = false;
     let statusCode = null;
