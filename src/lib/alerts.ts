@@ -7,7 +7,7 @@ export async function triggerAlerts(monitor: { id: string, name: string }, incid
 
     for (const rule of rules) {
         if (rule.type === "EMAIL") {
-            console.log(`[ALERT - EMAIL] Sending to ${rule.target} | Monitor: ${monitor.name} is ${state}`);
+            // TODO: Implement email sending
         } else if (rule.type === "WEBHOOK") {
             try {
                 const payload = {
@@ -23,7 +23,6 @@ export async function triggerAlerts(monitor: { id: string, name: string }, incid
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(payload)
                 });
-                console.log(`[ALERT - WEBHOOK] Sent to ${rule.target} | Monitor: ${monitor.name} is ${state}`);
             } catch (error) {
                 console.error(`Failed to send webhook to ${rule.target}:`, error);
             }
