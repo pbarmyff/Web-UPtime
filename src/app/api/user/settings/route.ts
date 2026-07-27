@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import prisma from "@/lib/prisma";
 import bcrypt from "bcryptjs";
+import { Prisma } from "@prisma/client";
 
 export async function PATCH(req: Request) {
     const session = await getServerSession(authOptions);
@@ -15,8 +16,7 @@ export async function PATCH(req: Request) {
         const user = await prisma.user.findUnique({ where: { id: session.user.id } });
         if (!user) return new NextResponse("Not Found", { status: 404 });
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const updateData: any = {};
+        const updateData: Prisma.UserUpdateInput = {};
 
         if (name && name !== user.name) {
             updateData.name = name;
