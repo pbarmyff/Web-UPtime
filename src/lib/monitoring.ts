@@ -1,6 +1,8 @@
 import prisma from "./prisma";
 import fetch from "node-fetch";
 import https from "https";
+import { getAgent } from "./security/ssrf";
+
 
 export async function runChecks() {
     try {
@@ -52,7 +54,7 @@ async function checkMonitor(monitor: any) {
              // Use https.request for HTTPS to get SSL cert, otherwise use fetch
              if (monitor.url.startsWith("https://") && monitor.method === "GET" && !body) {
                  await new Promise<void>((resolve, reject) => {
-                     const req = https.request(monitor.url, { agent: new https.Agent({ rejectUnauthorized: true }), headers }, (res) => {
+                     const req = https.request(monitor.url, { agent: getAgent(new URL(monitor.url)), headers }, (res) => {
                         statusCode = res.statusCode || null;
 
                         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -97,7 +99,11 @@ async function checkMonitor(monitor: any) {
                      headers,
                      body,
                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                     signal: controller.signal as any
+                     signal: controller.signal as any,
+                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                     agent: function(_parsedURL: any) {
+                         return getAgent(_parsedURL);
+                     }
                  });
 
                  clearTimeout(timeoutId);
