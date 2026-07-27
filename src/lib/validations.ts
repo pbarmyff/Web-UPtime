@@ -38,3 +38,9 @@ export const alertRuleSchema = z.object({
   type: z.enum(["EMAIL", "WEBHOOK"]),
   target: z.string().min(1, "Target is required").max(255),
 });
+
+export const userSettingsSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters").max(100).optional(),
+  currentPassword: z.string().optional(),
+  newPassword: z.string().min(8, "Password must be at least 8 characters").optional(),
+});
