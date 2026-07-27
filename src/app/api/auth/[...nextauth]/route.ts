@@ -24,6 +24,10 @@ export const authOptions: NextAuthOptions = {
           throw new Error("Invalid credentials");
         }
 
+        if (credentials.password.length > 100) {
+          throw new Error("Invalid credentials");
+        }
+
         const isCorrectPassword = await bcrypt.compare(
           credentials.password,
           user.password
