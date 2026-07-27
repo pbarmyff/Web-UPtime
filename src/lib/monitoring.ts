@@ -96,8 +96,7 @@ async function checkMonitor(monitor: any) {
                      method: monitor.method,
                      headers,
                      body,
-                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                     signal: controller.signal as any
+                     signal: controller.signal
                  });
 
                  clearTimeout(timeoutId);
