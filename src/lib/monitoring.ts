@@ -119,8 +119,7 @@ async function checkMonitor(monitor: any) {
         }
     } catch (error) {
         isUp = false;
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        errorMessage = (error as any).message;
+        errorMessage = error instanceof Error ? error.message : String(error);
     }
 
     const responseTime = Date.now() - startTime;
