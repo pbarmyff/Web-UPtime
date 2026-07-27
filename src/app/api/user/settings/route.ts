@@ -23,6 +23,9 @@ export async function PATCH(req: Request) {
         }
 
         if (currentPassword && newPassword) {
+            if (currentPassword.length > 100 || newPassword.length > 100) {
+                return new NextResponse("Password too long", { status: 400 });
+            }
             const isCorrect = await bcrypt.compare(currentPassword, user.password!);
             if (!isCorrect) {
                 return new NextResponse("Incorrect current password", { status: 400 });
