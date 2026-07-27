@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Prisma } from "@prisma/client";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default function SettingsForm({ user }: { user: any }) {
+export default function SettingsForm({ user }: { user: Prisma.UserGetPayload<{ select: { name: true; email: true } }> }) {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState({ text: "", type: "" });
