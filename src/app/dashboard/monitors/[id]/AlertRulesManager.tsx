@@ -3,9 +3,9 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Trash2 } from "lucide-react";
+import { AlertRule } from "@prisma/client";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default function AlertRulesManager({ monitorId, rules }: { monitorId: string, rules: any[] }) {
+export default function AlertRulesManager({ monitorId, rules }: { monitorId: string, rules: AlertRule[] }) {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
     const [type, setType] = useState("EMAIL");
