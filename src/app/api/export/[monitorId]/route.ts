@@ -16,9 +16,16 @@ export async function GET(req: Request, { params }: { params: Promise<{ monitorI
 
     if (!monitor) return new NextResponse("Not Found", { status: 404 });
 
+    const escapeCsv = (val: string | null | undefined) => {
+        if (!val) return '""';
+        let s = val.replace(/"/g, '""');
+        if (/^[=+\-@]/.test(s)) s = "'" + s;
+        return `"${s}"`;
+    };
+
     const csvHeader = "Timestamp,Status,StatusCode,ResponseTimeMs,ErrorMessage\n";
     const csvRows = monitor.logs.map(log =>
-        `"${log.createdAt.toISOString()}","${log.status}",${log.statusCode || ""},${log.responseTime || ""},"${log.errorMessage || ""}"`
+        `${escapeCsv(log.createdAt.toISOString())},${escapeCsv(log.status)},${log.statusCode || ""},${log.responseTime || ""},${escapeCsv(log.errorMessage)}`
     ).join("\n");
 
     return new NextResponse(csvHeader + csvRows, {
