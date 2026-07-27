@@ -2,9 +2,17 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Prisma } from "@prisma/client";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default function AdminUsersClient({ initialUsers }: { initialUsers: any[] }) {
+type AdminUser = Prisma.UserGetPayload<{
+    include: {
+        _count: {
+            select: { monitors: true, statusPages: true }
+        }
+    }
+}>;
+
+export default function AdminUsersClient({ initialUsers }: { initialUsers: AdminUser[] }) {
     const router = useRouter();
     const [users, setUsers] = useState(initialUsers);
 
